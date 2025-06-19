@@ -1,0 +1,19 @@
+%gradient_1 {
+    background: -webkit-gradient(linear, left top, right top, from(#008fd4), color-stop(70%, #A235EC), to(#1bc1e5));
+    background: -o-linear-gradient(left, #008fd4 0%, #A235EC 70%, #1bc1e5 100%);
+    background: linear-gradient(90deg, #008fd4 0%, #A235EC 70%, #1bc1e5 100%);
+    }
+    
+%common_box_shadow{
+    box-shadow: var(--box_shadow);
+}
+
+%gradient_text{
+    background: -webkit-linear-gradient(90deg, #008fd4 0%, #1bc1e5 100%);
+    background: -moz-linear-gradient(90deg, #008fd4 0%, #1bc1e5 100%);
+    background: -o-linear-gradient(90deg, #008fd4 0%, #1bc1e5 100%);
+    background: linear-gradient(90deg, #008fd4 0%, #1bc1e5 100%);
+        background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

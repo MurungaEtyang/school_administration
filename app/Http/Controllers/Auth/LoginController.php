@@ -692,11 +692,15 @@ class LoginController extends Controller
     protected function sendLoginResponse(Request $request)
     {
         $request->session()->regenerate();
-
         $this->clearLoginAttempts($request);
+        $user = $this->guard()->user();
 
-        return $this->authenticated($request, $this->guard()->user())
-            ?: redirect()->intended($this->redirectPath());
+        // Check if user is a student and redirect accordingly
+        if ($user->role_id == 2) {
+            return redirect()->to('student-dashboard');
+        }
+
+        return redirect()->intended($this->redirectPath());
     }
 
     /**
@@ -708,7 +712,8 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        //
+        // This method is kept for backward compatibility
+        // The actual redirection is now handled in sendLoginResponse
     }
 
     /**

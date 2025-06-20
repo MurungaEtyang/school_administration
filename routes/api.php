@@ -22,6 +22,10 @@ Route::group(['middleware' => ['auth:api']], function () {
 });
 
 Route::group(['middleware' => ['XSS', 'auth:api', 'json.response'], 'as' => 'api.'], function () {
+//    fees payment
+    Route::post('/fees/payment/mpesa/store', [StudentFeesController::class, 'mpesaStore'])->name('fees-payment-mpesa-store');
+
+
     Route::get('send-sms', 'SmApiController@SendSMS');
     Route::post('user_delete', 'SmApiController@deleteUser');
     Route::get('sync', 'SmApiController@sync');

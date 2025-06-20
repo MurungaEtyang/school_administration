@@ -18,7 +18,7 @@
 
 <section class="student-details">
     <div class="container-fluid p-0">
-      
+
         <div class="row mt-40">
             <input type="hidden" id="url" value="{{URL::to('/')}}">
             <input type="hidden" id="student_id" value="{{@$student->id}}">
@@ -165,14 +165,14 @@
                                                                    @if( (moduleStatusCheck('XenditPayment') == TRUE) && ($balance_amount != 0) )
                                                                        <form action="{!!route('xenditpayment.feesPayment')!!}" method="POST" style="width: 100%; text-align: center">
                                                                            @csrf
-                                                                           
+
                                                                            <input type="hidden" name="fees_type_id" id="fees_type_id" value="{{$fees_assigned->feesGroupMaster->fees_type_id}}">
                                                                            <input type="hidden" name="student_id" id="student_id" value="{{$student->id}}">
                                                                            <input type="hidden" name="payment_mode" id="payment_mode" value="{{$payment_gateway->id}}">
                                                                            <input type="hidden" name="amount" id="amount" value="{{$balance_amount * 1000}}"/>
                                                                            <input type="hidden" name="record_id" value="{{@$fees_assigned->recordDetail->id}}">
                                                                            <div class="pay">
-                                                                               <button class="dropdown-item razorpay-payment-button btn filled small" 
+                                                                               <button class="dropdown-item razorpay-payment-button btn filled small"
                                                                                @if(serviceCharge('XenditPayment'))
                                                                                    data-toggle="tooltip" data-title = "{{ __('common.service charge for per transaction ') }} {{ serviceCharge('XenditPayment')}}"
                                                                                @endif
@@ -193,8 +193,8 @@
                                                                                        ->first('gateway_publisher_key');
                                                                        @endphp
                                                                        <div class="pay">
-                                                                           <button class="dropdown-item btn filled small khalti-payment-button" 
-                                                                           data-amount="{{$balance_amount}}" data-assignid = "{{$fees_assigned->id}}" data-feestypeid = "{{$fees_assigned->feesGroupMaster->fees_type_id}}" 
+                                                                           <button class="dropdown-item btn filled small khalti-payment-button"
+                                                                           data-amount="{{$balance_amount}}" data-assignid = "{{$fees_assigned->id}}" data-feestypeid = "{{$fees_assigned->feesGroupMaster->fees_type_id}}"
                                                                            data-recordId = "{{@$fees_assigned->recordDetail->id}}"
                                                                            @if(serviceCharge('KhaltiPayment'))
                                                                                data-toggle="tooltip" data-title = "{{ __('common.service charge for per transaction ')}} {{ serviceCharge('KhaltiPayment') }}"
@@ -354,9 +354,9 @@
                                                                                @lang('fees.pay_with_CcAveune')
                                                                                {{ serviceCharge('CcAveune') ? '+'.serviceCharge('CcAveune') : '' }}
                                                                         </a>
-                                                                        
+
                                                                <!--  end CcAveune Gateway  -->
-                                                                    @endif 
+                                                                    @endif
 
 
 
@@ -384,7 +384,7 @@
                                                                                     </button>
                                                                                 </form>
                                                                             <!--  end PhonePay Gateway  -->
-                                                                        @endif 
+                                                                        @endif
 
 
                                                                <!-- Start Razorpay Payment -->
@@ -396,7 +396,7 @@
                                                                                    ->first();
                                                                    @endphp
                                                                    @if(moduleStatusCheck('RazorPay') == TRUE and !empty($is_active))
-                                                                       
+
                                                                        <form id="rzp-footer-form_{{$count}}" action="{!!route('razorpay/dopayment')!!}" method="POST" style="width: 100%; text-align: center">
                                                                            @csrf
                                                                            <input type="hidden" name="assign_id" id="assign_id" value="{{$fees_assigned->id}}">
@@ -498,7 +498,7 @@
 
                                                                <!-- Start Raudhahpay Payment  -->
                                                                    @if((moduleStatusCheck('Raudhahpay') == TRUE)  && ($balance_amount > 0))
-                                                                       
+
                                                                        <form id="xend-footer-form_{{$count}}" action="{!!route('raudhahpay.feesPayment')!!}" method="POST" style="width: 100%; text-align: center">
                                                                            @csrf
                                                                            <input type="hidden" name="amount" id="amount" value="{{$balance_amount}}"/>
@@ -521,7 +521,7 @@
                                                                    @endif
                                                                <!-- End Raudhahpay Payment  -->
 
-   
+
                                                            </div>
                                                        </div>
                                                    @endif
@@ -588,7 +588,7 @@
                                                <td>{{@$fees_discount->feesDiscount!=""?@$fees_discount->feesDiscount->name:""}}</td>
                                                <td></td>
                                                <td>@if(in_array(@$fees_discount->id, @$applied_discount))
-                                                       
+
                                                    @else
                                                        @lang('fees.discount_of')
                                                      {{currency_format(@$fees_discount->feesDiscount->amount)}}

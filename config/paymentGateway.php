@@ -8,4 +8,5 @@ return [
     'MercadoPago'=>App\PaymentGateway\MercadoPagoPayment::class,
     'CcAveune'=>App\PaymentGateway\CcAveunePayment::class,
     'PhonePe'=>App\PaymentGateway\PhonePay::class,
+    'M-PESA'      => App\PaymentGateway\MpesaPayment::class,
 ];

@@ -2,7 +2,40 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\File;
 use Modules\TwoFactorAuth\Entities\TwoFactorSetting;
+
+// Bypass installation check
+Route::get('/bypass-installation', function () {
+    // Create installation files if they don't exist
+    $files = [
+        'installed' => '1',
+        '.app_installed' => '1',
+        '.version' => '1.0',
+    ];
+
+    foreach ($files as $file => $content) {
+        $path = storage_path('app/' . $file);
+        if (!File::exists($path)) {
+            File::put($path, $content);
+        }
+    }
+
+    return response('Installation bypassed successfully');
+});
+
+// M-PESA Callback Route
+Route::post('mpesa/callback', [App\Http\Controllers\MpesaController::class, 'handleCallback'])
+    ->name('mpesa.callback');
+
+// Clear application cache
+Route::get('/clear-cache', function () {
+    \Artisan::call('config:clear');
+    \Artisan::call('cache:clear');
+    \Artisan::call('view:clear');
+    \Artisan::call('route:clear');
+    return 'Application cache cleared.';
+});
 
 Route::get('resdg', function () {
     $gs = generalSetting();

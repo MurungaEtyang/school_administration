@@ -44,6 +44,25 @@
                 <div class="main-title">
                     <h3 class="mb-30">@lang('student.student_details')</h3>
                 </div>
+
+                <!-- MPESA Input Section -->
+                <div class="mpesaPayment d-none">
+                    <div class="row mt-25">
+                        <div class="col-lg-12">
+                            <div class="primary_input">
+                                <label class="primary_input_label" for="phone_number">
+                                    @lang('accounts.phone_number') <span class="text-danger">*</span>
+                                </label>
+                                <input class="primary_input_field form-control" type="text" name="phone_number" id="phone_number" placeholder="07XXXXXXXX">
+                                @if ($errors->has('phone_number'))
+                                    <span class="text-danger" role="alert">{{ $errors->first('phone_number') }}</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="student-meta-box">
                     <div class="student-meta-top"></div>
                     <img class="student-meta-img img-100"
@@ -160,8 +179,8 @@
                                     <label class="primary_input_label" for="">@lang('common.note') <span></span> </label>
                                     <textarea class="primary_input_field form-control" cols="0" rows="3" name="payment_note"
                                               id="note">{{old('payment_note')}}</textarea>
-                                   
-                                    
+
+
                                 </div>
                             </div>
                         </div>
@@ -176,7 +195,7 @@
                                         readonly="true" type="text"
                                         placeholder="{{isset($editData->upload_file) && @$editData->upload_file != ""? getFilePath3(@$editData->upload_file):trans('common.file').''}}"
                                         id="placeholderUploadContent">
-                                 
+
                                  @if ($errors->has('file'))
                                      <span class="text-danger mb-20" role="alert">
                                          {{ $errors->first('file') }}
@@ -195,11 +214,11 @@
                                         {{ $errors->first('upload_event_image') }}
                                     </span>
                                     @endif
-                                </div>    
-                            </div>                            
-                            
+                                </div>
+                            </div>
+
                         </div>
-                        
+
 
                         <div class="stripPayment d-none">
                             <div class="row mt-25">
@@ -209,8 +228,8 @@
                                         <input class="primary_input_field form-control{{ $errors->has('name_on_card') ? ' is-invalid' : '' }}"
                                                type="text" name="name_on_card" autocomplete="off"
                                                value="{{old('name_on_card')}}">
-                                        
-                                        
+
+
                                         @if ($errors->has('name_on_card'))
                                             <span class="text-danger"
                                                   role="alert"> {{ $errors->first('name_on_card') }}</span>
@@ -226,8 +245,8 @@
                                         <input class="primary_input_field form-control{{ $errors->has('card-number') ? ' is-invalid' : '' }} card-number"
                                                type="text" name="card-number" autocomplete="off"
                                                value="{{old('card-number')}}">
-                                        
-                                        
+
+
                                         @if ($errors->has('card-number'))
                                             <span class="text-danger"
                                                   role="alert"> {{ $errors->first('card-number') }}</span>
@@ -242,8 +261,8 @@
                                         <label class="primary_input_label" for="">@lang('accounts.cvc') <span class="text-danger"> *</span> </label>
                                         <input class="primary_input_field form-control card-cvc" type="text" name="card-cvc"
                                                autocomplete="off" value="{{old('card-cvc')}}">
-                                        
-                                        
+
+
                                         @if ($errors->has('card-cvc'))
                                             <span class="text-danger"
                                                   role="alert"> {{ $errors->first('card-cvc') }}</span>
@@ -259,8 +278,8 @@
                                         <input class="primary_input_field form-control card-expiry-month" type="text"
                                                name="card-expiry-month" autocomplete="off"
                                                value="{{old('card-expiry-month')}}">
-                                        
-                                        
+
+
                                         @if ($errors->has('card-expiry-month'))
                                             <span class="text-danger"
                                                   role="alert"> {{ $errors->first('card-expiry-month') }}</span>
@@ -280,6 +299,24 @@
                                             <span class="text-danger"
                                                   role="alert"> {{ $errors->first('card-expiry-year') }}</span>
                                         @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- M-PESA Payment Input -->
+                        <div class="mpesaPayment d-none">
+                            <div class="row mt-25">
+                                <div class="col-lg-12">
+                                    <div class="primary_input">
+                                        <label class="primary_input_label" for="phone_number">@lang('accounts.phone_number') <span class="text-danger">*</span></label>
+                                        <input class="primary_input_field form-control" 
+                                               type="text" 
+                                               name="phone_number" 
+                                               id="phone_number" 
+                                               placeholder="07XXXXXXXX"
+                                               required>
+                                        <small class="text-muted">Enter your M-PESA registered phone number (e.g., 0712345678)</small>
                                     </div>
                                 </div>
                             </div>
@@ -308,15 +345,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="white-box mt-4">                    
+                <div class="white-box mt-4">
                     <div class="row">
-                        <div class="col-lg-12">  
-                            
+                        <div class="col-lg-12">
+
                             <input type="hidden" class="weaverType" value="amount">
-                            <div class="big-table"> 
-                                <h4 class="text-danger" id="serviceChargeTitle"></h4> 
-                                <span id="payable_amount"></span>                          
-                                <table class="table school-table-style p-0" cellspacing="0" width="100%">                                
+                            <div class="big-table">
+                                <h4 class="text-danger" id="serviceChargeTitle"></h4>
+                                <span id="payable_amount"></span>
+                                <table class="table school-table-style p-0" cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
                                         <th>@lang('common.sl')</th>
@@ -378,7 +415,7 @@
                                                                 value="{{isset($invoiceDetail)? $invoiceDetail->weaver: old('weaver')}}">
                                                             <input class="previousWeaver" type="hidden"
                                                                 value="{{isset($invoiceDetail)? $invoiceDetail->weaver: ''}}">
-                                                            
+
                                                         </div>
                                                     @else
                                                         <input class="primary_input_field border-0 form-control"
@@ -458,19 +495,14 @@
 @if(moduleStatusCheck('RazorPay'))
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 @endif
-<script type="text/javascript">
-    @if(moduleStatusCheck('RazorPay'))
-    var payment = false;
-    function demoSuccessHandler(transaction) {
-        payment = true;
-        $('form#addFeesPayment').submit();
-    }
-    @endif
+<script>
     window.paymentValue = $('#paymentMethodAddFees').val();
+
     $(function () {
         var $form = $("form#addFeesPayment");
         var publisherKey = '{!!@$stripe_info->gateway_publisher_key !!}';
         var ccFalse = false;
+
         $('form#addFeesPayment').on('submit', function (e) {
             if (paymentValue == "Stripe") {
                 if (!ccFalse) {
@@ -484,15 +516,15 @@
                     }, stripeResponseHandler);
                 }
             }
+
                     @if(moduleStatusCheck('RazorPay'))
             else if (paymentValue == 'RazorPay') {
                 if (!payment) {
                     e.preventDefault();
                     let value = parseFloat($('input[name="total_paid_amount"]').val());
-                    if (isNaN(value)) {
-                        value = 0;
-                    }
+                    value = isNaN(value) ? 0 : value;
                     value = value * 100;
+
                     if (value > 0) {
                         var options = {
                             key: "{{ @$razorpay_info->gateway_secret_key }}",
@@ -507,84 +539,100 @@
                     } else {
                         toastr.error('Please make some payment');
                     }
-
                 }
             }
             @endif
-
         });
 
         function stripeResponseHandler(status, response) {
             if (response.error) {
-                $('.error')
-                    .removeClass('hide')
-                    .find('.alert')
-                    .text(response.error.message);
+                $('.error').removeClass('hide').find('.alert').text(response.error.message);
             } else {
-                // token contains id, last4, and card type
                 var token = response['id'];
-                // insert the token into the form so it gets submitted to the server
                 $form.find('input[type=text]').empty();
-
                 $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
                 $form.get(0).submit();
             }
         }
-    });
-    $(document).on('change', '#paymentMethodAddFees', function(){
-        let gateway = $(this).val();
-        let status = 'payment_method';
-        let showStudentPaidAmount = 0;
-        $('.dueAmount').each(function(i,e){
-            let amount= $(this).val()-0;
-            showStudentPaidAmount+=amount;
+
+        // Show/Hide Fields Based on Payment Method
+        // Show/hide based on payment method
+        $(document).on('change', '#paymentMethodAddFees', function () {
+            let gateway = $(this).val();
+            paymentValue = gateway;
+
+            $('.stripPayment, #bankPaymentAddFees, .chequeBank, .mpesaPayment').addClass('d-none');
+
+            if (gateway === 'Stripe') {
+                $('.stripPayment').removeClass('d-none');
+            } else if (gateway === 'Bank') {
+                $('#bankPaymentAddFees, .chequeBank').removeClass('d-none');
+            } else if (gateway === 'Cheque') {
+                $('.chequeBank').removeClass('d-none');
+            } else if (gateway === 'M-PESA') {
+                $('.mpesaPayment').removeClass('d-none');
+            }
+
+            let showStudentPaidAmount = 0;
+            $('.dueAmount').each(function () {
+                showStudentPaidAmount += parseFloat($(this).val()) || 0;
+            });
+
+            serviceCharge(gateway, showStudentPaidAmount, 'payment_method');
         });
-        
-        serviceCharge(gateway, showStudentPaidAmount, status);
-    })
-    $(document).on('keyup', '.addFeesPaidAmount', function(){
-        let gateway = $('#paymentMethodAddFees').val();
-        if(gateway == '') {           
-            return ;
-        }
-        let paidAmount = 0;
-                $('.addFeesPaidAmount').each(function(i,e){
-                    let amount= $(this).val()-0;
-                    paidAmount+=amount;
+
+        // M-PESA phone number validation on submit
+        $('form#addFeesPayment').on('submit', function (e) {
+            if (paymentValue === 'M-PESA') {
+                const phone = $('#phone_number').val().trim();
+                if (!/^07\d{8}$/.test(phone)) {
+                    e.preventDefault();
+                    alert('Please enter a valid M-PESA phone number (e.g., 0712345678)');
+                    return false;
+                }
+            }
         });
-        let status = 'goingToPay';
-       
-       
-        serviceCharge(gateway, paidAmount, status);
-    })
-    function serviceCharge(gateway, amount, status)
-    {
-        var symbol = "{{ generalSetting()->currency_symbol }}";
-        let amountTotal = parseFloat(amount);
-        $.ajax({
-            type:"GET",
-            data : {gateway :gateway , amount : amountTotal, status : status},
-            dataType:"JSON",
-            url : "{{ route('gateway-service-charge') }}",
-            success:function(data){                
-                if(data.service_charge) {
-                    if(status == 'payment_method') {                    
-                        $('#serviceChargeTitle').html('You Have to Pay service charge '+data.service_charge + ' for ' + gateway + ' per transaction');
-                    } 
-                    if(data.service_charge_amount && status == 'goingToPay') {
-                        let total = parseFloat(amount) + parseFloat(data.service_charge_amount);
-                        $("#ttlpaidAmount").val(total);                        
-                        $('#amountDetail').html('your payable amount with serivce charge : '+symbol+amount+'+'+symbol+ data.service_charge_amount +' = ' +symbol+parseFloat(total) );                       
+
+
+        // Service charge update on paid amount input
+        $(document).on('keyup', '.addFeesPaidAmount', function () {
+            let gateway = $('#paymentMethodAddFees').val();
+            if (gateway === '') return;
+
+            let paidAmount = 0;
+            $('.addFeesPaidAmount').each(function (i, e) {
+                let amount = $(this).val() - 0;
+                paidAmount += amount;
+            });
+
+            serviceCharge(gateway, paidAmount, 'goingToPay');
+        });
+
+        function serviceCharge(gateway, amount, status) {
+            var symbol = "{{ generalSetting()->currency_symbol }}";
+            let amountTotal = parseFloat(amount);
+            $.ajax({
+                type: "GET",
+                data: {gateway: gateway, amount: amountTotal, status: status},
+                dataType: "JSON",
+                url: "{{ route('gateway-service-charge') }}",
+                success: function (data) {
+                    if (data.service_charge) {
+                        if (status == 'payment_method') {
+                            $('#serviceChargeTitle').html('You Have to Pay service charge ' + data.service_charge + ' for ' + gateway + ' per transaction');
+                        }
+                        if (data.service_charge_amount && status == 'goingToPay') {
+                            let total = parseFloat(amount) + parseFloat(data.service_charge_amount);
+                            $("#ttlpaidAmount").val(total);
+                            $('#amountDetail').html('Your payable amount with service charge: ' + symbol + amount + ' + ' + symbol + data.service_charge_amount + ' = ' + symbol + parseFloat(total));
+                        }
                     }
                 }
-            },
-            error:function()
-            {
-
-            }
-        })
-    }
+            });
+        }
+    });
 </script>
+
 <script type="text/javascript" src="{{url('Modules\Fees\Resources\assets\js\app.js')}}"></script>
 <script>
     selectPosition({!! feesInvoiceSettings()->invoice_positions !!});

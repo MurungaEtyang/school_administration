@@ -575,4 +575,5 @@ return [
     'holiday_notification' => 'Holiday Notification',
     'transport_info' => 'Transport Info',
     'dormitory_info' => 'Dormitory Info',
+    'signature' => 'Signature'
 ];

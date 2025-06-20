@@ -509,5 +509,10 @@
         "Qr & Bar Code" => "Qr & Bar Code",
         "about_system" => "About System",
         "generate_file_backup"  => "Generate File Backup",
+        "cron_job" => "Cron Job",
+        'cron_job_instructions' => 'Cron Job Instructions',
+        'to_run_cron_jobs' => 'To run cron jobs, you need to set up a cron job in your server. Here is the command you need to run in your server.',
+        'in_cpanel_you_should_set_time_interval' => 'In server, you should set the time interval',
+        'every_ten_minutes' => 'Every ten minutes',
     ];
     

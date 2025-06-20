@@ -664,5 +664,6 @@
     'enable_all' => 'Enable All',
     'disable_all' => 'Disable All',
     'role_based_sidebar' => 'Role Based Sidebar',
+    'mark_as_archive' => 'Mark As Archive',
     ]
 ?>

@@ -19,14 +19,14 @@
                 <input type="hidden" name="payment_method" value="5">
                 <div class="row mt-25">
                     <div class="col-lg-12">
-                         <div class="row">                                              
+                         <div class="row">
                                     <div class="col-lg-6 mt-20">
                                         <div class="primary_input">
                                             <label class="primary_input_label" for="">@lang('accounts.name_on_card')  <span class="text-danger"> *</span></label>
                                             <input class="primary_input_field form-control has-content name_on_card"
                                                 type="text" name="name_on_card" id="name_on_card" autocomplete="off">
-                                            
-                                             
+
+
                                         </div>
                                     </div>
                                     <div class="col-lg-6 mt-20">
@@ -34,19 +34,19 @@
                                             <label class="primary_input_label" for="">@lang('accounts.card_number') <span class="text-danger"> *</span></label>
                                             <input class="primary_input_field form-control has-content card-number"
                                                 type="text" name="card-number" id="card-number" autocomplete="off">
-                                            
-                                             
+
+
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row mt-20">                                              
+                                <div class="row mt-20">
                                     <div class="col-lg-4 mt-20">
                                         <div class="primary_input">
                                             <label class="primary_input_label" for="">@lang('accounts.cvc')  <span class="text-danger"> *</span></label>
                                             <input class="primary_input_field form-control has-content card-cvc"
                                                 type="text" name="card-cvc" id="card-cvc" autocomplete="off">
-                                            
-                                             
+
+
                                         </div>
                                     </div>
                                     <div class="col-lg-4 mt-20">
@@ -54,23 +54,23 @@
                                             <label class="primary_input_label" for="">@lang('accounts.expiration_month')  <span class="text-danger"> *</span></label>
                                             <input class="primary_input_field form-control has-content card-expiry-month"
                                                 type="text" name="card-expiry-month" id="card-expiry-month" autocomplete="off">
-                                            
-                                             
+
+
                                         </div>
-                            
+
                                     </div>
                                     <div class="col-lg-4 mt-20">
                                         <div class="primary_input">
                                             <label class="primary_input_label" for="">@lang('accounts.expiration_year')  <span class="text-danger"> *</span></label>
                                             <input class="primary_input_field form-control has-content card-expiry-year"
                                                 type="text" name="card-expiry-year" id="card-expiry-year" autocomplete="off">
-                                            
-                                             
-                                        </div>                            
+
+
+                                        </div>
                                     </div>
-                                     
+
                                 </div>
-                                <div class="row mt-20"> 
+                                <div class="row mt-20">
                                     <div class='primary_input'>
                                             <div class='col-md-12 error form-group hide'>
                                                 <div class='alert-danger alert'>Please correct the errors and try
@@ -113,7 +113,7 @@ $(function() {
       });
 
       function stripeResponseHandler(status, response) {
-  
+
             if (response.error) {
                 $('.error')
                     .removeClass('hide')
@@ -129,7 +129,7 @@ $(function() {
                 $form.get(0).submit();
             }
         }
-      
+
     });
 
     </script>

@@ -481,5 +481,7 @@ return [
     'is_show_parent_registration' => 'Is Show Parent Registration?',
     'schools' => 'Schools',
     'blog_details' => 'Blog Details',
-
+    'no_data_available' => 'No Data Available',
+    'add_blog' => 'Add Blog',
+    'no_more_data_available' => 'No More Data Available',
 ];

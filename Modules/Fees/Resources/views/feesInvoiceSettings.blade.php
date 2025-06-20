@@ -1,12 +1,12 @@
 
 @extends('backEnd.master')
-    @section('title') 
+    @section('title')
         @lang('fees::feesModule.fees_invoice_settings')
     @endsection
 @section('mainContent')
     @push('css')
         <link rel="stylesheet" href="{{url('Modules\Fees\Resources\assets\css\feesStyle.css')}}"/>
-        
+
     @endpush
     <section class="sms-breadcrumb mb-20">
         <div class="container-fluid">
@@ -80,7 +80,7 @@
                             <div class="col-lg-12">
                                 <div class="white-box">
                                     <div class="row fees_custom_preview pl-30" id="showValue">
-    
+
                                     </div>
                                 </div>
                             </div>
@@ -109,8 +109,8 @@
                                             <div class="primary_input">
                                                 <label class="primary_input_label" for="">@lang('fees::feesModule.uniq_id_start')<span class="text-danger"> *</span></label>
                                                 <input class="primary_input_field form-control{{ $errors->has('uniq_id_start') ? ' is-invalid' : '' }}" type="text" name="uniq_id_start" id="uniq_id_start" autocomplete="off" value="{{isset($invoiceSettings)? $invoiceSettings->uniq_id_start: old('uniq_id_start')}}">
-                                                
-                                                
+
+
                                                     @if ($errors->has('uniq_id_start'))
                                                     <span class="text-danger" >
                                                         {{ $errors->first('uniq_id_start') }}
@@ -124,8 +124,8 @@
                                             <div class="primary_input">
                                                 <label class="primary_input_label" for="">@lang('fees::feesModule.prefix') (@lang('fees::feesModule.max_10_characters'))</label>
                                                 <input class="primary_input_field form-control{{ $errors->has('prefix') ? ' is-invalid' : '' }}" type="text" name="prefix" id="prefix" autocomplete="off" value="{{isset($invoiceSettings)? $invoiceSettings->prefix: old('prefix')}}" maxlength="10">
-                                                
-                                                
+
+
                                             </div>
                                         </div>
                                     </td>
@@ -136,8 +136,8 @@
                                             <div class="primary_input">
                                                 <label class="primary_input_label" for="">@lang('fees::feesModule.class_limit')</label>
                                                 <input class="primary_input_field form-control{{ $errors->has('class_limit') ? ' is-invalid' : '' }}" type="text"  name="class_limit" id="class_limit" autocomplete="off" value="{{isset($invoiceSettings)? $invoiceSettings->class_limit: old('class_limit')}}">
-                                             
-                                                
+
+
                                             </div>
                                         </div>
                                     </td>
@@ -146,8 +146,8 @@
                                             <div class="primary_input">
                                                 <label class="primary_input_label" for="">@lang('fees::feesModule.section_limit')</label>
                                                 <input class="primary_input_field form-control{{ $errors->has('section_limit') ? ' is-invalid' : '' }}" type="text" name="section_limit" id="section_limit" autocomplete="off" value="{{isset($invoiceSettings)? $invoiceSettings->section_limit: old('section_limit')}}">
-                                               
-                                                
+
+
                                             </div>
                                         </div>
                                     </td>
@@ -158,8 +158,8 @@
                                             <div class="primary_input">
                                                 <label class="primary_input_label" for="">@lang('fees::feesModule.admission_no_limit')</label>
                                                 <input class="primary_input_field form-control{{ $errors->has('admission_limit') ? ' is-invalid' : '' }}" type="text" name="admission_limit" id="admission_limit" autocomplete="off" value="{{isset($invoiceSettings)? $invoiceSettings->admission_limit: old('admission_limit')}}">
-                                            
-                                                
+
+
                                             </div>
                                         </div>
                                     </td>

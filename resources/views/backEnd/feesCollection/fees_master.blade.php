@@ -88,7 +88,7 @@ $currency = '$';
                                     @else
                                     @lang('fees.add_fees_master')
                                     @endif
-    
+
                                 </h3>
                             </div>
                             <div class="add-visitor">
@@ -143,7 +143,7 @@ $currency = '$';
                                                             <i class="ti-calendar" id="start-date-icon"></i>
                                                         </label>
                                                     </button>
-                                                
+
 
                                                 @if ($errors->has('date'))
                                                 <span class="text-danger">
@@ -152,7 +152,7 @@ $currency = '$';
                                                 @endif
                                             </div>
                                         </div>
-                                        
+
 
                                     </div>
                                 </div>
@@ -165,7 +165,7 @@ $currency = '$';
                                                 class="primary_input_field form-control{{ $errors->has('amount') ? ' is-invalid' : '' }}"
                                                 type="text" name="amount" autocomplete="off"
                                                 value="{{ isset($fees_master) ? $fees_master->amount : '' }}">
-                                           
+
 
                                             @if ($errors->has('amount'))
                                             <span class="text-danger">
@@ -185,7 +185,7 @@ $currency = '$';
                                                 class="primary_input_field form-control{{ $errors->has('amount') ? ' is-invalid' : '' }}"
                                                 type="text" name="amount" autocomplete="off"
                                                 value="{{ isset($fees_master) ? $fees_master->amount : '' }}">
-                                            
+
 
                                             @if ($errors->has('amount'))
                                             <span class="text-danger">
@@ -235,7 +235,7 @@ $currency = '$';
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="row">
                         <div class="col-lg-12">
                             <x-table>
@@ -293,10 +293,10 @@ $currency = '$';
                                                                 @endif
                                                             </div>
                                                         </div>
-    
+
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="modal fade admin-query"
                                                     id="deleteFeesMasterSingle{{ $fees_master->id }}">
                                                     <div class="modal-dialog modal-dialog-centered">
@@ -306,12 +306,12 @@ $currency = '$';
                                                                 <button type="button" class="close"
                                                                     data-dismiss="modal">&times;</button>
                                                             </div>
-    
+
                                                             <div class="modal-body">
                                                                 <div class="text-center">
                                                                     <h4>@lang('common.are_you_sure_to_delete')</h4>
                                                                 </div>
-    
+
                                                                 <div class="mt-40 d-flex justify-content-between">
                                                                     <button type="button"
                                                                         class="primary-btn tr-bg"
@@ -325,7 +325,7 @@ $currency = '$';
                                                                     {{ Form::close() }}
                                                                 </div>
                                                             </div>
-    
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -342,7 +342,7 @@ $currency = '$';
                                                         @lang('common.select')
                                                     </button>
                                                     <div class="dropdown-menu dropdown-menu-right">
-    
+
                                                         @if ($fees_master->fees_group_id && userPermission('fees_assign'))
                                                         <a class="dropdown-item"
                                                             href="{{ route('fees_assign', [$fees_master->fees_group_id]) }}">@lang('fees.assign')/@lang('common.view')</a>
@@ -364,12 +364,12 @@ $currency = '$';
                                                                 <button type="button" class="close"
                                                                     data-dismiss="modal">&times;</button>
                                                             </div>
-    
+
                                                             <div class="modal-body">
                                                                 <div class="text-center">
                                                                     <h4>@lang('common.are_you_sure_to_delete')</h4>
                                                                 </div>
-    
+
                                                                 <div class="mt-40 d-flex justify-content-between">
                                                                     <button type="button"
                                                                         class="primary-btn tr-bg"
@@ -382,12 +382,12 @@ $currency = '$';
                                                                     {{ Form::close() }}
                                                                 </div>
                                                             </div>
-    
+
                                                         </div>
                                                     </div>
                                                 </div>
                                                 @endforeach
-    
+
                                             </td>
                                         </tr>
                                         @endforeach

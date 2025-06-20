@@ -74,6 +74,57 @@ class StudentFeesController extends Controller
         return view('fees::student.feesInfo',compact('student_id','records'));
     }
 
+    public function mpesaStore(Request $request)
+    {
+        try {
+            $request->validate([
+                'phone_number' => 'required|regex:/^07\d{8}$/',
+                'amount' => 'required|numeric|min:1',
+                'invoice_id' => 'required|exists:fm_fees_invoices,id',
+                'student_id' => 'required|exists:sm_students,id',
+            ]);
+
+            // Create a pending transaction record
+            $transaction = new FmFeesTransaction();
+            $transaction->fees_invoice_id = $request->invoice_id;
+            $transaction->payment_method = 'M-PESA';
+            $transaction->student_id = $request->student_id;
+            $transaction->record_id = StudentRecord::where('student_id', $request->student_id)
+                ->where('is_promote', 0)
+                ->first()->id;
+            $transaction->user_id = auth()->id();
+            $transaction->paid_status = 'pending';
+            $transaction->school_id = auth()->user()->school_id;
+            $transaction->academic_id = getAcademicId();
+            $transaction->save();
+
+            // Initialize M-PESA payment
+            $mpesa = new \App\PaymentGateway\MpesaPayment();
+            
+            $response = $mpesa->handle([
+                'phone_number' => $request->phone_number,
+                'amount' => $request->amount,
+                'invoice_id' => $request->invoice_id,
+                'transaction_id' => $transaction->id,
+                'student_id' => $request->student_id
+            ]);
+
+            if ($response['success']) {
+                Toastr::success($response['message'], 'Success');
+            } else {
+                $transaction->delete(); // Remove failed transaction
+                Toastr::error($response['message'], 'Error');
+            }
+
+            return redirect()->back();
+
+        } catch (\Exception $e) {
+            \Log::error('M-PESA Payment Error: ' . $e->getMessage());
+            Toastr::error('An error occurred while processing your request. Please try again.', 'Error');
+            return redirect()->back()->withInput();
+        }
+    }
+
     public function studentAddFeesPayment($id)
     {
         try{
@@ -402,6 +453,9 @@ class StudentFeesController extends Controller
                     if($request->wantsJson()){
                         return response()->json(['goto'=>$url]);
                     }else{
+                        if (is_array($url)) {
+                            return back()->with('error', $url['message'] ?? 'An error occurred while processing your payment');
+                        }
                         return redirect($url);
                     }
                 }

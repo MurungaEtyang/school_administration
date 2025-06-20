@@ -68,5 +68,12 @@
     'Document' => 'Document',
     'Edit' => 'Edit',
     'Course Teacher' => 'Course Teacher',
+    'review_submitted' => 'Review Submitted',
+    'my_certificate' => 'My Certificate',
+    'Make Default(Course)' => 'Make Default(Course)',
+    'Make Default(Quiz)' => 'Make Default(Quiz)',
+    'Reset Default' => 'Reset Default',
+    'my_certificates' => 'My Certificates',
+    'My Certificates' => 'My Certificates',
     ]
 ?>

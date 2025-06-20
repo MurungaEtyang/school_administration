@@ -27,7 +27,7 @@
     padding-left: 18px !important;
     }
 </style>
-@endpush 
+@endpush
 <table id="" class="table school-table-style-parent-fees" cellspacing="0" width="100%">
       <thead>
           <tr>
@@ -46,28 +46,28 @@
             @foreach($record->feesInstallments as $key=> $feesInstallment )
             <tr>
                   <td>{{@$feesInstallment->installment->title}}</td>
-                  <td> 
+                  <td>
                     @if($feesInstallment->discount_amount > 0)
                     <del>  {{currency_format($feesInstallment->amount)}}  </del>
                       {{currency_format($feesInstallment->amount - $feesInstallment->discount_amount)}}
-                      @else 
+                      @else
                        {{currency_format($feesInstallment->amount)}}
                     @endif
                   </td>
                   <td>{{@dateConvert($feesInstallment->due_date)}}</td>
-                  <td> 
+                  <td>
                     @if($feesInstallment->active_status == 1 && $feesInstallment->paid_amount)
                     <button class="primary-btn small bg-success text-white border-0">@lang('fees.paid')</button>
-                    @else 
+                    @else
                     <button class="primary-btn small bg-danger text-white border-0">@lang('fees.unpaid')</button>
-                    @endif 
+                    @endif
                   </td>
                   <td>
                     @if(is_null($feesInstallment->payment_mode))
-                     -- 
+                     --
                     @else
                      {{ $feesInstallment->payment_mode}}
-                    @endif 
+                    @endif
                     </td>
                   <td>{{@dateConvert($feesInstallment->payment_date)}}</td>
                   <td> {{currency_format($feesInstallment->discount_amount)}}</td>
@@ -87,12 +87,12 @@
                   <td>
 
                         @php
-                          $instalment_amount = $feesInstallment->amount;  
+                          $instalment_amount = $feesInstallment->amount;
                         @endphp
 
                             <div class="dropdown">
                                 <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-                                    @lang('common.select') 
+                                    @lang('common.select')
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <!--  Start Xendit Payment -->
@@ -128,16 +128,16 @@
                                                 </button>
                                             </div>
                                         @endif
-                                      
+
                                     <!-- End Khalti Payment  -->
                                         @if(@$data['bank_info']->active_status == 1 || @$data['cheque_info']->active_status == 1 )
-                                            
+
                                             @if($feesInstallment->paid_amount == null && $feesInstallment->active_status == 0)
                                                 <a class="dropdown-item modalLink" data-modal-size="modal-lg" title="{{@$feesInstallment->intallment->title}}"
-                                                    href="{{route('university.fees-generate-modal-child',[discountFeesAmount($feesInstallment->id) ,$feesInstallment->id,$record->id])}}"> 
-                                                    @lang('fees.add_bank_payment')                                      
+                                                    href="{{route('university.fees-generate-modal-child',[discountFeesAmount($feesInstallment->id) ,$feesInstallment->id,$record->id])}}">
+                                                    @lang('fees.add_bank_payment')
                                                 </a>
-                                            @endif 
+                                            @endif
 
                                             @if($feesInstallment->active_status == 2)
                                                 <a class="dropdown-item modalLink" data-modal-size="modal-lg"
@@ -149,8 +149,8 @@
                                                     <a onclick="deleteId({{@$feesInstallment->id}});" class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteStudentModal" data-id="{{@$feesInstallment->id}}">
                                                             @lang('fees.delete_bank_payment')
                                                     </a>
-                                                   
-                                            @endif 
+
+                                            @endif
 
                                         @endif
 
@@ -348,9 +348,9 @@
                                     }
                                 </script>
                             <!-- end razorpay code -->
-                     
+
                     </td>
-                    @endif 
+                    @endif
             </tr>
             @endforeach
 

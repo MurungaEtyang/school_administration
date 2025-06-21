@@ -1829,7 +1829,7 @@ class SmSystemSettingController extends Controller
                 'gateway_name', 'gateway_username', 'gateway_password', 'gateway_signature', 'gateway_client_id', 'gateway_mode',
                 'gateway_secret_key', 'gateway_secret_word', 'gateway_publisher_key', 'gateway_private_key', 'cheque_details', 'bank_details',
                 'mercado_pago_public_key','mercado_pago_acces_token','service_charge', 'charge_type', 'charge' ,'cca_working_key','cca_merchant_id','cca_access_code',
-                'phone_pay_merchant_id','phone_pay_salt_key','phone_pay_salt_index'
+                'phone_pay_merchant_id','phone_pay_salt_key','phone_pay_salt_index', 'short_code'
             ];
             $count = 0;
             $gatewayDetails = SmPaymentGatewaySetting::where('gateway_name', $request->gateway_name)->where('school_id', Auth::user()->school_id)->first();

@@ -76,7 +76,7 @@
             $paymeny_gateway = ['gateway_name','gateway_username','gateway_password','gateway_signature','gateway_client_id','gateway_mode','gateway_secret_key','service_charge','charge'];
         }
         else if($row->gateway_name == "M-PESA") {
-            $paymeny_gateway = ['gateway_name','gateway_client_id','gateway_secret_key','gateway_signature','gateway_mode','service_charge','charge'];
+            $paymeny_gateway = ['gateway_name','gateway_client_id','gateway_secret_key','gateway_signature','gateway_mode','short_code','service_charge','charge'];
         }
         else if($row->gateway_name == "Stripe") {
             $paymeny_gateway = ['gateway_name','gateway_username','gateway_secret_key','gateway_publisher_key','service_charge','charge'];
@@ -97,7 +97,8 @@
                     'gateway_client_id' => 'Consumer Key',
                     'gateway_secret_key' => 'Consumer Secret',
                     'gateway_signature' => 'Passkey',
-                    'gateway_mode' => 'Environment (sandbox/live)'
+                    'gateway_mode' => 'Environment (sandbox/live)',
+                    'short_code' => 'Short Code'
                 ];
                 if(isset($map[$input_field])) {
                     $label_name = $map[$input_field];

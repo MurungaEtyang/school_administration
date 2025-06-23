@@ -7,6 +7,32 @@
         .school-table-style tr td {
             padding: 20px 10px 20px 10px !important;
         }
+        
+        /* M-PESA Payment Styles */
+        #mpesaStatus .alert {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        #mpesaStatus .alert i {
+            margin-right: 8px;
+        }
+        #mpesaLoading {
+            background-color: #e7f4ff;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        #mpesaSuccess {
+            background-color: #e8f5e9;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        #mpesaError {
+            background-color: #fde8e8;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
     </style>
 @endpush
 
@@ -43,23 +69,6 @@
             <div class="col-lg-3">
                 <div class="main-title">
                     <h3 class="mb-30">@lang('student.student_details')</h3>
-                </div>
-
-                <!-- MPESA Input Section -->
-                <div class="mpesaPayment d-none">
-                    <div class="row mt-25">
-                        <div class="col-lg-12">
-                            <div class="primary_input">
-                                <label class="primary_input_label" for="phone_number">
-                                    @lang('accounts.phone_number') <span class="text-danger">*</span>
-                                </label>
-                                <input class="primary_input_field form-control" type="text" name="phone_number" id="phone_number" placeholder="07XXXXXXXX">
-                                @if ($errors->has('phone_number'))
-                                    <span class="text-danger" role="alert">{{ $errors->first('phone_number') }}</span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
 
@@ -309,12 +318,10 @@
                             <div class="row mt-25">
                                 <div class="col-lg-12">
                                     <div class="primary_input">
-                                        <label class="primary_input_label" for="phone_number">@lang('accounts.phone_number') <span class="text-danger">*</span></label>
-                                        <input class="primary_input_field form-control" 
-                                               type="text" 
-                                               name="phone_number" 
-                                               id="phone_number" 
-                                               placeholder="07XXXXXXXX"
+                                        <label class="primary_input_label" for="mpesa_phone">@lang('fees::feesModule.phone_number') <span class="text-danger">*</span></label>
+                                        <input class="primary_input_field form-control" type="text" 
+                                               name="mpesa_phone" id="mpesa_phone" 
+                                               placeholder="07XXXXXXXX" 
                                                required>
                                         <small class="text-muted">Enter your M-PESA registered phone number (e.g., 0712345678)</small>
                                     </div>
@@ -497,11 +504,332 @@
 @endif
 <script>
     window.paymentValue = $('#paymentMethodAddFees').val();
+    let mpesaProcessing = false;
 
     $(function () {
         var $form = $("form#addFeesPayment");
         var publisherKey = '{!!@$stripe_info->gateway_publisher_key !!}';
         var ccFalse = false;
+
+        // Handle M-PESA payment submission
+        $(document).on('submit', '#addFeesPayment', function(e) {
+            if ($('#paymentMethodAddFees').val() === 'M-PESA') {
+                e.preventDefault();
+                
+                if (mpesaProcessing) return false;
+                
+                const $phoneInput = $('#mpesa_phone');
+                if (!$phoneInput.length) {
+                    toastr.error('M-PESA phone input field not found');
+                    return false;
+                }
+                
+                const phone = $phoneInput.val() ? $phoneInput.val().trim() : '';
+                if (!phone) {
+                    toastr.error('Please enter your M-PESA registered phone number');
+                    return false;
+                }
+                
+                // Validate phone number format (Kenyan)
+                const phoneRegex = /^(?:0|\+?254)([0-9]{9})$/;
+                if (!phoneRegex.test(phone)) {
+                    toastr.error('Please enter a valid Kenyan phone number (e.g., 0712345678)');
+                    return false;
+                }
+                
+                // Show loading state
+                mpesaProcessing = true;
+                $('#mpesaStatus').show();
+                $('#mpesaLoading').show();
+                $('#mpesaSuccess').hide();
+                $('#mpesaError').hide();
+                $('#mpesa_phone').prop('disabled', true);
+                $('button[type="submit"]').prop('disabled', true);
+                
+                // Prepare STK Push data with required format
+                const studentId = '{{ $invoiceInfo->recordDetail->id ?? "" }}';
+                
+                // Get the paid amount from the input field
+                let amount = 0;
+                const $form = $(this);
+                
+                // Get the paid amount from the paid_amount input field
+                const $paidAmountInput = $('input[name="paid_amount[]"]').first();
+                if ($paidAmountInput.length) {
+                    const val = $paidAmountInput.val();
+                    if (val && !isNaN(parseFloat(val)) && parseFloat(val) > 0) {
+                        amount = parseFloat(val);
+                        console.log('Using paid amount from input:', amount);
+                    } else {
+                        toastr.error('Please enter a valid payment amount');
+                        return false;
+                    }
+                } else {
+                    // Fallback to other amount inputs if paid_amount not found
+                    const $amountInputs = $('.fees-amount, input[name^="amount"], input[name$="amount"], input[name*="amount"], .amount-input');
+                    let found = false;
+                    
+                    $amountInputs.each(function() {
+                        if (found) return;
+                        const $input = $(this);
+                        const val = $input.val();
+                        if (val && !isNaN(parseFloat(val)) && parseFloat(val) > 0) {
+                            amount = parseFloat(val);
+                            found = true;
+                            console.log('Fallback: Found amount in input:', $input, 'Value:', amount);
+                        }
+                    });
+                    
+                    if (!found) {
+                        toastr.error('Could not determine payment amount');
+                        return false;
+                    }
+                }
+                
+                // 3. If no amount found, try to get it from the total amount display
+                if (amount <= 0) {
+                    const $totalDisplay = $('.total-amount, .amount-total, .total, .payable-amount, #totalAmount, #amountTotal, #payable_amount');
+                    if ($totalDisplay.length) {
+                        const totalText = $totalDisplay.text().replace(/[^0-9.]/g, '');
+                        if (totalText) {
+                            amount = parseFloat(totalText);
+                            console.log('Found amount in total display:', amount);
+                        }
+                    }
+                }
+                
+                // 4. If still no amount, check if there's a single amount input in the form
+                if (amount <= 0) {
+                    const $allInputs = $('input[type="number"], input[type="text"]');
+                    const numericInputs = [];
+                    
+                    $allInputs.each(function() {
+                        const val = $(this).val();
+                        if (val && !isNaN(parseFloat(val)) && parseFloat(val) > 0) {
+                            numericInputs.push(parseFloat(val));
+                        }
+                    });
+                    
+                    // If there's only one numeric input, use that as the amount
+                    if (numericInputs.length === 1) {
+                        amount = numericInputs[0];
+                        console.log('Using single numeric input as amount:', amount);
+                    }
+                }
+                
+                // Ensure amount is a valid number and greater than 0
+                amount = isNaN(amount) || amount <= 0 ? 0 : amount.toFixed(2);
+                
+                if (amount <= 0) {
+                    toastr.error('Please enter a valid payment amount');
+                    mpesaProcessing = false;
+                    $('#mpesaLoading').hide();
+                    $('button[type="submit"]').prop('disabled', false);
+                    return false;
+                }
+                
+                console.log('Final amount to be paid:', amount);
+                
+                // Prepare STK push data
+                const stkPushData = {
+                    phone: $('#mpesa_phone').val().replace(/^0/, '254'), // Format phone to 254 format
+                    amount: amount,
+                    studentId: studentId,
+                    callback_url: '{{ route("mpesa.callback") }}' // Add callback URL
+                };
+                
+                console.log('Sending STK Push:', stkPushData);
+                
+                // Function to check payment status
+                function checkPaymentStatus(checkoutRequestId, attempts = 0) {
+                    if (attempts >= 15) { // Try for max 15 times (about 45 seconds)
+                        showMpesaError('Payment status check timed out. Please check your M-PESA messages.');
+                        $('button[type="submit"]').prop('disabled', false);
+                        $('#mpesaLoading').hide();
+                        return;
+                    }
+                    
+                    // Show loading state on first attempt
+                    if (attempts === 0) {
+                        $('#mpesaLoading').show();
+                    }
+                    
+                    // Get CSRF token from meta tag
+                    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    
+                    // Prepare the request data
+                    const requestData = {
+                        checkout_request_id: checkoutRequestId,
+                        _token: csrfToken
+                    };
+                    
+                    // Set up headers
+                    const headers = {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    };
+                    
+                    // Add auth token if available in localStorage or meta tag
+                    let authToken = localStorage.getItem('auth_token') || $('meta[name="api-token"]').attr('content');
+                    if (!authToken) {
+                        // If no token, try to get a new one
+                        authToken = '{{ auth()->user()->createToken('api-token')->plainTextToken ?? "" }}';
+                        if (authToken) {
+                            localStorage.setItem('auth_token', authToken);
+                        }
+                    }
+                    
+                    if (authToken) {
+                        headers['Authorization'] = 'Bearer ' + authToken;
+                    }
+                    
+                    console.log(`Checking payment status (attempt ${attempts + 1})`);
+                    
+                    // Make the request
+                    $.ajax({
+                        url: '{{ route("mpesa.check-status") }}',
+                        type: 'POST',
+                        data: requestData,
+                        headers: headers,
+                        success: function(response) {
+                            console.log('Payment status check response:', response);
+                            
+                            if (response.status === 'completed') {
+                                // Payment completed successfully
+                                showMpesaSuccess('Payment successful! Redirecting...');
+                                // Clear loading state
+                                $('#mpesaLoading').hide();
+                                // Redirect to invoice list after a short delay
+                                setTimeout(() => {
+                                    window.location.href = '{{ route("fees.fees-invoice-list") }}';
+                                }, 2000);
+                                
+                            } else if (response.status === 'failed') {
+                                // Payment failed
+                                showMpesaError('Payment failed: ' + (response.message || 'Unknown error'));
+                                $('button[type="submit"]').prop('disabled', false);
+                                $('#mpesaLoading').hide();
+                                
+                            } else if (response.message && response.message.includes('Unauthenticated')) {
+                                // Handle authentication errors
+                                console.error('Authentication error:', response.message);
+                                // Clear any invalid token
+                                localStorage.removeItem('auth_token');
+                                
+                                if (attempts < 2) {
+                                    // Retry once with a new token
+                                    console.log('Retrying with new token...');
+                                    setTimeout(() => checkPaymentStatus(checkoutRequestId, attempts + 1), 1000);
+                                } else {
+                                    showMpesaError('Session expired. Please refresh the page and try again.');
+                                    $('button[type="submit"]').prop('disabled', false);
+                                    $('#mpesaLoading').hide();
+                                }
+                                
+                            } else {
+                                // Payment still processing, check again with exponential backoff
+                                const delay = Math.min(1000 * Math.pow(1.5, attempts), 10000); // Max 10s delay
+                                console.log(`Payment processing, checking again in ${delay}ms...`);
+                                
+                                // Show a status message if this is taking a while
+                                if (attempts === 3) {
+                                    showMpesaSuccess('Payment request received. Please complete the payment on your phone...');
+                                }
+                                
+                                setTimeout(() => checkPaymentStatus(checkoutRequestId, attempts + 1), delay);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error checking payment status:', { xhr, status, error });
+                            
+                            // Handle different error cases
+                            if (xhr.status === 401) {
+                                // Unauthorized - clear token
+                                console.log('Authentication failed, clearing token');
+                                localStorage.removeItem('auth_token');
+                                $('meta[name="api-token"]').remove();
+                                
+                                if (attempts < 2) {
+                                    // Retry once with a new token
+                                    console.log('Retrying with new token...');
+                                    setTimeout(() => checkPaymentStatus(checkoutRequestId, attempts + 1), 1000);
+                                    return;
+                                }
+                            }
+                            
+                            // For network errors or other issues, use exponential backoff
+                            const delay = Math.min(1000 * Math.pow(1.5, attempts), 10000); // Max 10s delay
+                            console.log(`Retrying in ${delay}ms...`);
+                            
+                            // Show a warning if this is taking too long
+                            if (attempts > 3) {
+                                showMpesaError('Still processing your payment. This is taking longer than usual...');
+                            }
+                            
+                            setTimeout(() => checkPaymentStatus(checkoutRequestId, attempts + 1), delay);
+                        }
+                    });
+                }
+                
+                // Send AJAX request to initiate M-PESA payment
+                const stkPushUrl = 'http://localhost:3000/api/stkPush';
+
+                $.ajax({
+                    url: stkPushUrl,
+                    type: 'POST',
+                    data: JSON.stringify(stkPushData),
+                    contentType: 'application/json',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        console.log('M-PESA payment response:', response);
+                        if (response.success && response.response?.CheckoutRequestID) {
+                            showMpesaSuccess('Payment request sent. Please check your phone to complete payment.');
+                            // Start checking payment status
+                            checkPaymentStatus(response.response.CheckoutRequestID);
+                        } else {
+                            showMpesaError(response.message || 'Failed to initiate M-PESA payment');
+                            $('button[type="submit"]').prop('disabled', false);
+                        }
+                    },
+                    error: function(xhr) {
+                        const error = xhr.responseJSON || {};
+                        showMpesaError(error.message || 'An error occurred while processing your payment');
+                        $('button[type="submit"]').prop('disabled', false);
+                    },
+                    complete: function() {
+                        mpesaProcessing = false;
+                        $('button[type="submit"]').prop('disabled', false);
+                    }
+                });
+
+                return false;
+            }
+        });
+        
+        function showMpesaSuccess(message) {
+            $('#mpesaLoading').hide();
+            $('#mpesaSuccessText').text(message);
+            $('#mpesaSuccess').show();
+            mpesaProcessing = false;
+            
+            // Optionally submit the form after a short delay
+            setTimeout(() => {
+                $('form#addFeesPayment').unbind('submit').submit();
+            }, 2000);
+        }
+        
+        function showMpesaError(message) {
+            $('#mpesaLoading').hide();
+            $('#mpesaErrorText').text(message);
+            $('#mpesaError').show();
+            mpesaProcessing = false;
+            $('button[type="submit"]').prop('disabled', false);
+        }
 
         $('form#addFeesPayment').on('submit', function (e) {
             if (paymentValue == "Stripe") {

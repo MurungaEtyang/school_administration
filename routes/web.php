@@ -24,10 +24,6 @@ Route::get('/bypass-installation', function () {
     return response('Installation bypassed successfully');
 });
 
-// M-PESA Callback Route
-Route::post('mpesa/callback', [App\Http\Controllers\MpesaController::class, 'handleCallback'])
-    ->name('mpesa.callback');
-
 // Clear application cache
 Route::get('/clear-cache', function () {
     \Artisan::call('config:clear');

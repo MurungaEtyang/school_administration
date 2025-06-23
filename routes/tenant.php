@@ -4,11 +4,21 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Theme\Edulia\FrontendController;
 
-
-
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
-Route::post('login', 'Auth\LoginController@login');
+
+// Login Routes
+Route::match(['get', 'post'], 'login', 'Auth\\LoginController@login')->name('login');
 Route::get('school-secret-login', '\App\Http\Controllers\Auth\LoginController@secretLogin')->name('scl.secret-login');
 
 Route::group(['middleware' => []], function () {
@@ -17,7 +27,7 @@ Route::group(['middleware' => []], function () {
         Route::get('/', 'LandingController@index')->name('/');
     } else {
         if (moduleStatusCheck('Saas') == TRUE) {
-            Route::get('login', 'Auth\LoginController@loginFormTwo')->name('login');
+            // Login route is now handled above
         }
         else{
             Route::get('/', 'SmFrontendController@index')->name('/');

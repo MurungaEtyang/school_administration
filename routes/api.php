@@ -2,6 +2,30 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\MpesaController;
+
+Route::post('login', [AuthController::class, 'login']);
+Route::post('refresh-token', [AuthController::class, 'refreshToken']);
+
+Route::middleware('auth:api')->group(function () {
+    Route::prefix('mpesa')->group(function () {
+        Route::get('credentials', [MpesaController::class, 'getMpesaCredentials'])
+            ->name('mpesa.credentials');
+            
+        Route::get('settings', [MpesaController::class, 'getMpesaSettings'])
+            ->name('mpesa.settings');
+
+        Route::post('stk-push', [MpesaController::class, 'stkPush'])
+            ->name('mpesa.stk-push');
+
+        Route::post('check-status', [MpesaController::class, 'checkStatus'])
+            ->name('mpesa.check-status');
+
+        Route::post('callback', [MpesaController::class, 'handleCallback'])
+            ->name('mpesa.callback');
+    });
+});
 
 Route::get('db-correction', 'SmApiController@dbCorrections');
 Route::post('deviceInfo', 'api\ApiSmStudentAttendanceController@deviceInfo');

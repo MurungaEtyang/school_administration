@@ -17,10 +17,10 @@
                             <div class="col-lg-6 mt-20">
                                 <div class="primary_input">
                                     <input class="primary_input_field form-control"
-                                           type="text" name="phone_number"
-                                           id="phone_number" required
-                                           placeholder="07XXXXXXXX">
-                                    <label class="primary_input_label" for="phone_number">
+                                           type="text" name="mpesa_number"
+                                           id="mpesa_number" required
+                                           placeholder="2547XXXXXXXX">
+                                    <label class="primary_input_label" for="mpesa_number">
                                         @lang('accounts.phone_number') <span class="text-danger"> *</span>
                                     </label>
                                 </div>

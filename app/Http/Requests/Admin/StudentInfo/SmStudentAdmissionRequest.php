@@ -80,7 +80,7 @@ class SmStudentAdmissionRequest extends FormRequest
 
         $rules= [
 
-            'admission_number' => ['integer', Rule::unique('sm_students', 'admission_no')->ignore(optional($student)->id)->where('school_id', $school_id), Rule::requiredIf(function () use ($field) {
+            'admission_number' => ['string', 'max:50', Rule::unique('sm_students', 'admission_no')->ignore(optional($student)->id)->where('school_id', $school_id), Rule::requiredIf(function () use ($field) {
                 return in_array('admission_number', $field);
             })],
             

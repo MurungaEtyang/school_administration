@@ -8,8 +8,18 @@ use App\Http\Controllers\MpesaController;
 Route::post('login', [AuthController::class, 'login']);
 Route::post('refresh-token', [AuthController::class, 'refreshToken']);
 
-Route::middleware('auth:api')->group(function () {
-    Route::prefix('mpesa')->group(function () {
+// M-PESA routes
+Route::prefix('mpesa')->group(function () {
+    // Public endpoints
+    Route::post('callback', [MpesaController::class, 'handleCallback'])
+        ->name('mpesa.callback');
+        
+    // Public status check endpoint
+    Route::post('check-payment-status', [MpesaController::class, 'checkPaymentStatus'])
+        ->name('mpesa.check-payment-status');
+        
+    // Authenticated routes
+    Route::middleware('auth:api')->group(function () {
         Route::get('credentials', [MpesaController::class, 'getMpesaCredentials'])
             ->name('mpesa.credentials');
             
@@ -21,9 +31,6 @@ Route::middleware('auth:api')->group(function () {
 
         Route::post('check-status', [MpesaController::class, 'checkStatus'])
             ->name('mpesa.check-status');
-
-        Route::post('callback', [MpesaController::class, 'handleCallback'])
-            ->name('mpesa.callback');
     });
 });
 

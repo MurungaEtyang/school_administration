@@ -290,7 +290,7 @@
                                                                             class="primary_input_field  form-control{{ $errors->has('admission_number') ? ' is-invalid' : '' }}"
                                                                             type="text" onkeyup="GetAdmin(this.value)"
                                                                             name="admission_number"
-                                                                            value="{{ $max_admission_id != '' ? $max_admission_id + 1 : 1 }}">
+                                                                            value="{{ $max_admission_id != '' ? (is_numeric($max_admission_id) ? (int)$max_admission_id + 1 : $max_admission_id) : '1' }}">
 
 
                                                                         @if ($errors->has('admission_number'))

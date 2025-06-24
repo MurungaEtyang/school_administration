@@ -103,8 +103,13 @@ class SmStudentAdmissionController extends Controller
             }
 
             $data = $this->loadData();
-            $data['max_admission_id'] = SmStudent::where('school_id', Auth::user()->school_id)->max('admission_no');
-            $data['max_roll_id'] = SmStudent::where('school_id', Auth::user()->school_id)->max('roll_no');
+            // Get the latest admission number and roll number
+            $latestStudent = SmStudent::where('school_id', Auth::user()->school_id)
+                ->orderBy('id', 'desc')
+                ->first();
+                
+            $data['max_admission_id'] = $latestStudent ? $latestStudent->admission_no : null;
+            $data['max_roll_id'] = $latestStudent ? $latestStudent->roll_no : null;
 
             if (moduleStatusCheck('University')) {
                 return view('university::admission.add_student_admission', $data);
@@ -302,9 +307,17 @@ class SmStudentAdmissionController extends Controller
             $student->user_id = $user_stu->id;
             $student->parent_id = $exitStaffParent ? $exitStaffParent->id : ($request->parent_id == "" ? $hasParent : $request->parent_id);
             $student->role_id = 2;
-            $student->admission_no = $request->admission_number;
+            
+            // Handle admission number - ensure it's properly set and unique
+            $admissionNo = trim($request->admission_number);
+            $student->admission_no = $admissionNo;
+            
+            // Handle roll number if provided
             if ($request->roll_number) {
-                $student->roll_no = $request->roll_number;
+                $student->roll_no = trim($request->roll_number);
+            } else {
+                // If roll number is not provided, use admission number as roll number
+                $student->roll_no = $admissionNo;
             }
 
             $student->first_name = $request->first_name;
@@ -638,9 +651,17 @@ class SmStudentAdmissionController extends Controller
                 $student->parent_id = $parent->id;
             }
             $student->user_id = $user_stu->id;
-            $student->admission_no = $request->admission_number;
+            
+            // Handle admission number - ensure it's properly set
+            $admissionNo = trim($request->admission_number);
+            $student->admission_no = $admissionNo;
+            
+            // Handle roll number if provided
             if ($request->roll_number) {
-                $student->roll_no = $request->roll_number;
+                $student->roll_no = trim($request->roll_number);
+            } else {
+                // If roll number is not provided, use admission number as roll number
+                $student->roll_no = $admissionNo;
             }
             $student->first_name = $request->first_name;
             $student->last_name = $request->last_name;

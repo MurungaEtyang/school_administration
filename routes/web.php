@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 use Modules\TwoFactorAuth\Entities\TwoFactorSetting;
+use Modules\Fees\Http\Controllers\MpesaCallbackController;
 
 // Bypass installation check
 Route::get('/bypass-installation', function () {
@@ -31,6 +32,22 @@ Route::get('/clear-cache', function () {
     \Artisan::call('view:clear');
     \Artisan::call('route:clear');
     return 'Application cache cleared.';
+});
+
+// M-Pesa API Routes
+Route::prefix('mpesa')->group(function () {
+    // Callback URL for M-Pesa STK push
+    Route::post('/callback', [MpesaCallbackController::class, 'handleStkCallback'])
+        ->name('mpesa.callback');
+        
+    // Save transaction after successful STK push
+    Route::post('/save-transaction', [MpesaCallbackController::class, 'saveTransaction'])
+        ->name('mpesa.save-transaction');
+        
+    // Check payment status (allow both web and API access)
+    Route::match(['get', 'post'], '/payment/status', [MpesaCallbackController::class, 'checkPaymentStatus'])
+        ->name('mpesa.payment.status')
+        ->withoutMiddleware(['web', 'csrf']);
 });
 
 Route::get('resdg', function () {

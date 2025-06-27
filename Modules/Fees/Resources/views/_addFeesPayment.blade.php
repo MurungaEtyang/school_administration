@@ -529,8 +529,7 @@
                     toastr.error('Please enter your M-PESA registered phone number');
                     return false;
                 }
-                
-                // Validate phone number format (Kenyan)
+
                 const phoneRegex = /^(?:0|\+?254)([0-9]{9})$/;
                 if (!phoneRegex.test(phone)) {
                     toastr.error('Please enter a valid Kenyan phone number (e.g., 0712345678)');
@@ -547,7 +546,7 @@
                 $('button[type="submit"]').prop('disabled', true);
                 
                 // Prepare STK Push data with required format
-                const studentId = '{{ $invoiceInfo->recordDetail->id ?? "" }}';
+                const studentId = '{{ $invoiceInfo->studentInfo->admission_no ?? "" }}';
                 
                 // Get the paid amount from the input field
                 let amount = 0;
@@ -618,7 +617,7 @@
                 }
                 
                 // Ensure amount is a valid number and greater than 0
-                amount = isNaN(amount) || amount <= 0 ? 0 : amount.toFixed(2);
+                amount = isNaN(amount) || amount <= 0 ? 0 : parseFloat(amount).toFixed(2);
                 
                 if (amount <= 0) {
                     toastr.error('Please enter a valid payment amount');
@@ -628,182 +627,69 @@
                     return false;
                 }
                 
-                console.log('Final amount to be paid:', amount);
+                // Get invoice ID from the form
+                const invoiceId = $('input[name="invoice_id"]').val();
                 
                 // Prepare STK push data
                 const stkPushData = {
-                    phone: $('#mpesa_phone').val().replace(/^0/, '254'), // Format phone to 254 format
+                    phone: phone,
                     amount: amount,
                     studentId: studentId,
-                    callback_url: '{{ route("mpesa.callback") }}' // Add callback URL
+                    invoiceId: invoiceId,
+                    _token: '{{ csrf_token() }}'
                 };
+                // Show loading state
+                mpesaProcessing = true;
+                $('#mpesaLoading').show();
+                $('button[type="submit"]').prop('disabled', true);
                 
-                console.log('Sending STK Push:', stkPushData);
-                
-                // Function to check payment status
-                function checkPaymentStatus(checkoutRequestId, attempts = 0) {
-                    if (attempts >= 15) {
-                        showMpesaError('Payment status check timed out. Please check your M-PESA messages.');
-                        $('button[type="submit"]').prop('disabled', false);
-                        $('#mpesaLoading').hide();
-                        return;
-                    }
-
-                    // Show loading state on first attempt
-                    if (attempts === 0) {
-                        $('#mpesaLoading').show();
-                        $('#mpesaError').hide();
-                        $('#mpesaSuccess').hide();
-                    }
-
-                    console.log(`Checking payment status (attempt ${attempts + 1})`);
-
-                    // Get the CSRF token from the meta tag
-                    const token = $('meta[name="csrf-token"]').attr('content');
-
-                    // Check transaction status with proper M-PESA callback format
-                    const callbackData = {
-                        Body: {
-                            stkCallback: {
-                                MerchantRequestID: 'checkout_' + Date.now(),
-                                CheckoutRequestID: checkoutRequestId,
-                                ResultCode: attempts > 5 ? 0 : 1032, // Simulate success after 5 attempts
-                                ResultDesc: attempts > 5 ? 'The service request is processed successfully.' : 'Request processing',
-                                CallbackMetadata: attempts > 5 ? {
-                                    Item: [
-                                        { Name: 'Amount', Value: parseFloat($('#amount').val() || '0') },
-                                        { Name: 'MpesaReceiptNumber', Value: 'MPS' + Date.now().toString().substr(-8) },
-                                        { Name: 'TransactionDate', Value: Math.floor(Date.now() / 1000) },
-                                        { Name: 'PhoneNumber', Value: $('#mpesa_phone').val() || '254712345678' }
-                                    ]
-                                } : null
-                            }
-                        }
-                    };
-
-                    console.log('Sending M-PESA callback:', callbackData);
-
-                    $.ajax({
-                        url: '/api/mpesa/callback',
-                        type: 'POST',
-                        data: JSON.stringify(callbackData),
-                        contentType: 'application/json',
-                        headers: {
-                            'X-CSRF-TOKEN': token,
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'Accept': 'application/json'
-                        },
-                        success: function(response) {
-                            console.log('Payment status check response:', response);
-
-                            if (response.status === 'completed') {
-                                // Payment completed successfully
-                                showMpesaSuccess('Payment successful! Redirecting...');
-                                // Clear loading state
-                                $('#mpesaLoading').hide();
-                                // Redirect to invoice list after a short delay
-                                setTimeout(() => {
-                                    window.location.href = '{{ route("fees.fees-invoice-list") }}';
-                                }, 2000);
-
-                            } else if (response.status === 'failed') {
-                                // Payment failed
-                                showMpesaError('Payment failed: ' + (response.message || 'Unknown error'));
-                                $('button[type="submit"]').prop('disabled', false);
-                                $('#mpesaLoading').hide();
-
-                            } else if (response.message && response.message.includes('Unauthenticated')) {
-                                // Handle authentication errors
-                                console.error('Authentication error:', response.message);
-                                // Clear any invalid token
-                                localStorage.removeItem('auth_token');
-
-                                if (attempts < 2) {
-                                    // Retry once with a new token
-                                    console.log('Retrying with new token...');
-                                    setTimeout(() => checkPaymentStatus(checkoutRequestId, attempts + 1), 1000);
-                                } else {
-                                    showMpesaError('Session expired. Please refresh the page and try again.');
-                                    $('button[type="submit"]').prop('disabled', false);
-                                    $('#mpesaLoading').hide();
-                                }
-
-                            } else {
-                                // Payment still processing, check again with exponential backoff
-                                const delay = Math.min(1000 * Math.pow(1.5, attempts), 10000); // Max 10s delay
-                                console.log(`Payment processing, checking again in ${delay}ms...`);
-
-                                // Show a status message if this is taking a while
-                                if (attempts === 3) {
-                                    showMpesaSuccess('Payment request received. Please complete the payment on your phone...');
-                                }
-
-                                setTimeout(() => checkPaymentStatus(checkoutRequestId, attempts + 1), delay);
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error checking payment status:', { xhr, status, error });
-
-                            // Handle different error cases
-                            if (xhr.status === 401) {
-                                // Unauthorized - clear token
-                                console.log('Authentication failed, clearing token');
-                                localStorage.removeItem('auth_token');
-                                $('meta[name="api-token"]').remove();
-
-                                if (attempts < 2) {
-                                    // Retry once with a new token
-                                    console.log('Retrying with new token...');
-                                    setTimeout(() => checkPaymentStatus(checkoutRequestId, attempts + 1), 1000);
-                                    return;
-                                }
-                            }
-
-                            // For network errors or other issues, use exponential backoff
-                            const delay = Math.min(1000 * Math.pow(1.5, attempts), 10000); // Max 10s delay
-                            console.log(`Retrying in ${delay}ms...`);
-
-                            // Show a warning if this is taking too long
-                            if (attempts > 3) {
-                                showMpesaError('Still processing your payment. This is taking longer than usual...');
-                            }
-
-                            setTimeout(() => checkPaymentStatus(checkoutRequestId, attempts + 1), delay);
-                        }
-                    });
-                }
-
-                const stkPushUrl = 'http://localhost:3000/api/stkPush';
-
+                // Call the Node.js API directly to initiate STK push
                 $.ajax({
-                    url: stkPushUrl,
+                    url: '{{ env("MPESA_NODE_API_URL") }}',
                     type: 'POST',
                     data: JSON.stringify(stkPushData),
                     contentType: 'application/json',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
                     success: function(response) {
                         console.log('M-PESA payment response:', response);
-                        if (response.success && response.response?.CheckoutRequestID) {
-                            showMpesaSuccess('Payment request sent. Please check your phone to complete payment.');
-                            // Start checking payment status
-                            checkPaymentStatus(response.response.CheckoutRequestID);
+                        if (response.success && response.response.CheckoutRequestID) {
+                            // Save the transaction details to our database
+                            $.ajax({
+                                url: '{{ route("mpesa.save-transaction") }}',
+                                type: 'POST',
+                                data: {
+                                    phone: phone,
+                                    amount: amount,
+                                    student_id: studentId,
+                                    invoice_id: invoiceId,
+                                    checkout_request_id: response.response.CheckoutRequestID,
+                                    merchant_request_id: response.response.MerchantRequestID,
+                                    _token: '{{ csrf_token() }}'
+                                },
+                                success: function(saveResponse) {
+                                    console.log('Transaction saved:', saveResponse);
+                                    // Show success message
+                                    showMpesaSuccess('Payment request sent. Please check your phone to complete payment.');
+                                    
+                                    // Start polling for payment status
+                                    checkMpesaPaymentStatus(response.response.CheckoutRequestID, response.response.MerchantRequestID);
+                                },
+                                error: function() {
+                                    console.error('Failed to save transaction');
+                                    // Still continue with payment flow even if saving fails
+                                    showMpesaSuccess('Payment request sent. Please check your phone to complete payment.');
+                                    checkMpesaPaymentStatus(response.response.CheckoutRequestID, response.response.MerchantRequestID);
+                                }
+                            });
                         } else {
                             showMpesaError(response.message || 'Failed to initiate M-PESA payment');
-                            $('button[type="submit"]').prop('disabled', false);
+                            resetMpesaForm();
                         }
                     },
                     error: function(xhr) {
+                        console.error('M-PESA Error:', xhr);
                         const error = xhr.responseJSON || {};
                         showMpesaError(error.message || 'An error occurred while processing your payment');
-                        $('button[type="submit"]').prop('disabled', false);
-                    },
-                    complete: function() {
-                        mpesaProcessing = false;
-                        $('button[type="submit"]').prop('disabled', false);
+                        resetMpesaForm();
                     }
                 });
 
@@ -811,23 +697,150 @@
             }
         });
         
+        // Show M-PESA success message
         function showMpesaSuccess(message) {
             $('#mpesaLoading').hide();
-            $('#mpesaSuccessText').text(message);
             $('#mpesaSuccess').show();
-            mpesaProcessing = false;
+            $('#mpesaError').hide();
+            $('#mpesaSuccessText').html('<i class="ti-check text-success"></i> ' + message);
             
-            // Optionally submit the form after a short delay
-            setTimeout(() => {
-                $('form#addFeesPayment').unbind('submit').submit();
-            }, 2000);
+            // Show toastr success notification
+            toastr.success(message, 'Success!', {
+                closeButton: true,
+                progressBar: true,
+                timeOut: 5000,
+                extendedTimeOut: 2000,
+                positionClass: 'toast-top-right'
+            });
+            
+            // Auto-close the success message after 10 seconds
+            setTimeout(function() {
+                $('#mpesaSuccess').fadeOut();
+            }, 10000);
         }
         
+        // Show M-PESA error message
         function showMpesaError(message) {
             $('#mpesaLoading').hide();
-            $('#mpesaErrorText').text(message);
             $('#mpesaError').show();
+            $('#mpesaSuccess').hide();
+            $('#mpesaErrorText').text(message);
+            toastr.error(message);
+        }
+        
+        // Check M-PESA payment status
+        function checkMpesaPaymentStatus(checkoutRequestId, transactionId) {
+            let attempts = 0;
+            const maxAttempts = 20;
+            const checkInterval = 6000; // 6 seconds
+            
+            // Debug log the parameters
+            console.log('Starting payment status check with:', { 
+                checkoutRequestId, 
+                transactionId,
+                url: '{{ route("mpesa.payment.status") }}'
+            });
+            
+            const checkStatus = setInterval(function() {
+                attempts++;
+                console.log(`Checking payment status (Attempt ${attempts}/${maxAttempts})`);
+                
+                if (attempts >= maxAttempts) {
+                    clearInterval(checkStatus);
+                    showMpesaError('Payment verification timeout. Please check your M-PESA messages or try again.');
+                    resetMpesaForm();
+                    return;
+                }
+                
+                // Build URL with query parameters
+                const statusUrl = new URL('{{ route("mpesa.payment.status") }}', window.location.origin);
+                statusUrl.searchParams.append('checkout_request_id', checkoutRequestId);
+                if (transactionId) {
+                    statusUrl.searchParams.append('transaction_id', transactionId);
+                }
+                
+                console.log('Checking status at:', statusUrl.toString());
+                
+                // Make the request directly to the URL with query parameters
+                console.log('Sending payment status check request to:', statusUrl.toString());
+                $.ajax({
+                    url: statusUrl.toString(),
+                    type: 'GET',
+                    success: function(response) {
+                        console.group('Payment Status Check Response');
+                        console.log('Attempt:', attempts);
+                        console.log('Status:', response.status);
+                        console.log('Full Response:', response);
+                        console.log('Receipt Number:', response.receipt_number || 'Not available');
+                        console.log('Amount:', response.amount || 'Not available');
+                        console.log('Message:', response.message || 'No message');
+                        console.groupEnd();
+                        
+                        if (response.status === 'completed') {
+                            // Payment completed successfully
+                            clearInterval(checkStatus);
+                            const receiptNumber = response.receipt_number || 'N/A';
+                            const amountPaid = response.amount ? 'KSh ' + parseFloat(response.amount).toLocaleString('en-US', {minimumFractionDigits: 2}) : '';
+                            const phoneNumber = response.phone ? response.phone : '';
+                            
+                            const successMessage = `
+                                <div class="text-left">
+                                    <h5 class="text-success mb-2"><i class="ti-check-circle mr-2"></i> Payment Received Successfully!</h5>
+                                    <div class="pl-4">
+                                        ${amountPaid ? `<p class="mb-1"><strong>Amount:</strong> ${amountPaid}</p>` : ''}
+                                        ${receiptNumber ? `<p class="mb-1"><strong>Receipt #:</strong> ${receiptNumber}</p>` : ''}
+                                        ${phoneNumber ? `<p class="mb-1"><strong>Paid by:</strong> ${phoneNumber}</p>` : ''}
+                                        <p class="mb-0 mt-2 text-muted">Updating your records...</p>
+                                    </div>
+                                </div>
+                            `;
+                            
+                            showMpesaSuccess(successMessage);
+                            
+                            // Show a more prominent success notification
+                            toastr.success(
+                                `Payment of ${amountPaid} received successfully! Receipt: ${receiptNumber}`,
+                                'Payment Successful!',
+                                {
+                                    timeOut: 10000,
+                                    extendedTimeOut: 5000,
+                                    closeButton: true,
+                                    progressBar: true,
+                                    positionClass: 'toast-top-center',
+                                    onHidden: function() {
+                                        window.location.reload();
+                                    }
+                                }
+                            );
+                            
+                            // Reload the page after 5 seconds to show updated balance
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 5000);
+                            
+                        } else if (response.status === 'failed' || response.status === 'cancelled') {
+                            // Payment failed or was cancelled
+                            clearInterval(checkStatus);
+                            showMpesaError('Payment ' + response.status + '. ' + (response.message || 'Please try again.'));
+                            resetMpesaForm();
+                        }
+                        // If status is still pending, continue polling
+                    },
+                    error: function(xhr) {
+                        console.error('Status check error:', xhr);
+                        // Continue polling on error
+                    }
+                });
+            }, checkInterval);
+        }
+        
+        // Reset M-PESA form to initial state
+        function resetMpesaForm() {
             mpesaProcessing = false;
+            $('#mpesaLoading').hide();
+            $('#mpesaSuccess').hide();
+            $('#mpesaError').hide();
+            $('#mpesa_phone').prop('disabled', false);
             $('button[type="submit"]').prop('disabled', false);
         }
 
@@ -844,6 +857,7 @@
                     }, stripeResponseHandler);
                 }
             }
+
 
                     @if(moduleStatusCheck('RazorPay'))
             else if (paymentValue == 'RazorPay') {
@@ -883,8 +897,6 @@
             }
         }
 
-        // Show/Hide Fields Based on Payment Method
-        // Show/hide based on payment method
         $(document).on('change', '#paymentMethodAddFees', function () {
             let gateway = $(this).val();
             paymentValue = gateway;
@@ -909,7 +921,6 @@
             serviceCharge(gateway, showStudentPaidAmount, 'payment_method');
         });
 
-        // M-PESA phone number validation on submit
         $('form#addFeesPayment').on('submit', function (e) {
             if (paymentValue === 'M-PESA') {
                 const phone = $('#phone_number').val().trim();
@@ -922,7 +933,6 @@
         });
 
 
-        // Service charge update on paid amount input
         $(document).on('keyup', '.addFeesPaidAmount', function () {
             let gateway = $('#paymentMethodAddFees').val();
             if (gateway === '') return;

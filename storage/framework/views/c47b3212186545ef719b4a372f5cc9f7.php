@@ -18,6 +18,12 @@
 
     <!-- Styles -->
     <link href="<?php echo e(asset('public/css/app.css')); ?>" rel="stylesheet">
+    <!-- Toastr CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 </head>
 <body>
     <div id="app">

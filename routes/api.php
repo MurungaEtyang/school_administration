@@ -8,6 +8,13 @@ use App\Http\Controllers\MpesaController;
 Route::post('login', [AuthController::class, 'login']);
 Route::post('refresh-token', [AuthController::class, 'refreshToken']);
 
+// Debug route - remove in production
+Route::get('debug/transactions', function() {
+    return response()->json([
+        'transactions' => \App\Models\MpesaTransaction::orderBy('created_at', 'desc')->get()
+    ]);
+});
+
 // M-PESA routes
 Route::prefix('mpesa')->group(function () {
     // Public endpoints

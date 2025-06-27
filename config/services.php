@@ -37,6 +37,13 @@ return [
     'fcm' => [
         'key' => env('FCM_SECRET_KEY')
     ],
+    
+    'mpesa' => [
+        // M-PESA Node.js API configuration
+        'node_api_url' => 'https://api.mpesa.stkpush.ziz.co.ke',
+        'stk_push_path' => '/api/stkPush',
+        'callback_url' => env('APP_URL') . '/mpesa/callback',
+    ],
     'google' => [
         // Our Google API credentials.
         'client_id' => env('GOOGLE_CLIENT_ID'),

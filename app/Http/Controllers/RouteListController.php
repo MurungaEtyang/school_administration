@@ -118,8 +118,8 @@ class RouteListController extends Controller
          ),
          3 => 
          array (
-           'name' => '➡ Number of Teacher',
-           'route' => 'number-of-teacher',
+            'name' => '➡ Number of Lecturer',
+            'route' => 'number-of-lecturer',
            'parent_route' => 'dashboard',
            'type' => 3,
          ),

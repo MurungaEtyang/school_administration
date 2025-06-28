@@ -72,7 +72,7 @@ return [
     'enter_subject' => 'Enter Subject',
     'enter_message' => 'Enter Message',
     'send_message' => 'Enter Message',
-    'Total_Teachers_count' => 'Total Teachers Count',
+    'Total_Teachers_count' => 'Total Lecturers Count',
     'faculty' => 'Faculty',
     'Opened_in' => 'Opened In',
     'delete_news' => 'Delete News',

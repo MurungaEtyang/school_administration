@@ -67,8 +67,8 @@
                                     <p class="mb-0">@lang('front_settings.Total_Teachers_count')</p>
                                 </div>
                                 <h1 class="gradient-color2">
-                                    @if(isset($totalTeachers))
-                                        {{count($totalTeachers)}}
+                                    @if(isset($totalLecturers))
+                                        {{count($totalLecturers)}}
                                     @endif</h1>
                                 </h1>
                             </div>

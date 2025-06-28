@@ -2507,7 +2507,7 @@
         }
     };
 
-    // class routine get teacher
+    // class routine get lecturer
 
     changeSubject = () => {
         var url = $("#url").val();
@@ -2517,29 +2517,29 @@
             subject: $("#subject").val(),
             class_time_id: $("#class_time_id").val(),
             day: $("#day").val(),
-            update_teacher_id: $("#update_teacher_id").val(),
+            update_lecturer_id: $("#update_lecturer_id").val(),
         };
         // console.log(formData);
         $.ajax({
             type: "GET",
             data: formData,
             dataType: "json",
-            url: url + "/" + "get-class-teacher-ajax",
+            url: url + "/" + "get-class-lecturer-ajax",
             success: function(data) {
                 if (data[0] != "") {
-                    $("#teacher_name").val(data[0]["full_name"]);
-                    $("#teacher_id").val(data[0]["id"]);
-                    $("#teacher_error").html("");
+                    $("#lecturer_name").val(data[0]["full_name"]);
+                    $("#lecturer_id").val(data[0]["id"]);
+                    $("#lecturer_error").html("");
                 } else {
                     if (data[1] == 0) {
-                        $("#teacher_error").html("No teacher Assigned for the subject");
+                        $("#lecturer_error").html("No lecturer Assigned for the subject");
                     } else {
-                        $("#teacher_error").html(
-                            "the subject's teacher already assinged for the same time"
+                        $("#lecturer_error").html(
+                            "the subject's lecturer already assinged for the same time"
                         );
                     }
-                    $("#teacher_name").val("");
-                    $("#teacher_id").val("");
+                    $("#lecturer_name").val("");
+                    $("#lecturer_id").val("");
                 }
             },
             error: function(data) {
@@ -2555,7 +2555,7 @@
         var end_time = document.getElementsByClassName("end_time_required").value;
         var subject = document.getElementById("subject").value;
         var room = document.getElementById("room").value;
-        var teacher_name = document.getElementById("teacher_name").value;
+        var lecturer_name = document.getElementById("lecturer_name").value;
 
         var i = 0;
 
@@ -2590,12 +2590,12 @@
             document.getElementById("room_error").innerHTML = "";
         }
 
-        if (teacher_name == "") {
-            document.getElementById("teacher_error").innerHTML =
+        if (lecturer_name == "") {
+            document.getElementById("lecturer_error").innerHTML =
                 "Teacher field is required";
             i++;
         } else {
-            document.getElementById("teacher_error").innerHTML = "";
+            document.getElementById("lecturer_error").innerHTML = "";
         }
 
         if (i > 0) {
@@ -2616,90 +2616,90 @@
                 dataType: "json",
                 url: url + "/" + "assign-subject-get-by-ajax",
                 success: function(data) {
-                    var subject_teacher = "";
-                    subject_teacher +=
+                    var subject_lecturer = "";
+                    subject_lecturer +=
                         "<div class='col-lg-12 mb-30' id='assign-subject-" +
                         divCount +
                         "'>";
-                    subject_teacher += "<div class='row align-items-center'>";
-                    subject_teacher += "<div class='col-lg-5 mb-3 mb-lg-0'>";
-                    subject_teacher +=
+                    subject_lecturer += "<div class='row align-items-center'>";
+                    subject_lecturer += "<div class='col-lg-5 mb-3 mb-lg-0'>";
+                    subject_lecturer +=
                         "<select class='primary_select' name='subjects[]' style='display:none'>";
-                    subject_teacher +=
+                    subject_lecturer +=
                         "<option data-display='"+window.jsLang('select_subject')+"'  value=''>"+window.jsLang('select_subject')+"</option>";
                     $.each(data[0], function(key, subject) {
-                        subject_teacher +=
+                        subject_lecturer +=
                             "<option value=" +
                             subject.id +
                             ">" +
                             subject.subject_name +
                             "</option>";
                     });
-                    subject_teacher += "</select>";
+                    subject_lecturer += "</select>";
 
-                    subject_teacher +=
+                    subject_lecturer +=
                         "<div class='nice-select primary_select form-control' tabindex='0'>";
-                    subject_teacher += "<span class='current'>"+window.jsLang('select_subject')+"</span>";
-                    subject_teacher +=
+                    subject_lecturer += "<span class='current'>"+window.jsLang('select_subject')+"</span>";
+                    subject_lecturer +=
                         "<div class='nice-select-search-box'><input type='text' class='nice-select-search' placeholder='Search...'></div>";
-                    subject_teacher += "<ul class='list'>";
-                    subject_teacher +=
+                    subject_lecturer += "<ul class='list'>";
+                    subject_lecturer +=
                         "<li data-value='' data-display='"+window.jsLang('select_subject')+"' class='option selected'>"+window.jsLang('select_subject')+"</li>";
                     $.each(data[0], function(key, subject) {
-                        subject_teacher +=
+                        subject_lecturer +=
                             "<li data-value=" +
                             subject.id +
                             " class='option'>" +
                             subject.subject_name +
                             "</li>";
                     });
-                    subject_teacher += "</ul>";
-                    subject_teacher += "</div>";
-                    subject_teacher += "</div>";
-                    subject_teacher += "<div class='col-lg-5 mb-3 mb-lg-0'>";
-                    subject_teacher +=
-                        "<select class='primary_select form-control' name='teachers[]' style='display:none'>";
-                    subject_teacher +=
-                        "<option data-display='"+window.jsLang('select_teacher')+"' value=''>"+window.jsLang('select_teacher')+"</option>";
-                    $.each(data[1], function(key, teacher) {
-                        subject_teacher +=
+                    subject_lecturer += "</ul>";
+                    subject_lecturer += "</div>";
+                    subject_lecturer += "</div>";
+                    subject_lecturer += "<div class='col-lg-5 mb-3 mb-lg-0'>";
+                    subject_lecturer +=
+                        "<select class='primary_select form-control' name='lecturers[]' style='display:none'>";
+                    subject_lecturer +=
+                        "<option data-display='"+window.jsLang('select_lecturer')+"' value=''>"+window.jsLang('select_lecturer')+"</option>";
+                    $.each(data[1], function(key, lecturer) {
+                        subject_lecturer +=
                             "<option value=" +
-                            teacher.id +
+                            lecturer.id +
                             ">" +
-                            teacher.full_name +
+                            lecturer.full_name +
                             "</option>";
                     });
-                    subject_teacher += "</select>";
-                    subject_teacher +=
+                    subject_lecturer += "</select>";
+                    subject_lecturer +=
                         "<div class='nice-select primary_select form-control' tabindex='0'>";
-                    subject_teacher += "<span class='current'>"+window.jsLang('select_teacher')+"</span>";
-                    subject_teacher +=
+                    subject_lecturer += "<span class='current'>"+window.jsLang('select_lecturer')+"</span>";
+                    subject_lecturer +=
                         "<div class='nice-select-search-box'><input type='text' class='nice-select-search' placeholder='Search...'></div>";
-                    subject_teacher += "<ul class='list'>";
-                    subject_teacher +=
-                        "<li data-value='' data-display='"+window.jsLang('select_teacher')+"' class='option selected'>"+window.jsLang('select_teacher')+"</li>";
-                    $.each(data[1], function(key, teacher) {
-                        subject_teacher +=
+                    subject_lecturer += "<ul class='list'>";
+                    subject_lecturer +=
+                        "<li data-value='' data-display='"+window.jsLang('select_lecturer')+"' class='option selected'>"+window.jsLang('select_lecturer')+"</li>";
+                    $.each(data[1], function(key, lecturer) {
+                        subject_lecturer +=
                             "<li data-value=" +
-                            teacher.id +
+                            lecturer.id +
                             " class='option'>" +
-                            teacher.full_name +
+                            lecturer.full_name +
                             "</li>";
                     });
-                    subject_teacher += "</ul>";
-                    subject_teacher += "</div>";
-                    subject_teacher += "</div>";
-                    subject_teacher += "<div class='col-lg-2 col-12 text-center text-lg-left'>";
-                    subject_teacher +=
+                    subject_lecturer += "</ul>";
+                    subject_lecturer += "</div>";
+                    subject_lecturer += "</div>";
+                    subject_lecturer += "<div class='col-lg-2 col-12 text-center text-lg-left'>";
+                    subject_lecturer +=
                         "<button class='primary-btn icon-only fix-gr-bg' id='removeSubject' onclick='deleteSubject(" +
                         divCount +
                         ")' type='button'>";
-                    subject_teacher += "<span class='ti-trash' ></span>";
-                    subject_teacher += "</button>";
-                    subject_teacher += "</div>";
-                    subject_teacher += "</div>";
-                    subject_teacher += "</div>";
-                    $("#assign-subject").append(subject_teacher);
+                    subject_lecturer += "<span class='ti-trash' ></span>";
+                    subject_lecturer += "</button>";
+                    subject_lecturer += "</div>";
+                    subject_lecturer += "</div>";
+                    subject_lecturer += "</div>";
+                    $("#assign-subject").append(subject_lecturer);
                 },
                 error: function(data) {
                     // console.log("Error:", data);
@@ -4171,7 +4171,7 @@
         }
     });
 
-    // teacher upload content
+    // lecturer upload content
 
     $("#student").on("click", function() {
         if ($(this).is(":checked")) {
@@ -6229,90 +6229,90 @@
                     dataType: "json",
                     url: url + "/" + "global-assign-subject-get-by-ajax",
                     success: function(data) {
-                        var subject_teacher = "";
-                        subject_teacher +=
+                        var subject_lecturer = "";
+                        subject_lecturer +=
                             "<div class='col-lg-12 mb-30' id='assign-subject-" +
                             divCount +
                             "'>";
-                        subject_teacher += "<div class='row'>";
-                        subject_teacher += "<div class='col-lg-5 mb-3 mb-lg-0'>";
-                        subject_teacher +=
+                        subject_lecturer += "<div class='row'>";
+                        subject_lecturer += "<div class='col-lg-5 mb-3 mb-lg-0'>";
+                        subject_lecturer +=
                             "<select class='primary_select' name='subjects[]' style='display:none'>";
-                        subject_teacher +=
+                        subject_lecturer +=
                             "<option data-display='"+window.jsLang('select_subject')+"'  value=''>"+window.jsLang('select_subject')+"</option>";
                         $.each(data[0], function(key, subject) {
-                            subject_teacher +=
+                            subject_lecturer +=
                                 "<option value=" +
                                 subject.id +
                                 ">" +
                                 subject.subject_name +
                                 "</option>";
                         });
-                        subject_teacher += "</select>";
+                        subject_lecturer += "</select>";
     
-                        subject_teacher +=
+                        subject_lecturer +=
                             "<div class='nice-select primary_select form-control' tabindex='0'>";
-                        subject_teacher += "<span class='current'>"+window.jsLang('select_subject')+"</span>";
-                        subject_teacher +=
+                        subject_lecturer += "<span class='current'>"+window.jsLang('select_subject')+"</span>";
+                        subject_lecturer +=
                             "<div class='nice-select-search-box'><input type='text' class='nice-select-search' placeholder='Search...'></div>";
-                        subject_teacher += "<ul class='list'>";
-                        subject_teacher +=
+                        subject_lecturer += "<ul class='list'>";
+                        subject_lecturer +=
                             "<li data-value='' data-display='"+window.jsLang('select_subject')+"' class='option selected'>"+window.jsLang('select_subject')+"</li>";
                         $.each(data[0], function(key, subject) {
-                            subject_teacher +=
+                            subject_lecturer +=
                                 "<li data-value=" +
                                 subject.id +
                                 " class='option'>" +
                                 subject.subject_name +
                                 "</li>";
                         });
-                        subject_teacher += "</ul>";
-                        subject_teacher += "</div>";
-                        subject_teacher += "</div>";
-                        subject_teacher += "<div class='col-lg-5 mb-3 mb-lg-0'>";
-                        subject_teacher +=
-                            "<select class='primary_select form-control' name='teachers[]' style='display:none'>";
-                        subject_teacher +=
-                            "<option data-display='"+window.jsLang('select_teacher')+"' value=''>"+window.jsLang('select_teacher')+"</option>";
-                        $.each(data[1], function(key, teacher) {
-                            subject_teacher +=
+                        subject_lecturer += "</ul>";
+                        subject_lecturer += "</div>";
+                        subject_lecturer += "</div>";
+                        subject_lecturer += "<div class='col-lg-5 mb-3 mb-lg-0'>";
+                        subject_lecturer +=
+                            "<select class='primary_select form-control' name='lecturers[]' style='display:none'>";
+                        subject_lecturer +=
+                            "<option data-display='"+window.jsLang('select_lecturer')+"' value=''>"+window.jsLang('select_lecturer')+"</option>";
+                        $.each(data[1], function(key, lecturer) {
+                            subject_lecturer +=
                                 "<option value=" +
-                                teacher.id +
+                                lecturer.id +
                                 ">" +
-                                teacher.full_name +
+                                lecturer.full_name +
                                 "</option>";
                         });
-                        subject_teacher += "</select>";
-                        subject_teacher +=
+                        subject_lecturer += "</select>";
+                        subject_lecturer +=
                             "<div class='nice-select primary_select form-control' tabindex='0'>";
-                        subject_teacher += "<span class='current'>"+window.jsLang('select_teacher')+"</span>";
-                        subject_teacher +=
+                        subject_lecturer += "<span class='current'>"+window.jsLang('select_lecturer')+"</span>";
+                        subject_lecturer +=
                             "<div class='nice-select-search-box'><input type='text' class='nice-select-search' placeholder='Search...'></div>";
-                        subject_teacher += "<ul class='list'>";
-                        subject_teacher +=
-                            "<li data-value='' data-display='"+window.jsLang('select_teacher')+"' class='option selected'>"+window.jsLang('select_teacher')+"</li>";
-                        $.each(data[1], function(key, teacher) {
-                            subject_teacher +=
+                        subject_lecturer += "<ul class='list'>";
+                        subject_lecturer +=
+                            "<li data-value='' data-display='"+window.jsLang('select_lecturer')+"' class='option selected'>"+window.jsLang('select_lecturer')+"</li>";
+                        $.each(data[1], function(key, lecturer) {
+                            subject_lecturer +=
                                 "<li data-value=" +
-                                teacher.id +
+                                lecturer.id +
                                 " class='option'>" +
-                                teacher.full_name +
+                                lecturer.full_name +
                                 "</li>";
                         });
-                        subject_teacher += "</ul>";
-                        subject_teacher += "</div>";
-                        subject_teacher += "</div>";
-                        subject_teacher += "<div class='col-lg-2'>";
-                        subject_teacher +=
+                        subject_lecturer += "</ul>";
+                        subject_lecturer += "</div>";
+                        subject_lecturer += "</div>";
+                        subject_lecturer += "<div class='col-lg-2'>";
+                        subject_lecturer +=
                             "<button class='primary-btn icon-only fix-gr-bg' id='removeSubject' onclick='deleteSubject(" +
                             divCount +
                             ")' type='button'>";
-                        subject_teacher += "<span class='ti-trash' ></span>";
-                        subject_teacher += "</button>";
-                        subject_teacher += "</div>";
-                        subject_teacher += "</div>";
-                        subject_teacher += "</div>";
-                        $("#assign-subject").append(subject_teacher);
+                        subject_lecturer += "<span class='ti-trash' ></span>";
+                        subject_lecturer += "</button>";
+                        subject_lecturer += "</div>";
+                        subject_lecturer += "</div>";
+                        subject_lecturer += "</div>";
+                        $("#assign-subject").append(subject_lecturer);
                     },
                     error: function(data) {
                         // console.log("Error:", data);

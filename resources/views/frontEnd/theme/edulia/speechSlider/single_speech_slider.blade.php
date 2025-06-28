@@ -15,16 +15,16 @@
         </div>
     </section>
 
-    <section class="section_padding teacher">
+    <section class="section_padding lecturer">
         <div class="container">
             <div class="row">
                 <div class="col-xl-3 col-md-4 col-sm-12 mb-3 mb-md-0">
-                    <div class="teacher_details">
-                        <div class="teacher_details_img">
-                            <div class="teacher_details_img_wrapper">
+                    <div class="lecturer_details">
+                        <div class="lecturer_details_img">
+                            <div class="lecturer_details_img_wrapper">
                                 <img src="{{ url(@$singleSpeechSlider->image) }}" alt="">
                             </div>
-                            <div class="teacher_details_img_wrapper_inner">
+                            <div class="lecturer_details_img_wrapper_inner">
                                 <h4>{{ $singleSpeechSlider->name }}</h4>
                                 <p>{{ $singleSpeechSlider->designation }}</p>
                             </div>
@@ -37,7 +37,7 @@
                         <h4 class="mb-3">
                             {{ $singleSpeechSlider->title }}
                         </h4>
-                        <div class="teacher_details_content">
+                        <div class="lecturer_details_content">
                             <p>{!! $singleSpeechSlider->speech !!}</p>
                         </div>
                     </div>

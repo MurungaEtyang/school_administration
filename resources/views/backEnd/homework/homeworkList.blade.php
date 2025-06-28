@@ -204,9 +204,10 @@
                     <h4 class="modal-title">@lang('common.delete')</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                {{ Form::open(['route' => 'homework-delete', 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
+                {{ Form::open(['route' => 'delete-homework', 'method' => 'POST', 'enctype' => 'multipart/form-data']) }}
                 <div class="modal-body">
                     <input type="hidden" name="id" value="">
+                    @csrf
                     <div class="text-center">
                         <h4>@lang('common.are_you_sure_to_delete')</h4>
                     </div>

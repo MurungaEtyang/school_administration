@@ -97,18 +97,18 @@
                                 </a>
                             </div>
                         @endif
-                        @if (userPermission('number-of-teacher'))
+                        @if (userPermission('number-of-lecturer'))
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <a href="{{ route('staff_directory') }}" class="d-block">
                                     <div class="white-box single-summery violet">
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <h3>@lang('common.teachers')</h3>
-                                                <p class="mb-0">@lang('dashboard.total_teachers')</p>
+                                                <h3>@lang('common.lecturers')</h3>
+                                                <p class="mb-0">@lang('dashboard.total_lecturers')</p>
                                             </div>
                                             <h1 class="gradient-color2">
-                                                @if (isset($totalTeachers))
-                                                    {{ $totalTeachers }}
+                                                @if (isset($totalLecturers))
+                                                    {{ $totalLecturers }}
                                                 @endif
                                             </h1>
                                         </div>
@@ -181,18 +181,18 @@
                                 </a>
                             </div>
                         @endif
-                        @if (userPermission('number-of-teacher'))
+                        @if (userPermission('number-of-lecturer'))
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <a href="#" class="d-block">
                                     <div class="white-box single-summery">
                                         <div class="d-flex justify-content-between">
                                             <div>
-                                                <h3>@lang('common.teachers')</h3>
-                                                <p class="mb-0">@lang('dashboard.total_teachers')</p>
+                                                <h3>@lang('common.lecturers')</h3>
+                                                <p class="mb-0">@lang('dashboard.total_lecturers')</p>
                                             </div>
                                             <h1 class="gradient-color2">
-                                                @if (isset($totalTeachers))
-                                                    {{ $totalTeachers }}
+                                                @if (isset($totalLecturers))
+                                                    {{ $totalLecturers }}
                                                 @endif
                                             </h1>
                                         </div>

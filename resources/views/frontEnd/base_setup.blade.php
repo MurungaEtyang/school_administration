@@ -17,7 +17,7 @@
                                     <select class="primary_select ">
                                         <option data-display="Purpose *">Purpose * </option>
                                         <option value="1">Marketing</option>
-                                        <option value="2">parent Teacher Meeting</option>
+                                        <option value="2">Parent Lecturer Meeting</option>
                                         <option value="3">Student Meeting</option>
                                         <option value="4">Staff Meeting</option>
                                         <option value="5">Principal Meeting</option>

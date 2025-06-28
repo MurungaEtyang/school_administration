@@ -9803,7 +9803,7 @@ var render = function render() {
       staticClass: "row"
     }, [_c("div", {
       staticClass: "col-xl-6"
-    }, [user.role_id != 4 || _vm.settings.teacher_phone_view && _vm.settings.teacher_email_view ? _c("div", {
+    }, [user.role_id != 4 || _vm.settings.lecturer_phone_view && _vm.settings.lecturer_email_view ? _c("div", {
       staticClass: "primary_input mb-25"
     }, [_c("label", {
       staticClass: "primary_input_label",
@@ -9823,7 +9823,7 @@ var render = function render() {
       domProps: {
         value: user.username
       }
-    })]) : _vm._e()]), _vm._v(" "), user.role_id != 4 || _vm.settings.teacher_email_view ? _c("div", {
+    })]) : _vm._e()]), _vm._v(" "), user.role_id != 4 || _vm.settings.lecturer_email_view ? _c("div", {
       staticClass: "col-xl-6"
     }, [_c("div", {
       staticClass: "primary_input mb-25"
@@ -9850,7 +9850,7 @@ var render = function render() {
       staticClass: "text-danger"
     })])]) : _vm._e(), _vm._v(" "), _c("div", {
       staticClass: "col-xl-6"
-    }, [user.role_id != 4 || _vm.settings.teacher_phone_view ? _c("div", {
+    }, [user.role_id != 4 || _vm.settings.lecturer_phone_view ? _c("div", {
       staticClass: "primary_input mb-25"
     }, [_c("label", {
       staticClass: "primary_input_label",
@@ -70989,8 +70989,8 @@ var categoriesDefault = [
     new Emoji("👨‍🎓", "Peoples", ["man_student"]),
     new Emoji("👩‍🎤", "Peoples", ["woman_singer"]),
     new Emoji("👨‍🎤", "Peoples", ["man_singer"]),
-    new Emoji("👩‍🏫", "Peoples", ["woman_teacher"]),
-    new Emoji("👨‍🏫", "Peoples", ["man_teacher"]),
+    new Emoji("👩‍🏫", "Peoples", ["woman_lecturer"]),
+    new Emoji("👨‍🏫", "Peoples", ["man_lecturer"]),
     new Emoji("👩‍🏭", "Peoples", ["woman_factory_worker"]),
     new Emoji("👨‍🏭", "Peoples", ["man_factory_worker"]),
     new Emoji("👩‍💻", "Peoples", ["woman_technologist"]),

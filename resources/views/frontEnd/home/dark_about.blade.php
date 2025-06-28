@@ -129,7 +129,7 @@
                             <div class="d-flex justify-content-between">
                                 <div>
                                     <h3>Faculty</h3>
-                                    <p class="mb-0">Total Teachers count</p>
+                                    <p class="mb-0">Total Lecturers count</p>
                                 </div>
                                 <h1 class="gradient-color2">1,500</h1>
                             </div>

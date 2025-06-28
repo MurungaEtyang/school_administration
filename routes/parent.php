@@ -13,11 +13,11 @@ Route::group(['middleware' => ['XSS', 'subdomain','fees_due_check']], function (
         Route::get('parent-class-routine/{id}', ['as' => 'parent_class_routine', 'uses' => 'Parent\SmParentPanelController@classRoutine'])->middleware('userRolePermission:parent_class_routine');
         Route::get('parent-attendance/{id}', ['as' => 'parent_attendance', 'uses' => 'Parent\SmParentPanelController@attendance'])->middleware('userRolePermission:parent_attendance');
         Route::get('my-child-attendance/print/{student_id}/{id}/{month}/{year}/', 'Parent\SmParentPanelController@attendancePrint')->name('my_child_attendance_print');
-        Route::get('parent-homework/{id}', ['as' => 'parent_homework', 'uses' => 'Parent\SmParentPanelController@homework'])->middleware('userRolePermission:parent_homework');
-        Route::get('parent-homework-view/{class_id}/{section_id}/{homework}', ['as' => 'parent_homework_view', 'uses' => 'Parent\SmParentPanelController@homeworkView'])->middleware('userRolePermission:parent_homework_view');
+        Route::get('parent-assignment/{id}', ['as' => 'parent_assignment', 'uses' => 'Parent\SmParentPanelController@assignment'])->middleware('userRolePermission:parent_assignment');
+        Route::get('parent-assignment-view/{class_id}/{section_id}/{assignment}', ['as' => 'parent_assignment_view', 'uses' => 'Parent\SmParentPanelController@assignmentView'])->middleware('userRolePermission:parent_assignment_view');
         
 
-        Route::get('university/parent-homework-view/{sem_label_id}/{homework}', ['as' => 'un_student_homework_view', 'uses' => 'Parent\SmParentPanelController@unStudentHomeworkView']);
+        Route::get('university/parent-assignment-view/{sem_label_id}/{assignment}', ['as' => 'un_student_assignment_view', 'uses' => 'Parent\SmParentPanelController@unStudentAssignmentView']);
 
         Route::get('parent-noticeboard', ['as' => 'parent_noticeboard', 'uses' => 'Parent\SmParentPanelController@parentNoticeboard'])->middleware('userRolePermission:parent_noticeboard');
         Route::post('parent-attendance-search', ['as' => 'parent_attendance_search', 'uses' => 'Parent\SmParentPanelController@attendanceSearch']);
@@ -47,7 +47,7 @@ Route::group(['middleware' => ['XSS', 'subdomain','fees_due_check']], function (
         Route::get('parent-library', ['as' => 'parent_library', 'uses' => 'Parent\SmParentPanelController@parentBookList'])->middleware('userRolePermission:parent_library');
         Route::get('parent-book-issue', ['as' => 'parent_book_issue', 'uses' => 'Parent\SmParentPanelController@parentBookIssue'])->middleware('userRolePermission:parent_book_issue');
         Route::get('parent-subjects/{id}', ['as' => 'parent_subjects', 'uses' => 'Parent\SmParentPanelController@subjects'])->middleware('userRolePermission:parent_subjects');
-        Route::get('parent-teacher-list/{id}', ['as' => 'parent_teacher_list', 'uses' => 'Parent\SmParentPanelController@teacherList'])->middleware('userRolePermission:parent_teacher_list');
+        Route::get('parent-lecturer-list/{id}', ['as' => 'parent_lecturer_list', 'uses' => 'Parent\SmParentPanelController@lecturerList'])->middleware('userRolePermission:parent_lecturer_list');
         Route::get('parent-transport/{id}', ['as' => 'parent_transport', 'uses' => 'Parent\SmParentPanelController@transport'])->middleware('userRolePermission:parent_transport');
         Route::get('parent-dormitory/{id}', ['as' => 'parent_dormitory_list', 'uses' => 'Parent\SmParentPanelController@dormitory'])->middleware('userRolePermission:parent_dormitory_list');
 

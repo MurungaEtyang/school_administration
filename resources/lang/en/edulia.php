@@ -461,7 +461,7 @@ return [
     'you_have_failed' =>    'You Have Failed',
     'you_have_passed' =>    'You Have Passed',
     'guardian' =>   'Guardian',
-    'class_teacher' =>   'Class Teacher',
+    'class_teacher' =>   'Class Lecturer',
     'total' =>  'Total',
     'starting' =>  'Starting',
     'ending' =>  'Ending',

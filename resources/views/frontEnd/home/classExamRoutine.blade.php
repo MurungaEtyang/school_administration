@@ -209,7 +209,7 @@
                                             $tr[$i][$sm_weekend->name][$loop->index]['subject'] = $routine->subject ? $routine->subject->subject_name : '';
                                             $tr[$i][$sm_weekend->name][$loop->index]['subject_code'] = $routine->subject ? $routine->subject->subject_code : '';
                                             $tr[$i][$sm_weekend->name][$loop->index]['class_room'] = $routine->classRoom ? $routine->classRoom->room_no : '';
-                                            $tr[$i][$sm_weekend->name][$loop->index]['teacher'] = $routine->teacherDetail ? $routine->teacherDetail->full_name : '';
+                                            $tr[$i][$sm_weekend->name][$loop->index]['teacher'] = $routine->lecturerDetail ? $routine->lecturerDetail->full_name : '';
                                             $tr[$i][$sm_weekend->name][$loop->index]['start_time'] = $routine->start_time;
                                             $tr[$i][$sm_weekend->name][$loop->index]['end_time'] = $routine->end_time;
                                             $tr[$i][$sm_weekend->name][$loop->index]['is_break'] = $routine->is_break;

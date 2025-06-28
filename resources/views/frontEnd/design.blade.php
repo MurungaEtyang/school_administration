@@ -40,7 +40,7 @@
 
                                         <p class="mb-0">
                                             <span class="ti-user mr-10"></span>
-                                            Teacher
+                                            Lecturer
                                         </p>
                                         <p class="mb-0">
                                             <span class="ti-user mr-10"></span>
@@ -94,7 +94,7 @@
 
                                         <p class="mb-0">
                                             <span class="ti-user mr-10"></span>
-                                            Teacher
+                                            Lecturer
                                         </p>
                                         <p class="mb-0">
                                             <span class="ti-user mr-10"></span>

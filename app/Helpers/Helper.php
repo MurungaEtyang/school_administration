@@ -1144,8 +1144,8 @@ if (!function_exists('getExamResult')) {
     }
 }
 
-if (!function_exists('teacherAssignedClass')) {
-    function teacherAssignedClass()
+if (!function_exists('lecturerAssignedClass')) {
+    function lecturerAssignedClass()
     {
         try {
             $class_id = [];
@@ -1578,8 +1578,8 @@ if (!function_exists('subject100PercentMark')) {
     }
 }
 
-if (!function_exists('teacherAccess')) {
-    function teacherAccess()
+if (!function_exists('lecturerAccess')) {
+    function lecturerAccess()
     {
         try {
             $user = Auth::user();
@@ -1591,6 +1591,17 @@ if (!function_exists('teacherAccess')) {
         } catch (\Exception $e) {
             return false;
         }
+    }
+}
+
+if (!function_exists('teacherAccess')) {
+    /**
+     * Alias for lecturerAccess() to maintain backward compatibility
+     * @deprecated Use lecturerAccess() instead
+     */
+    function teacherAccess()
+    {
+        return lecturerAccess();
     }
 }
 

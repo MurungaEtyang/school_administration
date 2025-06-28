@@ -138,7 +138,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                     <div class="value text-left text-uppercase">
-                                        Teachers
+                                        Lecturers
                                     </div>
                                 </div>
                             </div>
@@ -178,7 +178,7 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
                                     <div class="value text-left text-uppercase">
-                                        Class Teacher
+                                        Class Lecturer
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6">

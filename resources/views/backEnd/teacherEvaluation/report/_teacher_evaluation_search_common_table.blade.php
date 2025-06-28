@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-4 no-gutters">
             <div class="main-title">
-                <h3 class="mb-15">@lang('teacherEvaluation.teacher_pending_evaluation_report') </h3>
+                <h3 class="mb-15">@lang('lecturerEvaluation.lecturer_pending_evaluation_report')</h3>
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@
                 <select
                     class="primary_select  form-control{{ $errors->has('subject_id') ? ' is-invalid' : '' }}"
                     name="subject_id" id="subjectSelect">
-                    <option data-display="@lang('teacherEvaluation.select_subject')" value="">
+                    <option data-display="@lang('lecturerEvaluation.select_subject')" value="">
                         @lang('common.subject')</option>
                 </select>
                 <div class="pull-right loader loader_style"

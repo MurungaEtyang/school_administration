@@ -3,20 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\TeacherEvaluation;
+use App\Models\LecturerEvaluation;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Auth;
-use App\Models\TeacherEvaluationSetting;
+use App\Models\LecturerEvaluationSetting;
 use Illuminate\Support\Facades\Validator;
 
 class TeacherEvaluationController extends Controller
 {
-    public function teacherEvaluationSetting()
+    public function lecturerEvaluationSetting()
     {
-        $teacherEvaluationSetting = TeacherEvaluationSetting::where('id', 1)->first();
-        return view('backEnd.teacherEvaluation.setting.teacherEvaluationSetting', compact('teacherEvaluationSetting'));
+        $lecturerEvaluationSetting = LecturerEvaluationSetting::where('id', 1)->first();
+        return view('backEnd.teacherEvaluation.setting.lecturerEvaluationSetting', compact('lecturerEvaluationSetting'));
     }
-    public function teacherEvaluationSettingUpdate(Request $request)
+    
+    public function lecturerEvaluationSettingUpdate(Request $request)
     {
         $input = $request->all();
         $validator = Validator::make($input, [
@@ -27,18 +28,18 @@ class TeacherEvaluationController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         try {
-            $teacherEvaluationSetting = TeacherEvaluationSetting::find(1);
+            $lecturerEvaluationSetting = LecturerEvaluationSetting::find(1);
             if ($request->type == 'evaluation') {
-                $teacherEvaluationSetting->is_enable = $request->is_enable;
-                $teacherEvaluationSetting->auto_approval = $request->auto_approval;
+                $lecturerEvaluationSetting->is_enable = $request->is_enable;
+                $lecturerEvaluationSetting->auto_approval = $request->auto_approval;
             }
             if ($request->type == 'submission') {
-                $teacherEvaluationSetting->submitted_by = $request->submitted_by ? $request->submitted_by : $teacherEvaluationSetting->submitted_by;
-                $teacherEvaluationSetting->rating_submission_time = $request->rating_submission_time;
-                $teacherEvaluationSetting->from_date = date('Y-m-d', strtotime($request->startDate));
-                $teacherEvaluationSetting->to_date = date('Y-m-d', strtotime($request->endDate));
+                $lecturerEvaluationSetting->submitted_by = $request->submitted_by ? $request->submitted_by : $lecturerEvaluationSetting->submitted_by;
+                $lecturerEvaluationSetting->rating_submission_time = $request->rating_submission_time;
+                $lecturerEvaluationSetting->from_date = date('Y-m-d', strtotime($request->startDate));
+                $lecturerEvaluationSetting->to_date = date('Y-m-d', strtotime($request->endDate));
             }
-            $teacherEvaluationSetting->update();
+            $lecturerEvaluationSetting->update();
             return redirect()->back();
         } catch (\Exception $e) {
             Toastr::error('Operation Failed', 'Failed');
@@ -46,7 +47,7 @@ class TeacherEvaluationController extends Controller
         }
     }
 
-    public function teacherEvaluationSubmit(Request $request)
+    public function lecturerEvaluationSubmit(Request $request)
     {
         $input = $request->all();
         $validator = Validator::make($input, [
@@ -60,21 +61,21 @@ class TeacherEvaluationController extends Controller
                 ->withInput();
         }
         try {
-            $teacherEvaluationSetting = TeacherEvaluationSetting::find(1);
-            $teacherEvaluation = new TeacherEvaluation();
-            $teacherEvaluation->rating = $request->rating;
-            $teacherEvaluation->comment = $request->comment;
-            $teacherEvaluation->record_id = $request->record_id;
-            $teacherEvaluation->subject_id = $request->subject_id;
-            $teacherEvaluation->teacher_id = $request->teacher_id;
-            $teacherEvaluation->student_id = $request->student_id;
-            $teacherEvaluation->parent_id = $request->parent_id;
-            $teacherEvaluation->role_id = Auth::user()->role_id;
-            $teacherEvaluation->academic_id = getAcademicId();
-            if ($teacherEvaluationSetting->auto_approval == 0) {
-                $teacherEvaluation->status = 1;
+            $lecturerEvaluationSetting = LecturerEvaluationSetting::find(1);
+            $lecturerEvaluation = new LecturerEvaluation();
+            $lecturerEvaluation->rating = $request->rating;
+            $lecturerEvaluation->comment = $request->comment;
+            $lecturerEvaluation->record_id = $request->record_id;
+            $lecturerEvaluation->subject_id = $request->subject_id;
+            $lecturerEvaluation->lecturer_id = $request->lecturer_id;
+            $lecturerEvaluation->student_id = $request->student_id;
+            $lecturerEvaluation->parent_id = $request->parent_id;
+            $lecturerEvaluation->role_id = Auth::user()->role_id;
+            $lecturerEvaluation->academic_id = getAcademicId();
+            if ($lecturerEvaluationSetting->auto_approval == 0) {
+                $lecturerEvaluation->status = 1;
             }
-            $teacherEvaluation->save();
+            $lecturerEvaluation->save();
             Toastr::success('Operation Successful', 'Success');
             return redirect()->back();
         } catch (\Exception $e) {

@@ -15,7 +15,7 @@ Route::controller(AuthenticationController::class)->group(function () {
 Route::group(['middleware' => ['auth:api', 'subdomain']], function () {
     Route::get('general-settings', 'Auth\AuthenticationController@generalSettings');
     Route::post('auth/logout', 'Auth\AuthenticationController@logout');
-    Route::get('teacher-about', [AuthenticationController::class, 'aboutApi']);
+    Route::get('lecturer-about', [AuthenticationController::class, 'aboutApi']);
 
     Route::get('student-profile-details/{id}', 'Auth\AuthenticationController@studentProfile');
     Route::get('student-profile-edit', 'Auth\AuthenticationController@studentProfileEdit');
@@ -34,12 +34,12 @@ Route::group(['middleware' => ['auth:api', 'subdomain']], function () {
     Route::get('profile-documents-delete', 'Auth\AuthenticationController@deleteDocument');
 
 
-    Route::get('admin-teacher-homework', 'Homework\HomeworkController@adminTeacherhomework');
-    Route::get('student-homework', 'Homework\HomeworkController@studentHomework');
-    Route::get('parent-homework', 'Homework\HomeworkController@parentHomework');
-    Route::get('student-homework-view', 'Homework\HomeworkController@studentHomeworkView');
-    Route::get('student-homework-file-download', 'Homework\HomeworkController@studentHomeworkFileDownload');
-    Route::post('upload-homework-content', 'Homework\HomeworkController@uploadHomeworkContent');
+    Route::get('admin-lecturer-assignment', 'Assignment\AssignmentController@adminLecturerAssignment');
+    Route::get('student-assignment', 'Assignment\AssignmentController@studentAssignment');
+    Route::get('parent-assignment', 'Assignment\AssignmentController@parentAssignment');
+    Route::get('student-assignment-view', 'Assignment\AssignmentController@studentAssignmentView');
+    Route::get('student-assignment-file-download', 'Assignment\AssignmentController@studentAssignmentFileDownload');
+    Route::post('upload-assignment-content', 'Assignment\AssignmentController@uploadAssignmentContent');
 
     Route::get('student-assignment', 'Assignment\AssignmentController@studentAssignment');
     Route::get('student-assignment-file-download/{id}', 'Assignment\AssignmentController@studentAssignmentFileDownload');
@@ -72,7 +72,7 @@ Route::group(['middleware' => ['auth:api', 'subdomain']], function () {
     Route::post('student-leave-store', 'Leave\LeaveController@leaveStore');
     Route::get('student-leave-edit', 'Leave\LeaveController@studentLeaveEdit');
     Route::post('student-leave-update', 'Leave\LeaveController@update');
-    Route::get('student-teacher', 'Teacher\TeacherController@studentTeacher');
+    Route::get('student-lecturer', 'Lecturer\LecturerController@studentLecturer');
 
 
 
@@ -209,56 +209,56 @@ Route::group(['middleware' => ['auth:api', 'subdomain']], function () {
     Route::get('admin-add-member-parents', 'Admin\LibrarayMemberController@parentList');
     Route::post('store-admin-library-member', 'Admin\LibrarayMemberController@store');
 
-    // Teacher
+    // Lecturer
 
-    // Homework
-    Route::get('teacher-homework-list', 'Teacher\HomeworkController@homeworkList');
-    Route::get('teacher-homework-search', 'Teacher\HomeworkController@search');
-    Route::get('teacher-homework-evaluation-list', 'Teacher\HomeworkController@evaluationHomework');
-    Route::get('teacher-add-homework-for-class', 'Teacher\HomeworkController@addHomeworkDropdownListForClasses');
-    Route::get('teacher-add-homework-for-subject', 'Teacher\HomeworkController@addHomeworkDropdownListForSubjects');
-    Route::get('teacher-add-homework-for-section', 'Teacher\HomeworkController@addHomeworkDropdownListForSection');
-    Route::post('teacher-add-homework', 'Teacher\HomeworkController@storeHomeWork');
-    Route::post('teacher-store-homework-evaluation', 'Teacher\HomeworkController@storeHomeWorkEvaluation');
+    // Assignment
+    Route::get('lecturer-assignment-list', 'Lecturer\AssignmentController@assignmentList');
+    Route::get('lecturer-assignment-search', 'Lecturer\AssignmentController@search');
+    Route::get('lecturer-assignment-evaluation-list', 'Lecturer\AssignmentController@evaluationAssignment');
+    Route::get('lecturer-add-assignment-for-class', 'Lecturer\AssignmentController@addAssignmentDropdownListForClasses');
+    Route::get('lecturer-add-assignment-for-subject', 'Lecturer\AssignmentController@addAssignmentDropdownListForSubjects');
+    Route::get('lecturer-add-assignment-for-section', 'Lecturer\AssignmentController@addAssignmentDropdownListForSection');
+    Route::post('lecturer-add-assignment', 'Lecturer\AssignmentController@storeAssignment');
+    Route::post('lecturer-store-assignment-evaluation', 'Lecturer\AssignmentController@storeAssignmentEvaluation');
 
     // Book
-    Route::get('teacher-book-list', 'Teacher\BookController@bookList');
+    Route::get('lecturer-book-list', 'Lecturer\BookController@bookList');
 
     // Notice
-    Route::get('teacher-notice-list', 'Teacher\NoticeController@noticeList');
+    Route::get('lecturer-notice-list', 'Lecturer\NoticeController@noticeList');
 
     // Content
-    Route::get('teacher-content-list', 'Teacher\ContentController@contentList');
-    Route::post('teacher-delete-content', 'Teacher\ContentController@doeleteContent');
-    Route::post('teacher-create-content', 'Teacher\ContentController@storeContent');
+    Route::get('lecturer-content-list', 'Lecturer\ContentController@contentList');
+    Route::post('lecturer-delete-content', 'Lecturer\ContentController@doeleteContent');
+    Route::post('lecturer-create-content', 'Lecturer\ContentController@storeContent');
 
-    // Teacher Leave
-    Route::get('teacher-leave-list', 'Teacher\Leave\LeaveController@list');
-    Route::get('teacher-leave-types', 'Teacher\Leave\LeaveController@types');
-    Route::post('teacher-leave-store', 'Teacher\Leave\LeaveController@store');
+    // Lecturer Leave
+    Route::get('lecturer-leave-list', 'Lecturer\Leave\LeaveController@list');
+    Route::get('lecturer-leave-types', 'Lecturer\Leave\LeaveController@types');
+    Route::post('lecturer-leave-store', 'Lecturer\Leave\LeaveController@store');
 
-    Route::get('teacher-attendance-classes', 'Teacher\Attendance\ClassAttendanceController@classes');
-    Route::get('teacher-attendance-sections', 'Teacher\Attendance\ClassAttendanceController@sections');
-    Route::get('teacher-attendance-subjects', 'Teacher\Attendance\ClassAttendanceController@subjects');
-    Route::post('teacher-attendance-students', 'Teacher\Attendance\ClassAttendanceController@students');
-    Route::post('teacher-class-attendance-store', 'Teacher\Attendance\ClassAttendanceController@storeAttendance');
-    Route::post('teacher-class-attendance-holiday', 'Teacher\Attendance\ClassAttendanceController@holiday');
+    Route::get('lecturer-attendance-classes', 'Lecturer\Attendance\ClassAttendanceController@classes');
+    Route::get('lecturer-attendance-sections', 'Lecturer\Attendance\ClassAttendanceController@sections');
+    Route::get('lecturer-attendance-subjects', 'Lecturer\Attendance\ClassAttendanceController@subjects');
+    Route::post('lecturer-attendance-students', 'Lecturer\Attendance\ClassAttendanceController@students');
+    Route::post('lecturer-class-attendance-store', 'Lecturer\Attendance\ClassAttendanceController@storeAttendance');
+    Route::post('lecturer-class-attendance-holiday', 'Lecturer\Attendance\ClassAttendanceController@holiday');
 
     // Subject Wise Attendance
-    Route::get('teacher-subject-wise-students-attendance', 'Teacher\Attendance\SubjectWiseAttendanceController@studentSubjectAttendanceSearch');
-    Route::get('teacher-subject-wise-students', 'Teacher\Attendance\SubjectWiseAttendanceController@subjectWiseStudents');
-    Route::post('teacher-subject-attendance-search', 'Teacher\Attendance\SubjectWiseAttendanceController@searchAttendance');
-    Route::post('teacher-subject-attendance-submit', 'Teacher\Attendance\SubjectWiseAttendanceController@storeAttendance');
-    Route::post('teacher-subject-holiday', 'Teacher\Attendance\SubjectWiseAttendanceController@holiday');
+    Route::get('lecturer-subject-wise-students-attendance', 'Lecturer\Attendance\SubjectWiseAttendanceController@studentSubjectAttendanceSearch');
+    Route::get('lecturer-subject-wise-students', 'Lecturer\Attendance\SubjectWiseAttendanceController@subjectWiseStudents');
+    Route::post('lecturer-subject-attendance-search', 'Lecturer\Attendance\SubjectWiseAttendanceController@searchAttendance');
+    Route::post('lecturer-subject-attendance-submit', 'Lecturer\Attendance\SubjectWiseAttendanceController@storeAttendance');
+    Route::post('lecturer-subject-holiday', 'Lecturer\Attendance\SubjectWiseAttendanceController@holiday');
 
     // subject
-    Route::get('subjects', 'Teacher\Subject\SubjectController@index');
-    Route::get('class-routine', 'Teacher\ClassRoutine\ClassRoutineController@classRoutineSearch');
-    Route::get('teacher-class-routine', 'Teacher\ClassRoutine\ClassRoutineController@teacherClassRoutine');
+    Route::get('subjects', 'Lecturer\Subject\SubjectController@index');
+    Route::get('class-routine', 'Lecturer\ClassRoutine\ClassRoutineController@classRoutineSearch');
+    Route::get('lecturer-class-routine', 'Lecturer\ClassRoutine\ClassRoutineController@lecturerClassRoutine');
 
     // Student Attendance
-    Route::get('teacher-search-student-attendance', 'Teacher\Attendance\AttendanceController@studentAttendance');
-    Route::get('teacher-search-student-attendance-report', 'Teacher\Attendance\AttendanceController@attendanceReport');
+    Route::get('lecturer-search-student-attendance', 'Lecturer\Attendance\AttendanceController@studentAttendance');
+    Route::get('lecturer-search-student-attendance-report', 'Lecturer\Attendance\AttendanceController@attendanceReport');
 
     Route::get('parent-childrens', 'Parent\ParentController@childrens');
 

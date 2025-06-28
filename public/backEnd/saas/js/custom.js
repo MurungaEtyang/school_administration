@@ -1270,7 +1270,7 @@ function validateFormFees() {
     }
 }
 
-// class routine get teacher
+// class routine get lecturer
 
 function changeSubject() {
     var url = $("#url").val();
@@ -1281,30 +1281,30 @@ function changeSubject() {
         subject: $("#subject").val(),
         class_time_id: $("#class_time_id").val(),
         day: $("#day").val(),
-        update_teacher_id: $("#update_teacher_id").val(),
+        update_lecturer_id: $("#update_lecturer_id").val(),
     };
 
     $.ajax({
         type: "GET",
         data: formData,
         dataType: "json",
-        url: url + "/" + "get-class-teacher-ajax",
+        url: url + "/" + "get-class-lecturer-ajax",
         success: function(data) {
             if (data[0] != "") {
-                $("#teacher_name").val(data[0]["full_name"]);
-                $("#teacher_id").val(data[0]["id"]);
-                $("#teacher_error").html("");
+                $("#lecturer_name").val(data[0]["full_name"]);
+                $("#lecturer_id").val(data[0]["id"]);
+                $("#lecturer_error").html("");
             } else {
                 if (data[1] == 0) {
-                    $("#teacher_error").html("No teacher Assigned for the subject");
+                    $("#lecturer_error").html("No lecturer Assigned for the subject");
                 } else {
-                    $("#teacher_error").html(
-                        "the subject's teacher already assinged for the same time"
+                    $("#lecturer_error").html(
+                        "the subject's lecturer already assigned for the same time"
                     );
                 }
 
-                $("#teacher_name").val("");
-                $("#teacher_id").val("");
+                $("#lecturer_name").val("");
+                $("#lecturer_id").val("");
             }
         },
         error: function(data) {
@@ -1317,7 +1317,7 @@ function changeSubject() {
 function validateAddNewroutine() {
     var subject = document.getElementById("subject").value;
     var room = document.getElementById("room").value;
-    var teacher_name = document.getElementById("teacher_name").value;
+    var lecturer_name = document.getElementById("lecturer_name").value;
 
     var i = 0;
     if (subject == "") {
@@ -1334,12 +1334,12 @@ function validateAddNewroutine() {
         document.getElementById("room_error").innerHTML = "";
     }
 
-    if (teacher_name == "") {
-        document.getElementById("teacher_error").innerHTML =
-            "Teacher field is required";
+    if (lecturer_name == "") {
+        document.getElementById("lecturer_error").innerHTML =
+            "Lecturer field is required";
         i++;
     } else {
-        document.getElementById("teacher_error").innerHTML = "";
+        document.getElementById("lecturer_error").innerHTML = "";
     }
 
     if (i > 0) {
@@ -1401,32 +1401,32 @@ $(document).ready(function() {
                 subject_teacher += "</div>";
                 subject_teacher += "<div class='col-lg-5 mt-30-md'>";
                 subject_teacher +=
-                    "<select class='w-100 bb niceSelect form-control' name='teachers[]' style='display:none'>";
+                    "<select class='w-100 bb niceSelect form-control' name='lecturers[]' style='display:none'>";
                 subject_teacher +=
-                    "<option data-display='Select Teacher' value=''>Select Teacher</option>";
-                $.each(data[1], function(key, teacher) {
+                    "<option data-display='Select Lecturer' value=''>Select Lecturer</option>";
+                $.each(data[1], function(key, lecturer) {
                     subject_teacher +=
                         "<option value=" +
-                        teacher.id +
+                        lecturer.id +
                         ">" +
-                        teacher.full_name +
+                        lecturer.full_name +
                         "</option>";
                 });
                 subject_teacher += "</select>";
                 subject_teacher +=
                     "<div class='nice-select w-100 bb niceSelect form-control' tabindex='0'>";
-                subject_teacher += "<span class='current'>Select Teacher</span>";
+                subject_teacher += "<span class='current'>Select Lecturer</span>";
                 subject_teacher +=
                     "<div class='nice-select-search-box'><input type='text' class='nice-select-search' placeholder='Search...'></div>";
                 subject_teacher += "<ul class='list'>";
                 subject_teacher +=
-                    "<li data-value='' data-display='Select Teacher' class='option selected'>Select Teacher</li>";
-                $.each(data[1], function(key, teacher) {
+                    "<li data-value='' data-display='Select Lecturer' class='option selected'>Select Lecturer</li>";
+                $.each(data[1], function(key, lecturer) {
                     subject_teacher +=
                         "<li data-value=" +
-                        teacher.id +
+                        lecturer.id +
                         " class='option'>" +
-                        teacher.full_name +
+                        lecturer.full_name +
                         "</li>";
                 });
                 subject_teacher += "</ul>";

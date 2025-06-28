@@ -17,7 +17,8 @@ return[
     'application'=> 'Application',
     'student_admitted_message'=> 'Student Admitted Message',
     'student_admission_progress'=> 'Student Admission In Progress',
-    'teachers'=> 'Teachers',
+    'lecturers'=> 'Lecturers',
+    'teachers'=> 'Lecturers', // @deprecated - use 'lecturers' instead
     'parents'=> 'Parents',
     'staffs'=> 'Staffs',
     'income_and_expenses_for'=> 'Income and Expenses for',
@@ -83,7 +84,8 @@ return[
     'payroll_bulk_print'=> 'Payroll Bulk Print',
     'staff_id_card'=> 'Staff ID Card',
     'total_students'=>'Total Students',
-    'total_teachers'=>'Total Teachers',
+    'total_teachers'=> 'Total Lecturers', // @deprecated - use 'total_lecturers' instead
+    'total_lecturers'=> 'Total Lecturers',
     'total_parents'=>'Total Parents',
     'total_staffs'=>'Total Staffs',
     'wallet_balance'=>'Wallet Balance',

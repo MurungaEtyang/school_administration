@@ -285,7 +285,7 @@
                         <span class="single_feature_icon"><i class="ti-medall"></i></span>
                         <h4>Admin Module</h4>
                         <p>Managing other accounts,
-                            Manage Teacher, Student, Guardian etc
+                            Manage Lecturer, Student, Guardian etc
                         </p>
                     </div>
                 </div>
@@ -306,7 +306,7 @@
                 <div class="single_feature">
                     <div class="single_feature_part">
                         <span class="single_feature_icon"><i class="ti-briefcase"></i></span>
-                        <h4>Teacher</h4>
+                        <h4>Lecturer</h4>
                         <p>Uploading Content,
                             Material,
                             Assignment,
@@ -375,7 +375,7 @@
                         <h4>Academics</h4>
                         <p>Class Routine
                             Subjective assign
-                            Teacher assign
+                            Lecturer assign
                             Manage Subject etc.
                         </p>
                     </div>

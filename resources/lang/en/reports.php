@@ -155,7 +155,7 @@ return [
     'fine'=>'Fine',
     'paid'=>'Paid',
     'balance'=>'Balance',
-    'class_teacher'=>'Class teacher',
+    'class_teacher'=>'Class lecturer',
     'information'=>'Information',
     'grand_total'=>'Grand total',
     'subject_mark_sheet' => 'Subject Mark Sheet',

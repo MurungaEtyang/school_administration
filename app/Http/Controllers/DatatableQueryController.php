@@ -536,6 +536,9 @@ class DatatableQueryController extends Controller
 
             return Datatables::of($staffs)
                 ->addIndexColumn()
+                ->editColumn('roles.name', function($row) {
+                    return __('rolepermission::role.'.$row->roles->name);
+                })
                 ->addColumn('switch', function ($row) {
                     if (Auth::user()->id != $row->user_id || Auth::user()->role_id != 1) {
                         $btn = '<label class="switch_toggle">

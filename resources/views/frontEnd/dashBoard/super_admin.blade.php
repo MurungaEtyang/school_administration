@@ -29,8 +29,8 @@
                         <div class="white-box single-summery">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h3>Teachers</h3>
-                                    <p class="mb-0">Total Teachers count</p>
+                                    <h3>Lecturers</h3>
+                                    <p class="mb-0">Total Lecturers count</p>
                                 </div>
                                 <h1 class="gradient-color2">2,150</h1>
                             </div>

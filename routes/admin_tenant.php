@@ -1486,37 +1486,35 @@ Route::group(['middleware' => ['XSS', 'subscriptionAccessUrl']], function  (){
         // Route::post('search-payroll-report', ['as' => 'searchPayrollReport', 'uses' => 'Admin\Hr\SmPayrollController@searchPayrollReport']);
         Route::post('payroll-report', 'Admin\Hr\SmPayrollController@searchPayrollReport')->name('searchPayrollReport');
 
-        //Homework
-        Route::get('homework-list', ['as' => 'homework-list', 'uses' => 'Admin\Homework\SmHomeworkController@homeworkList'])->middleware('userRolePermission:homework-list');
+        //Assignment
+        Route::get('assignment-list', ['as' => 'assignment-list', 'uses' => 'Admin\Homework\SmHomeworkController@homeworkList'])->middleware('userRolePermission:homework-list');
 
-        Route::post('homework-list', ['as' => 'homework-list-search', 'uses' => 'Admin\Homework\SmHomeworkController@searchHomework'])->middleware('userRolePermission:homework-list');
-        Route::get('homework-edit/{id}', ['as' => 'homework_edit', 'uses' => 'Admin\Homework\SmHomeworkController@homeworkEdit'])->middleware('userRolePermission:homework_edit');
-        Route::post('homework-update', ['as' => 'homework_update', 'uses' => 'Admin\Homework\SmHomeworkController@homeworkUpdate'])->middleware('userRolePermission:homework_edit');
-        Route::get('homework-delete/{id}', ['as' => 'homework_delete', 'uses' => 'Admin\Homework\SmHomeworkController@homeworkDelete'])->middleware('userRolePermission:homework_delete');
+        Route::post('assignment-list', ['as' => 'assignment-list-search', 'uses' => 'Admin\Homework\SmHomeworkController@searchHomework'])->middleware('userRolePermission:homework-list');
+        Route::get('assignment-edit/{id}', ['as' => 'assignment_edit', 'uses' => 'Admin\Homework\SmHomeworkController@homeworkEdit'])->middleware('userRolePermission:homework_edit');
+        Route::post('assignment-update', ['as' => 'assignment_update', 'uses' => 'Admin\Homework\SmHomeworkController@homeworkUpdate'])->middleware('userRolePermission:homework_edit');
+        Route::get('assignment-delete/{id}', ['as' => 'assignment_delete', 'uses' => 'Admin\Homework\SmHomeworkController@homeworkDelete'])->middleware('userRolePermission:homework_delete');
 
-        Route::post('homework-delete', ['as' => 'homework-delete', 'uses' => 'Admin\Homework\SmHomeworkController@deleteHomework'])->middleware('userRolePermission:homework_delete');
-        Route::get('add-homeworks', ['as' => 'add-homeworks', 'uses' => 'Admin\Homework\SmHomeworkController@addHomework'])->middleware('userRolePermission:add-homeworks');
-        Route::post('save-homework-data', ['as' => 'saveHomeworkData', 'uses' => 'Admin\Homework\SmHomeworkController@saveHomeworkData'])->middleware('userRolePermission:saveHomeworkData');
+        Route::post('assignment-delete', ['as' => 'assignment-delete', 'uses' => 'Admin\Homework\SmHomeworkController@deleteHomework'])->middleware('userRolePermission:homework_delete');
+        Route::get('add-assignments', ['as' => 'add-assignments', 'uses' => 'Admin\Homework\SmHomeworkController@addHomework'])->middleware('userRolePermission:add-homeworks');
+        Route::post('save-assignment-data', ['as' => 'saveAssignmentData', 'uses' => 'Admin\Homework\SmHomeworkController@saveHomeworkData'])->middleware('userRolePermission:saveHomeworkData');
         Route::get('download-uploaded-content-admin/{id}/{student_id}', 'Admin\Homework\SmHomeworkController@downloadHomeworkData')->name('download-uploaded-content-admin');
-        //Route::get('evaluation-homework/{class_id}/{section_id}', 'Admin\Homework\SmHomeworkController@evaluationHomework');
-        Route::get('evaluation-homework/{class_id}/{section_id}/{homework_id}', 'Admin\Homework\SmHomeworkController@evaluationHomework')->name('evaluation-homework')->middleware('userRolePermission:evaluation-homework');
-        Route::get('university/evaluation-homework/{sem_label_id}/{homework_id}', 'Admin\Homework\SmHomeworkController@unEvaluationHomework')->name('university.unevaluation-homework')->middleware('userRolePermission:evaluation-homework');
-        Route::post('save-homework-evaluation-data', ['as' => 'save-homework-evaluation-data', 'uses' => 'Admin\Homework\SmHomeworkController@saveHomeworkEvaluationData']);
+        Route::get('evaluation-assignment/{class_id}/{section_id}/{assignment_id}', 'Admin\Homework\SmHomeworkController@evaluationHomework')->name('evaluation-assignment')->middleware('userRolePermission:evaluation-homework');
+        Route::get('university/evaluation-assignment/{sem_label_id}/{assignment_id}', 'Admin\Homework\SmHomeworkController@unEvaluationHomework')->name('university.unevaluation-assignment')->middleware('userRolePermission:evaluation-homework');
+        Route::post('save-assignment-evaluation-data', ['as' => 'save-assignment-evaluation-data', 'uses' => 'Admin\Homework\SmHomeworkController@saveHomeworkEvaluationData']);
         Route::get('evaluation-report', 'Admin\Homework\SmHomeworkController@EvaluationReport')->name('evaluation-report')->middleware('userRolePermission:evaluation-report');
         Route::get('evaluation-document-download/{file_name}', function ($file_name = null) {
-            $file = public_path() . '/uploads/homework/' . $file_name;
+            $file = public_path() . '/uploads/assignment/' . $file_name;
             if (file_exists($file)) {
                 return Response::download($file);
             }
         })->name('evaluation-document-download');
 
         Route::post('evaluation-report', ['as' => 'search-evaluation', 'uses' => 'Admin\Homework\SmHomeworkController@searchEvaluation']);
-        // Route::get('search-evaluation', 'Admin\Homework\SmHomeworkController@EvaluationReport');
-        Route::get('view-evaluation-report/{homework_id}', 'Admin\Homework\SmHomeworkController@viewEvaluationReport')->name('view-evaluation-report')->middleware('userRolePermission:view-evaluation-report');
+        Route::get('view-evaluation-report/{assignment_id}', 'Admin\Homework\SmHomeworkController@viewEvaluationReport')->name('view-evaluation-report')->middleware('userRolePermission:view-evaluation-report');
 
-        Route::get('homework-report', ['as' => 'homework-report', 'uses' => 'Admin\Homework\SmHomeworkController@homeworkReport'])->middleware('userRolePermission:homework-report');
-        Route::get('homework-report-search', ['as' => 'homework-report-search', 'uses' => 'Admin\Homework\SmHomeworkController@homeworkReportSearch'])->middleware('userRolePermission:homework-report-search');
-        Route::get('homework-report-view/{student_id}/{class_id}/{section_id}/{homework_id}', ['as' => 'homework-report-view', 'uses' => 'Admin\Homework\SmHomeworkController@homeworkReportView']);
+        Route::get('assignment-report', ['as' => 'assignment-report', 'uses' => 'Admin\Homework\SmHomeworkController@homeworkReport'])->middleware('userRolePermission:homework-report');
+        Route::get('assignment-report-search', ['as' => 'assignment-report-search', 'uses' => 'Admin\Homework\SmHomeworkController@homeworkReportSearch'])->middleware('userRolePermission:homework-report-search');
+        Route::get('assignment-report-view/{student_id}/{class_id}/{section_id}/{assignment_id}', ['as' => 'assignment-report-view', 'uses' => 'Admin\Homework\SmHomeworkController@homeworkReportView']);
 
         //Study Material
         Route::get('upload-content', 'Admin\StudyMaterial\SmUploadContentController@index')->name('upload-content')->middleware('userRolePermission:upload-content');
@@ -1595,6 +1593,21 @@ Route::group(['middleware' => ['XSS', 'subscriptionAccessUrl']], function  (){
 
         Route::get('delete-book-category-view/{id}', 'Admin\Library\SmBookCategoryController@deleteBookCategoryView');
         Route::get('delete-book-category/{id}', 'Admin\Library\SmBookCategoryController@deleteBookCategory')->name('delete-book-category');
+
+        // Homework
+        Route::get('homework-list', 'Admin\Homework\SmHomeworkController@homeworkList')->name('homework-list')->middleware('userRolePermission:homework-list');
+        Route::post('homework-list-search', 'Admin\Homework\SmHomeworkController@searchHomework')->name('homework-list-search');
+        Route::get('add-homeworks', 'Admin\Homework\SmHomeworkController@addHomework')->name('add-homeworks')->middleware('userRolePermission:add-homeworks');
+        Route::post('save-homework-data', 'Admin\Homework\SmHomeworkController@saveHomeworkData')->name('saveHomeworkData');
+        Route::get('homework-edit/{id}', 'Admin\Homework\SmHomeworkController@homeworkEdit')->name('homework-edit')->middleware('userRolePermission:homework-edit');
+        Route::post('homework-update', 'Admin\Homework\SmHomeworkController@homeworkUpdate')->name('homework-update');
+        Route::get('homework-delete/{id}', 'Admin\Homework\SmHomeworkController@homeworkDelete')->name('homework-delete')->middleware('userRolePermission:homework-delete');
+        Route::post('delete-homework', 'Admin\Homework\SmHomeworkController@deleteHomework')->name('delete-homework');
+        
+        // Homework Reports
+        Route::get('homework-report', 'Admin\Homework\SmHomeworkController@homeworkReport')->name('homework-report')->middleware('userRolePermission:homework-report');
+        Route::post('homework-report-search', 'Admin\Homework\SmHomeworkController@homeworkReportSearch')->name('homework-report-search');
+        Route::get('homework-report-view/{student_id}/{class_id}/{section_id}/{homework_id}', 'Admin\Homework\SmHomeworkController@homeworkReportView')->name('homework-report-view');
 
         // Book
         Route::get('book-list', 'Admin\Library\SmBookController@index')->name('book-list')->middleware('userRolePermission:book-list');
@@ -2351,30 +2364,30 @@ Route::group(['middleware' => ['XSS', 'subscriptionAccessUrl']], function  (){
     Route::get('fees-carry-forward-log-search', [SmFeesCarryForwardController::class, 'feesCarryForwardLogSearch'])->name('fees-carry-forward-log-search');
 
 
-    // Teacher Evaluation Settings
-    Route::get('teacher-evaluation-setting', [TeacherEvaluationController::class, 'teacherEvaluationSetting'])->name('teacher-evaluation-setting');
-    Route::put('teacher-evaluation-setting-update', [TeacherEvaluationController::class, 'teacherEvaluationSettingUpdate'])->name('teacher-evaluation-setting-update');
+    // Lecturer Evaluation Settings
+    Route::get('lecturer-evaluation-setting', [TeacherEvaluationController::class, 'lecturerEvaluationSetting'])->name('lecturer-evaluation-setting');
+    Route::put('lecturer-evaluation-setting-update', [TeacherEvaluationController::class, 'lecturerEvaluationSettingUpdate'])->name('lecturer-evaluation-setting-update');
 
-    // Teacher Evaluation Submit Parent & Student Panel
-    Route::post('teacher-evaluation-submit', [TeacherEvaluationController::class, 'teacherEvaluationSubmit'])->name('teacher-evaluation-submit');
+    // Lecturer Evaluation Submit Parent & Student Panel
+    Route::post('lecturer-evaluation-submit', [TeacherEvaluationController::class, 'lecturerEvaluationSubmit'])->name('lecturer-evaluation-submit');
 
-    // Teacher Evaluation Reports
-    Route::get('get-assign-subject-teacher', [TeacherEvaluationReportController::class, 'getAssignSubjectTeacher'])->name('get-assign-subject-teacher');
-    Route::get('teacher-approved-evaluation-report', [TeacherEvaluationReportController::class, 'teacherApprovedEvaluationReport'])->name('teacher-approved-evaluation-report');
-    Route::get('teacher-pending-evaluation-report', [TeacherEvaluationReportController::class, 'teacherPendingEvaluationReport'])->name('teacher-pending-evaluation-report');
-    Route::get('teacher-wise-evaluation-report', [TeacherEvaluationReportController::class, 'teacherWiseEvaluationReport'])->name('teacher-wise-evaluation-report');
+    // Lecturer Evaluation Reports
+    Route::get('get-assign-subject-lecturer', [TeacherEvaluationReportController::class, 'getAssignSubjectTeacher'])->name('get-assign-subject-lecturer');
+    Route::get('lecturer-approved-evaluation-report', [TeacherEvaluationReportController::class, 'lecturerApprovedEvaluationReport'])->name('lecturer-approved-evaluation-report');
+    Route::get('lecturer-pending-evaluation-report', [TeacherEvaluationReportController::class, 'lecturerPendingEvaluationReport'])->name('lecturer-pending-evaluation-report');
+    Route::get('lecturer-wise-evaluation-report', [TeacherEvaluationReportController::class, 'lecturerWiseEvaluationReport'])->name('lecturer-wise-evaluation-report');
 
-    // Teacher Evaluation Reports Search
-    Route::get('teacher-approved-evaluation-report-search', [TeacherEvaluationReportController::class, 'teacherApprovedEvaluationReportSearch'])->name('teacher-approved-evaluation-report-search');
-    Route::get('teacher-pending-evaluation-report-search', [TeacherEvaluationReportController::class, 'teacherPendingEvaluationReportSearch'])->name('teacher-pending-evaluation-report-search');
-    Route::get('teacher-wise-evaluation-report-search', [TeacherEvaluationReportController::class, 'teacherWiseEvaluationReportSearch'])->name('teacher-wise-evaluation-report-search');
+    // Lecturer Evaluation Reports Search
+    Route::get('lecturer-approved-evaluation-report-search', [TeacherEvaluationReportController::class, 'lecturerApprovedEvaluationReportSearch'])->name('lecturer-approved-evaluation-report-search');
+    Route::get('lecturer-pending-evaluation-report-search', [TeacherEvaluationReportController::class, 'lecturerPendingEvaluationReportSearch'])->name('lecturer-pending-evaluation-report-search');
+    Route::get('lecturer-wise-evaluation-report-search', [TeacherEvaluationReportController::class, 'lecturerWiseEvaluationReportSearch'])->name('lecturer-wise-evaluation-report-search');
 
-    // Teacher Evaluation Reports Save/Delete
-    Route::get('teacher-evaluation-approve-submit/{id}', [TeacherEvaluationReportController::class, 'teacherEvaluationApproveSubmit'])->name('teacher-evaluation-approve-submit');
-    Route::get('teacher-evaluation-approve-delete/{id}', [TeacherEvaluationReportController::class, 'teacherEvaluationApproveDelete'])->name('teacher-evaluation-approve-delete');
+    // Lecturer Evaluation Reports Save/Delete
+    Route::get('lecturer-evaluation-approve-submit/{id}', [TeacherEvaluationReportController::class, 'lecturerEvaluationApproveSubmit'])->name('lecturer-evaluation-approve-submit');
+    Route::get('lecturer-evaluation-approve-delete/{id}', [TeacherEvaluationReportController::class, 'lecturerEvaluationApproveDelete'])->name('lecturer-evaluation-approve-delete');
 
-
-    Route::get('teacher-panel-evaluation-report', [TeacherEvaluationReportController::class, 'teacherPanelEvaluationReport'])->name('teacher-panel-evaluation-report');
+    // Lecturer Panel Evaluation Report
+    Route::get('lecturer-panel-evaluation-report', [TeacherEvaluationReportController::class, 'lecturerPanelEvaluationReport'])->name('lecturer-panel-evaluation-report');
 
     Route::controller('Admin\Communicate\SmEventController')->group(function () {
         Route::get('event', 'index')->name('event')->middleware('userRolePermission:event');

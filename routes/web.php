@@ -6,6 +6,94 @@ use Illuminate\Support\Facades\File;
 use Modules\TwoFactorAuth\Entities\TwoFactorSetting;
 use Modules\Fees\Http\Controllers\MpesaCallbackController;
 
+// Clear route cache - accessible at /clear-route-cache
+Route::get('/clear-route-cache', function() {
+    \Artisan::call('route:clear');
+    \Artisan::call('cache:clear');
+    \Artisan::call('config:clear');
+    \Artisan::call('view:clear');
+    
+    return response()->json([
+        'success' => true,
+        'message' => 'Route cache cleared!',
+        'data' => [
+            'time' => now()->toDateTimeString()
+        ]
+    ]);
+});
+
+// Simple test route - should be accessible at /test-route
+Route::get('/test-route', function () {
+    return response()->json([
+        'success' => true,
+        'message' => 'Test route is working!',
+        'data' => [
+            'current_path' => request()->path(),
+            'full_url' => request()->fullUrl(),
+            'time' => now()->toDateTimeString()
+        ]
+    ]);
+});
+
+// Debug route to list all routes
+Route::get('/debug/routes', function () {
+    $routes = [];
+    
+    foreach (\Route::getRoutes() as $route) {
+        $uri = $route->uri();
+        $name = $route->getName() ?? '';
+        
+        // Only include routes that have 'homework' or 'assignment' in them
+        if (str_contains($uri, 'homework') || 
+            str_contains($uri, 'assignment') ||
+            str_contains($name, 'homework') || 
+            str_contains($name, 'assignment')) {
+            
+            $routes[] = [
+                'uri' => $uri,
+                'methods' => $route->methods(),
+                'name' => $name,
+                'action' => $route->getActionName(),
+            ];
+        }
+    }
+    
+    return response()->json([
+        'success' => true,
+        'routes' => $routes
+    ]);
+});
+
+// Test homework route
+Route::get('/test-homework', function () {
+    return response()->json([
+        'success' => true,
+        'routes' => [
+            'homework_list_exists' => \Route::has('homework-list'),
+            'assignment_list_exists' => \Route::has('assignment-list'),
+            'current_path' => request()->path()
+        ]
+    ]);
+});
+
+// Debug routes
+Route::get('/debug/route-info', 'DebugController@testRoute');
+Route::get('/debug/test-homework', 'DebugController@testHomeworkRedirect');
+
+// Test route to check if we can access homework/assignment routes
+Route::get('/test-homework-route', function () {
+    return response()->json([
+        'success' => true,
+        'message' => 'Homework test route is working!',
+        'data' => [
+            'route' => 'homework-list',
+            'redirects_to' => route('assignment-list', [], false),
+            'direct_url' => url('homework-list'),
+            'route_exists' => \Route::has('homework-list')
+        ]
+    ]);
+});
+
 // Bypass installation check
 Route::get('/bypass-installation', function () {
     // Create installation files if they don't exist

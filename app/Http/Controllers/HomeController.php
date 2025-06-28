@@ -316,6 +316,7 @@ class HomeController extends Controller
                     ->count(),
 
                 'totalTeachers' => $all_staffs->where('role_id', 4)->count(),
+                'totalLecturers' => $all_staffs->where('role_id', 4)->count(),
 
                 'totalStaffs' =>$all_staffs->count(),
 

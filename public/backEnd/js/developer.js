@@ -8,8 +8,8 @@
         $("#leave_to").focus();
     });
     // for datepicker icon click
-    $("#homework_date_icon").on("click", function() {
-        $("#homework_date").focus();
+    $("#assignment_date_icon").on("click", function() {
+        $("#assignment_date").focus();
     });
     // for datepicker icon click
     $("#submission_date_icon").on("click", function() {
@@ -568,7 +568,7 @@
     //     });
     // });
     // for upload attach file when add Homework
-    var fileInput = document.getElementById("homework_file");
+    var fileInput = document.getElementById("assignment_file");
     if (fileInput) {
         //alert("staffs photo");
         fileInput.addEventListener("change", showFileName);
@@ -608,7 +608,7 @@
             document.getElementById("placeholderStaffsName").placeholder = fileName;
         }
     }
-    // for upload content in teacher module
+    // for upload content in lecturer module
     var fileInput = document.getElementById("upload_content_file");
     if (fileInput) {
         fileInput.addEventListener("change", showFileName);
@@ -1695,7 +1695,7 @@
     // });
 
 
-    // get all section by class_id selection in homework part
+    // get all section by class_id selection in assignment part
     $(document).ready(function() {
         $("#subjectSelecttHomeworkDiv").on("change", function() {
             $("#checkbox_section").prop("checked", false);

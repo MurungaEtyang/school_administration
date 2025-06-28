@@ -49,6 +49,15 @@ Route::group(['middleware' => ['XSS', 'subdomain']], function () {
         // Student Result
         Route::get('student-result', ['as' => 'student_result', 'uses' => 'Student\SmStudentPanelController@studentResult'])->middleware('userRolePermission:student_result');
 
+        // Student Homework
+        Route::get('student-homework', ['as' => 'student_homework', 'uses' => 'Student\SmStudentPanelController@studentHomework']);
+        Route::get('student-homework-view/{class_id}/{section_id}/{homework_id}', ['as' => 'student_homework_view', 'uses' => 'Student\SmStudentPanelController@studentHomeworkView']);
+        Route::get('university/student-homework-view/{sem_label_id}/{homework_id}', ['as' => 'un_student_homework_view', 'uses' => 'Student\SmStudentPanelController@unStudentHomeworkView']);
+        Route::get('add-homework-content/{homework_id}', ['as' => 'add-homework-content', 'uses' => 'Student\SmStudentPanelController@addHomeworkContent']);
+        Route::get('delete-view-homework-content/{homework_id}', ['as' => 'deleteview-homework-content', 'uses' => 'Student\SmStudentPanelController@deleteViewHomeworkContent']);
+        Route::get('delete-homework-content/{homework_id}', ['as' => 'delete-homework-content', 'uses' => 'Student\SmStudentPanelController@deleteHomeworkContent']);
+        Route::post('upload-homework-content', ['as' => 'upload-homework-content', 'uses' => 'Student\SmStudentPanelController@uploadHomeworkContent']);
+
         //student Exam Schedule
         Route::get('student-exam-schedule', ['as' => 'student_exam_schedule', 'uses' => 'Student\SmStudentPanelController@studentExamSchedule'])->middleware('userRolePermission:student_exam_schedule');
         Route::any('student-exam-schedule-search', ['as' => 'student_exam_schedule_search', 'uses' => 'Student\SmStudentPanelController@studentExamScheduleSearch']);
@@ -56,16 +65,16 @@ Route::group(['middleware' => ['XSS', 'subdomain']], function () {
         //abunayem
         Route::get('student-routine-print/{class_id}/{section_id}/{exam_period_id}', 'SmExamRoutineController@examRoutinePrint')->name('student-routine-print');
 
-        //student Homework
-        Route::get('student-homework', ['as' => 'student_homework', 'uses' => 'Student\SmStudentPanelController@studentHomework'])->middleware('userRolePermission:student_homework');
-        Route::get('student-homework-view/{class_id}/{section_id}/{homework}', ['as' => 'student_homework_view', 'uses' => 'Student\SmStudentPanelController@studentHomeworkView']);
+        //student Assignment
+        Route::get('student-assignment', ['as' => 'student_assignment', 'uses' => 'Student\SmStudentPanelController@studentAssignment'])->middleware('userRolePermission:student_assignment');
+        Route::get('student-assignment-view/{class_id}/{section_id}/{assignment}', ['as' => 'student_assignment_view', 'uses' => 'Student\SmStudentPanelController@studentAssignmentView']);
 
-        Route::get('university/student/homework-view/{sem_label_id}/{homework}', ['as' => 'student.un_student_homework_view', 'uses' => 'Student\SmStudentPanelController@unStudentHomeworkView']);
+        Route::get('university/student/assignment-view/{sem_label_id}/{assignment}', ['as' => 'student.un_student_assignment_view', 'uses' => 'Student\SmStudentPanelController@unStudentAssignmentView']);
 
-        Route::get('add-homework-content/{homework}', 'Student\SmStudentPanelController@addHomeworkContent')->name('add-homework-content');
-        Route::post('upload-homework-content', 'Student\SmStudentPanelController@uploadHomeworkContent')->name('upload-homework-content');
-        Route::get('deleteview-homework-content/{homework}', 'Student\SmStudentPanelController@deleteViewHomeworkContent')->name('deleteview-homework-content');
-        Route::get('delete-homework-content/{homework}', 'Student\SmStudentPanelController@deleteHomeworkContent')->name('delete-homework-content');
+        Route::get('add-assignment-content/{assignment}', 'Student\SmStudentPanelController@addAssignmentContent')->name('add-assignment-content');
+        Route::post('upload-assignment-content', 'Student\SmStudentPanelController@uploadAssignmentContent')->name('upload-assignment-content');
+        Route::get('deleteview-assignment-content/{assignment}', 'Student\SmStudentPanelController@deleteViewAssignmentContent')->name('deleteview-assignment-content');
+        Route::get('delete-assignment-content/{assignment}', 'Student\SmStudentPanelController@deleteAssignmentContent')->name('delete-assignment-content');
         Route::get('evaluation-document/{file_name}', 'Student\SmStudentPanelController@DownlodDocument')->name('evaluation-document');
         Route::get('student-delete-document/{id}', ['as' => 'student-document-delete', 'uses' => 'SmStudentAdmissionController@deleteDocument']);
         // Download Center
@@ -118,7 +127,7 @@ Route::group(['middleware' => ['XSS', 'subdomain']], function () {
         })->name('download-student-leave-document');
     });
 });
-Route::get('download-uploaded-content/{id}/{student_id}', 'Student\SmStudentPanelController@downloadHomeWorkContent')->name('download-uploaded-content');
+Route::get('download-uploaded-content/{id}/{student_id}', 'Student\SmStudentPanelController@downloadAssignmentContent')->name('download-uploaded-content');
 
 
 Route::get('fees-payment-stripe/{fees_type}/{student_id}/{amount}/{assign_id}/{record_id}', 'Student\SmFeesController@feesPaymentStripe')->name('fees-payment-stripe');

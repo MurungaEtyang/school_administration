@@ -27,23 +27,31 @@ class SmDormitoryController extends Controller
 
     public function studentDormitoryReport(Request $request)
     {
+        return $this->studentAccommodationReport($request);
+    }
+
+    public function studentAccommodationReport(Request $request)
+    {
         try{
             $classes = SmClass::get();
             $dormitories = SmDormitoryList::get();
             $students = SmStudent::with('class','section','parents','dormitory','room')
                           ->whereNotNull('dormitory_id')->get();
                       
-            return view('backEnd.dormitory.student_dormitory_report', compact('classes', 'students', 'dormitories'));
+            return view('backEnd.dormitory.student_accommodation_report', compact('classes', 'students', 'dormitories'));
         }catch (\Exception $e) {
-             
             Toastr::error('Operation Failed', 'Failed');
             return redirect()->back();
         }
-
     }
 
 
     public function studentDormitoryReportSearch(Request $request)
+    {
+        return $this->studentAccommodationReportSearch($request);
+    }
+
+    public function studentAccommodationReportSearch(Request $request)
     {
         try{
             $data = [];
@@ -77,7 +85,7 @@ class SmDormitoryController extends Controller
                 $interface = App::make(UnCommonRepositoryInterface::class);
                 $data += $interface->getCommonData($request);
             }
-            return view('backEnd.dormitory.student_dormitory_report',$data);
+            return view('backEnd.dormitory.student_accommodation_report', $data);
         }catch (\Exception $e) {
             Toastr::error('Operation Failed', 'Failed');
             return redirect()->back();

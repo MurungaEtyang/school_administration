@@ -179,7 +179,7 @@ return [
     'previous_school_details' => 'Previous School Details',
     'additional_notes' => 'Additional Notes',
     'parents_and_guardian_info' => 'PARENTS & GUARDIAN INFO',
-    'transport_and_dormitory_info' => 'Transport & Dormitory Info',
+    'transport_and_dormitory_info' => 'Transport & Accommodation Info',
     'transport_info' => 'Transport Info',
     'dormitory_info' => 'Dormitory Info',
     'document_info' => 'Document Info',
@@ -574,6 +574,6 @@ return [
     'revert_as_student' => 'Revert as Student',
     'holiday_notification' => 'Holiday Notification',
     'transport_info' => 'Transport Info',
-    'dormitory_info' => 'Dormitory Info',
+    'dormitory_info' => 'Accommodation Info',
     'signature' => 'Signature'
 ];

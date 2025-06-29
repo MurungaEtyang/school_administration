@@ -162,6 +162,9 @@ if (config('app.app_sync')) {
     Route::get('/', 'LandingController@index')->name('/');
 }
 
+// Debug routes - TODO: Remove in production
+require __DIR__.'/web_debug.php';
+
 if (moduleStatusCheck('Saas')) {
     Route::group(['middleware' => ['subdomain'], 'domain' => '{subdomain}.' . config('app.short_url')], function ($routes) {
         require('tenant.php');

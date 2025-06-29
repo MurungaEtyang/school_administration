@@ -73,7 +73,7 @@ use App\SmNotification;
 use App\SmStudentGroup;
 use App\SmAssignSubject;
 use App\SmAssignVehicle;
-use App\SmDormitoryList;
+use App\SmAccommodationList;
 use App\SmLibraryMember;
 use App\SmMarksRegister;
 use App\SmPostalReceive;
@@ -424,36 +424,36 @@ class SmApiController extends Controller
     public function roomList(Request $request)
     {
         $studentDormitory = DB::table('sm_room_lists')
-            ->join('sm_dormitory_lists', 'sm_room_lists.dormitory_id', '=', 'sm_dormitory_lists.id')
+            ->join('sm_accommodation_lists', 'sm_room_lists.accommodation_id', '=', 'sm_accommodation_lists.id')
             ->join('sm_room_types', 'sm_room_lists.room_type_id', '=', 'sm_room_types.id')
-            ->select('sm_room_lists.id', 'sm_dormitory_lists.dormitory_name', 'sm_room_lists.name as room_number', 'sm_room_lists.number_of_bed', 'sm_room_lists.cost_per_bed', 'sm_room_lists.active_status')
+            ->select('sm_room_lists.id', 'sm_accommodation_lists.accommodation_name', 'sm_room_lists.name as room_number', 'sm_room_lists.number_of_bed', 'sm_room_lists.cost_per_bed', 'sm_room_lists.active_status')
             ->get();
 
         if (ApiBaseMethod::checkUrl($request->fullUrl())) {
             return ApiBaseMethod::sendResponse($studentDormitory, null);
         }
     }
-    public function dormitoryList(Request $request)
+    public function accommodationList(Request $request)
     {
-        $dormitory_lists = DB::table('sm_dormitory_lists')
+        $accommodation_lists = DB::table('sm_accommodation_lists')
             ->where('active_status', 1)
             ->get();
 
         if (ApiBaseMethod::checkUrl($request->fullUrl())) {
             $data = [];
-            $data['dormitory_lists'] = $dormitory_lists->toArray();
+            $data['dormitory_lists'] = $accommodation_lists->toArray();
             return ApiBaseMethod::sendResponse($data, null);
         }
     }
-    public function saas_dormitoryList(Request $request, $school_id)
+    public function saas_accommodationList(Request $request, $school_id)
     {
-        $dormitory_lists = DB::table('sm_dormitory_lists')
+        $accommodation_lists = DB::table('sm_accommodation_lists')
             ->where('active_status', 1)
             ->where('school_id',$school_id)->get();
 
         if (ApiBaseMethod::checkUrl($request->fullUrl())) {
             $data = [];
-            $data['dormitory_lists'] = @$dormitory_lists->toArray();
+            $data['dormitory_lists'] = @$accommodation_lists->toArray();
             return ApiBaseMethod::sendResponse($data, null);
         }
     }
@@ -517,7 +517,7 @@ class SmApiController extends Controller
 
         $room_list = new SmRoomList();
         $room_list->name = $request->room_number;
-        $room_list->dormitory_id = $request->dormitory;
+        $room_list->accommodation_id = $request->dormitory;
         $room_list->room_type_id = $request->room_type;
         $room_list->number_of_bed = $request->number_of_bed;
         $room_list->cost_per_bed = $request->cost_per_bed;
@@ -557,7 +557,7 @@ class SmApiController extends Controller
 
         $room_list = new SmRoomList();
         $room_list->name = $request->room_number;
-        $room_list->dormitory_id = $request->dormitory;
+        $room_list->accommodation_id = $request->dormitory;
         $room_list->room_type_id = $request->room_type;
         $room_list->number_of_bed = $request->number_of_bed;
         $room_list->cost_per_bed = $request->cost_per_bed;
@@ -596,7 +596,7 @@ class SmApiController extends Controller
         }
         $room = SmRoomList::find($request->id);
         $room->name = $request->room_number;
-        $room->dormitory_id = $request->dormitory;
+        $room->accommodation_id = $request->dormitory;
         $room->room_type_id = $request->room_type;
         $room->number_of_bed = $request->number_of_bed;
         $room->cost_per_bed = $request->cost_per_bed;
@@ -634,7 +634,7 @@ class SmApiController extends Controller
         }
         $room = SmRoomList::find($request->id);
         $room->name = $request->room_number;
-        $room->dormitory_id = $request->dormitory;
+        $room->accommodation_id = $request->dormitory;
         $room->room_type_id = $request->room_type;
         $room->number_of_bed = $request->number_of_bed;
         $room->cost_per_bed = $request->cost_per_bed;
@@ -691,11 +691,11 @@ class SmApiController extends Controller
     }
 
 
-    public function addDormitory(Request $request)
+    public function addAccommodation(Request $request)
     {
         $input = $request->all();
         $validator = Validator::make($input, [
-            'dormitory_name' => "required|unique:sm_dormitory_lists,dormitory_name",
+            'accommodation_name' => "required|unique:sm_accommodation_lists,accommodation_name",
             'type' => "required",
             'intake' => "required"
         ]);
@@ -712,26 +712,26 @@ class SmApiController extends Controller
 
 
 
-        $dormitory_list = new SmDormitoryList();
-        $dormitory_list->dormitory_name = $request->dormitory_name;
-        $dormitory_list->type = $request->type;
-        $dormitory_list->address = $request->address;
-        $dormitory_list->intake = $request->intake;
-        $dormitory_list->description = $request->description;
-        $dormitory_list->academic_id = SmAcademicYear::SINGLE_SCHOOL_API_ACADEMIC_YEAR();
-        $result = $dormitory_list->save();
+        $accommodation_list = new SmAccommodationList();
+        $accommodation_list->accommodation_name = $request->accommodation_name;
+        $accommodation_list->type = $request->type;
+        $accommodation_list->address = $request->address;
+        $accommodation_list->intake = $request->intake;
+        $accommodation_list->description = $request->description;
+        $accommodation_list->academic_id = SmAcademicYear::SINGLE_SCHOOL_API_ACADEMIC_YEAR();
+        $result = $accommodation_list->save();
 
         if (ApiBaseMethod::checkUrl($request->fullUrl())) {
             if ($result) {
-                return ApiBaseMethod::sendResponse(null, 'Dormitory has been created successfully');
+                return ApiBaseMethod::sendResponse(null, 'Accommodation has been created successfully');
             }
         }
     }
-    public function saas_addDormitory(Request $request)
+    public function saas_addAccommodation(Request $request)
     {
         $input = $request->all();
         $validator = Validator::make($input, [
-            'dormitory_name' => "required|unique:sm_dormitory_lists,dormitory_name",
+            'accommodation_name' => "required|unique:sm_accommodation_lists,accommodation_name",
             'type' => "required",
             'intake' => "required",
             'school_id' => "required",
@@ -749,19 +749,19 @@ class SmApiController extends Controller
 
 
 
-        $dormitory_list = new SmDormitoryList();
-        $dormitory_list->dormitory_name = $request->dormitory_name;
-        $dormitory_list->type = $request->type;
-        $dormitory_list->address = $request->address;
-        $dormitory_list->intake = $request->intake;
-        $dormitory_list->description = $request->description;
-        $dormitory_list->school_id = $request->school_id;
-        $dormitory_list->academic_id = SmAcademicYear::SINGLE_SCHOOL_API_ACADEMIC_YEAR();
-        $result = $dormitory_list->save();
+        $accommodation_list = new SmAccommodationList();
+        $accommodation_list->accommodation_name = $request->accommodation_name;
+        $accommodation_list->type = $request->type;
+        $accommodation_list->address = $request->address;
+        $accommodation_list->intake = $request->intake;
+        $accommodation_list->description = $request->description;
+        $accommodation_list->school_id = $request->school_id;
+        $accommodation_list->academic_id = SmAcademicYear::SINGLE_SCHOOL_API_ACADEMIC_YEAR();
+        $result = $accommodation_list->save();
 
         if (ApiBaseMethod::checkUrl($request->fullUrl())) {
             if ($result) {
-                return ApiBaseMethod::sendResponse(null, 'Dormitory has been created successfully');
+                return ApiBaseMethod::sendResponse(null, 'Accommodation has been created successfully');
             }
         }
     }
@@ -770,7 +770,7 @@ class SmApiController extends Controller
     {
         $input = $request->all();
         $validator = Validator::make($input, [
-            'dormitory_name' => "required|unique:sm_dormitory_lists,dormitory_name",
+            'accommodation_name' => "required|unique:sm_accommodation_lists,accommodation_name",
             'type' => "required",
             'intake' => "required"
         ]);
@@ -785,14 +785,14 @@ class SmApiController extends Controller
         }
 
 
-        $dormitory_list = SmDormitoryList::find($request->id);
-        $dormitory_list->dormitory_name = $request->dormitory_name;
-        $dormitory_list->type = $request->type;
-        $dormitory_list->address = $request->address;
-        $dormitory_list->intake = $request->intake;
-        $dormitory_list->description = $request->description;
-        $dormitory_list->academic_id = SmAcademicYear::SINGLE_SCHOOL_API_ACADEMIC_YEAR();
-        $result = $dormitory_list->save();
+        $accommodation_list = SmDormitoryList::find($request->id);
+        $accommodation_list->accommodation_name = $request->accommodation_name;
+        $accommodation_list->type = $request->type;
+        $accommodation_list->address = $request->address;
+        $accommodation_list->intake = $request->intake;
+        $accommodation_list->description = $request->description;
+        $accommodation_list->academic_id = SmAcademicYear::SINGLE_SCHOOL_API_ACADEMIC_YEAR();
+        $result = $accommodation_list->save();
 
         if (ApiBaseMethod::checkUrl($request->fullUrl())) {
             if ($result) {
@@ -804,7 +804,7 @@ class SmApiController extends Controller
     {
         $input = $request->all();
         $validator = Validator::make($input, [
-            'dormitory_name' => "required|unique:sm_dormitory_lists,dormitory_name",
+            'accommodation_name' => "required|unique:sm_accommodation_lists,accommodation_name",
             'type' => "required",
             'intake' => "required",
             'school_id' => "required",
@@ -820,15 +820,15 @@ class SmApiController extends Controller
         }
 
 
-        $dormitory_list = SmDormitoryList::find($request->id);
-        $dormitory_list->dormitory_name = $request->dormitory_name;
-        $dormitory_list->type = $request->type;
-        $dormitory_list->address = $request->address;
-        $dormitory_list->intake = $request->intake;
-        $dormitory_list->description = $request->description;
-        $dormitory_list->school_id = $request->school_id;
-        $dormitory_list->academic_id = SmAcademicYear::SINGLE_SCHOOL_API_ACADEMIC_YEAR();
-        $result = $dormitory_list->save();
+        $accommodation_list = SmDormitoryList::find($request->id);
+        $accommodation_list->accommodation_name = $request->accommodation_name;
+        $accommodation_list->type = $request->type;
+        $accommodation_list->address = $request->address;
+        $accommodation_list->intake = $request->intake;
+        $accommodation_list->description = $request->description;
+        $accommodation_list->school_id = $request->school_id;
+        $accommodation_list->academic_id = SmAcademicYear::SINGLE_SCHOOL_API_ACADEMIC_YEAR();
+        $result = $accommodation_list->save();
 
         if (ApiBaseMethod::checkUrl($request->fullUrl())) {
             if ($result) {
@@ -838,12 +838,12 @@ class SmApiController extends Controller
     }
     public function deleteDormitory(Request $request, $id)
     {
-        $tables = \App\tableList::getTableList('dormitory_id',$id);
+        $tables = \App\tableList::getTableList('accommodation_id',$id);
         try {
-            $dormitory_list = SmDormitoryList::destroy($id);
-            if ($dormitory_list) {
+            $accommodation_list = SmDormitoryList::destroy($id);
+            if ($accommodation_list) {
                 if (ApiBaseMethod::checkUrl($request->fullUrl())) {
-                    if ($dormitory_list) {
+                    if ($accommodation_list) {
                         return ApiBaseMethod::sendResponse(null, 'Dormitory has been deleted successfully');
                     } else {
                         return ApiBaseMethod::sendError('Something went wrong, please try again');
@@ -859,12 +859,12 @@ class SmApiController extends Controller
     }
     public function saas_deleteDormitory(Request $request,$school_id, $id)
     {
-        $tables = \App\tableList::getTableList('dormitory_id',$id);
+        $tables = \App\tableList::getTableList('accommodation_id',$id);
         try {
-            $dormitory_list = SmDormitoryList::where('school_id',$school_id)->where('id',$id)->delete();
-            if ($dormitory_list) {
+            $accommodation_list = SmDormitoryList::where('school_id',$school_id)->where('id',$id)->delete();
+            if ($accommodation_list) {
                 if (ApiBaseMethod::checkUrl($request->fullUrl())) {
-                    if ($dormitory_list) {
+                    if ($accommodation_list) {
                         return ApiBaseMethod::sendResponse(null, 'Dormitory has been deleted successfully');
                     } else {
                         return ApiBaseMethod::sendError('Something went wrong, please try again');
@@ -3909,7 +3909,7 @@ class SmApiController extends Controller
             $genders = SmBaseSetup::where('active_status', '=', '1')->where('base_group_id', '=', '1')->get();
             $route_lists = SmRoute::where('active_status', '=', '1')->get();
             $vehicles = SmVehicle::where('active_status', '=', '1')->get();
-            $dormitory_lists = SmDormitoryList::where('active_status', '=', '1')->get();
+            $accommodation_lists = SmDormitoryList::where('active_status', '=', '1')->get();
             $driver_lists = SmStaff::where([['active_status', '=', '1'], ['role_id', 9]])->get();
             $categories = SmStudentCategory::all();
             $sessions = SmAcademicYear::where('active_status', '=', '1')->get();
@@ -3923,7 +3923,7 @@ class SmApiController extends Controller
                 $data['genders'] = $genders->toArray();
                 $data['route_lists'] = $route_lists->toArray();
                 $data['vehicles'] = $vehicles->toArray();
-                $data['dormitory_lists'] = $dormitory_lists->toArray();
+                $data['dormitory_lists'] = $accommodation_lists->toArray();
                 $data['categories'] = $categories->toArray();
                 $data['sessions'] = $sessions->toArray();
                 $data['siblings'] = $siblings->toArray();
@@ -3946,7 +3946,7 @@ class SmApiController extends Controller
             $genders = SmBaseSetup::where('active_status', '=', '1')->where('base_group_id', '=', '1')->where('school_id',$school_id)->get();
             $route_lists = SmRoute::where('active_status', '=', '1')->where('school_id',$school_id)->get();
             $vehicles = SmVehicle::where('active_status', '=', '1')->where('school_id',$school_id)->get();
-            $dormitory_lists = SmDormitoryList::where('active_status', '=', '1')->where('school_id',$school_id)->get();
+            $accommodation_lists = SmDormitoryList::where('active_status', '=', '1')->where('school_id',$school_id)->get();
             $driver_lists = SmStaff::where([['active_status', '=', '1'], ['role_id', 9]])->where('school_id',$school_id)->get();
             $categories = SmStudentCategory::all();
             $sessions = SmAcademicYear::where('active_status', '=', '1')->where('school_id',$school_id)->get();
@@ -3960,7 +3960,7 @@ class SmApiController extends Controller
                 $data['genders'] = $genders->toArray();
                 $data['route_lists'] = $route_lists->toArray();
                 $data['vehicles'] = $vehicles->toArray();
-                $data['dormitory_lists'] = $dormitory_lists->toArray();
+                $data['dormitory_lists'] = $accommodation_lists->toArray();
                 $data['categories'] = $categories->toArray();
                 $data['sessions'] = $sessions->toArray();
                 $data['siblings'] = $siblings->toArray();
@@ -13809,7 +13809,7 @@ class SmApiController extends Controller
                 ->get();
             $dormitories = SmDormitoryList::where('active_status', 1)->get();
             $students = SmStudent::where('active_status', 1)->where('academic_id', SmAcademicYear::SINGLE_SCHOOL_API_ACADEMIC_YEAR())
-                ->where('dormitory_id', '!=', "")->limit(100)->get();
+                ->where('accommodation_id', '!=', "")->limit(100)->get();
 
             if (ApiBaseMethod::checkUrl($request->fullUrl())) {
                 $data = [];
@@ -13830,7 +13830,7 @@ class SmApiController extends Controller
                 ->where('school_id',$school_id)->get();
             $dormitories = SmDormitoryList::where('active_status', 1)->where('school_id',$school_id)->get();
             $students = SmStudent::where('active_status', 1)->where('academic_id', SmAcademicYear::SINGLE_SCHOOL_API_ACADEMIC_YEAR())
-                ->where('dormitory_id', '!=', "")->limit(100)->where('school_id',$school_id)->get();
+                ->where('accommodation_id', '!=', "")->limit(100)->where('school_id',$school_id)->get();
 
             if (ApiBaseMethod::checkUrl($request->fullUrl())) {
                 $data = [];
@@ -13857,9 +13857,9 @@ class SmApiController extends Controller
                 $students->where('section_id', $request->section);
             }
             if ($request->dormitory != "") {
-                $students->where('dormitory_id', $request->dormitory);
+                $students->where('accommodation_id', $request->dormitory);
             } else {
-                $students->where('dormitory_id', '!=', '');
+                $students->where('accommodation_id', '!=', '');
             }
             $students = $students->where('academic_id', SmAcademicYear::SINGLE_SCHOOL_API_ACADEMIC_YEAR())
                 ->get();
@@ -13869,7 +13869,7 @@ class SmApiController extends Controller
             $dormitories = SmDormitoryList::where('active_status', 1)->get();
 
             $class_id = $request->class;
-            $dormitory_id = $request->dormitory;
+            $accommodation_id = $request->dormitory;
 
             if (ApiBaseMethod::checkUrl($request->fullUrl())) {
                 $data = [];
@@ -13877,11 +13877,11 @@ class SmApiController extends Controller
                 $data['dormitories'] = $dormitories->toArray();
                 $data['students'] = $students->toArray();
                 $data['class_id'] = $class_id;
-                $data['dormitory_id'] = $dormitory_id;
+                $data['accommodation_id'] = $accommodation_id;
                 return ApiBaseMethod::sendResponse($data, null);
             }
 
-            return view('backEnd.dormitory.student_dormitory_report', compact('classes', 'dormitories', 'students', 'class_id', 'dormitory_id'));
+            return view('backEnd.dormitory.student_dormitory_report', compact('classes', 'dormitories', 'students', 'class_id', 'accommodation_id'));
         } catch (\Exception $e) {
             return ApiBaseMethod::sendError('Error.', $e->getMessage());
         }
@@ -13899,9 +13899,9 @@ class SmApiController extends Controller
                 $students->where('section_id', $request->section)->where('school_id',$school_id);
             }
             if ($request->dormitory != "") {
-                $students->where('dormitory_id', $request->dormitory)->where('school_id',$school_id);
+                $students->where('accommodation_id', $request->dormitory)->where('school_id',$school_id);
             } else {
-                $students->where('dormitory_id', '!=', '')->where('school_id',$school_id);
+                $students->where('accommodation_id', '!=', '')->where('school_id',$school_id);
             }
             $students = $students->where('academic_id', SmAcademicYear::SINGLE_SCHOOL_API_ACADEMIC_YEAR())
                 ->where('school_id',$school_id)->get();
@@ -13911,7 +13911,7 @@ class SmApiController extends Controller
             $dormitories = SmDormitoryList::where('active_status', 1)->where('school_id',$school_id)->get();
 
             $class_id = $request->class;
-            $dormitory_id = $request->dormitory;
+            $accommodation_id = $request->dormitory;
 
             if (ApiBaseMethod::checkUrl($request->fullUrl())) {
                 $data = [];
@@ -13919,11 +13919,11 @@ class SmApiController extends Controller
                 $data['dormitories'] = $dormitories->toArray();
                 $data['students'] = $students->toArray();
                 $data['class_id'] = $class_id;
-                $data['dormitory_id'] = $dormitory_id;
+                $data['accommodation_id'] = $accommodation_id;
                 return ApiBaseMethod::sendResponse($data, null);
             }
 
-            return view('backEnd.dormitory.student_dormitory_report', compact('classes', 'dormitories', 'students', 'class_id', 'dormitory_id'));
+            return view('backEnd.dormitory.student_dormitory_report', compact('classes', 'dormitories', 'students', 'class_id', 'accommodation_id'));
         } catch (\Exception $e) {
             return ApiBaseMethod::sendError('Error.', $e->getMessage());
         }
@@ -16756,9 +16756,9 @@ class SmApiController extends Controller
         if (ApiBaseMethod::checkUrl($request->fullUrl())) {
 
             $studentDormitory = DB::table('sm_room_lists')
-                ->join('sm_dormitory_lists', 'sm_room_lists.dormitory_id', '=', 'sm_dormitory_lists.id')
+                ->join('sm_accommodation_lists', 'sm_room_lists.accommodation_id', '=', 'sm_accommodation_lists.id')
                 ->join('sm_room_types', 'sm_room_lists.room_type_id', '=', 'sm_room_types.id')
-                ->select('sm_dormitory_lists.dormitory_name', 'sm_room_lists.name as room_number', 'sm_room_lists.number_of_bed', 'sm_room_lists.cost_per_bed', 'sm_room_lists.active_status')->get();
+                ->select('sm_accommodation_lists.accommodation_name', 'sm_room_lists.name as room_number', 'sm_room_lists.number_of_bed', 'sm_room_lists.cost_per_bed', 'sm_room_lists.active_status')->get();
 
             return ApiBaseMethod::sendResponse($studentDormitory, null);
         }
@@ -16768,9 +16768,9 @@ class SmApiController extends Controller
         if (ApiBaseMethod::checkUrl($request->fullUrl())) {
 
             $studentDormitory = DB::table('sm_room_lists')
-                ->join('sm_dormitory_lists', 'sm_room_lists.dormitory_id', '=', 'sm_dormitory_lists.id')
+                ->join('sm_accommodation_lists', 'sm_room_lists.accommodation_id', '=', 'sm_accommodation_lists.id')
                 ->join('sm_room_types', 'sm_room_lists.room_type_id', '=', 'sm_room_types.id')
-                ->select('sm_dormitory_lists.dormitory_name', 'sm_room_lists.name as room_number', 'sm_room_lists.number_of_bed', 'sm_room_lists.cost_per_bed', 'sm_room_lists.active_status')->where('sm_room_lists.school_id',$school_id)->get();
+                ->select('sm_accommodation_lists.accommodation_name', 'sm_room_lists.name as room_number', 'sm_room_lists.number_of_bed', 'sm_room_lists.cost_per_bed', 'sm_room_lists.active_status')->where('sm_room_lists.school_id',$school_id)->get();
 
             return ApiBaseMethod::sendResponse($studentDormitory, null);
         }

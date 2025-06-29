@@ -1081,7 +1081,7 @@ class CreateSmNotificationSettingsTable extends Migration
                 ]
             ],
             [
-                'event' => 'Assign_Dormitory',
+                'event' => 'Assign_Accommodation',
                 'destination' => [
                     "Email" => 1, 
                     "SMS" => 1, 
@@ -1093,36 +1093,35 @@ class CreateSmNotificationSettingsTable extends Migration
                     "Parent" => 1,
                 ],
                 'subject' => [
-                    "Student"=> "Assign Dormitory." ,
-                    "Parent"=> "Assign Dormitory." ,
+                    "Student"=> "Assign Accommodation" ,
+                    "Parent"=> "Assign Accommodation" ,
                 ],
 
                 'template' => [
                     "Student" => [
                         "Email" => "Dear [student_name],
-                        A Dormitory: [dormitory], Room [room] has been assigned for your accomodation. For any query, please contact with admin." ,
+                        An Accommodation: [accommodation], Room [room] has been assigned for you. For any query, please contact with admin." ,
                         "SMS" => "Dear [student_name],
-                        A Dormitory: [dormitory], Room [room] has been assigned for your accomodation. For any query, please contact with admin." ,
+                        An Accommodation: [accommodation], Room [room] has been assigned for you. For any query, please contact with admin." ,
                         "Web" => "Dear [student_name],
-                        A Dormitory: [dormitory], Room [room] has been assigned for your accomodation. For any query, please contact with admin." ,
+                        An Accommodation: [accommodation], Room [room] has been assigned for you. For any query, please contact with admin." ,
                         "App" => "Dear [student_name],
-                        A Dormitory: [dormitory], Room [room] has been assigned for your accomodation. For any query, please contact with admin." ,
+                        An Accommodation: [accommodation], Room [room] has been assigned for you. For any query, please contact with admin." ,
                     ],
                     "Parent"=> [
                         "Email" => "Dear [parent_name],
-                        A Dormitory: [dormitory], Room [room] has been assigned for your Child: [student_name]'s accomodation. For any query, please contact with admin." ,
+                        An Accommodation: [accommodation], Room [room] has been assigned for your Child: [student_name]. For any query, please contact with admin." ,
                         "SMS" => "Dear [parent_name],
-                        A Dormitory: [dormitory], Room [room] has been assigned for your Child: [student_name]'s accomodation. For any query, please contact with admin." ,
+                        An Accommodation: [accommodation], Room [room] has been assigned for your Child: [student_name]. For any query, please contact with admin." ,
                         "Web" => "Dear [parent_name],
-                        A Dormitory: [dormitory], Room [room] has been assigned for your Child: [student_name]'s accomodation. For any query, please contact with admin." ,
+                        An Accommodation: [accommodation], Room [room] has been assigned for your Child: [student_name]. For any query, please contact with admin." ,
                         "App" => "Dear [parent_name],
-                        A Dormitory: [dormitory], Room [room] has been assigned for your Child: [student_name]'s accomodation. For any query, please contact with admin." ,
+                        An Accommodation: [accommodation], Room [room] has been assigned for your Child: [student_name]. For any query, please contact with admin." ,
                     ],
                 ],
-
                 'shortcode' => [
-                    "Student" => "[student_name], [dormitory], [room]",
-                    "Parent" => "[parent_name], [student_name], [dormitory], [room]"
+                    "Student" => "[student_name], [accommodation], [room]",
+                    "Parent" => "[parent_name], [student_name], [accommodation], [room]"
                 ]
             ],
             [

@@ -809,7 +809,7 @@ Route::group(['middleware' => ['XSS', 'auth:api', 'json.response'], 'as' => 'api
     //------------------End Transport Module--------------
 
 
-    // ---------------Start Dormitory Module-----------------
+    // ---------------Start Accommodation Module-----------------
 
     //Room list
     Route::resource('room-list', 'api\ApiSmRoomListController');
@@ -817,16 +817,16 @@ Route::group(['middleware' => ['XSS', 'auth:api', 'json.response'], 'as' => 'api
     //Room Type
     Route::resource('room-type', 'api\ApiSmRoomTypeController');
 
-    //Dormitory List
-    Route::resource('dormitory-list', 'api\ApiSmDormitoryListController');
+    // Accommodation List
+    Route::resource('accommodation-list', 'api\ApiSmAccommodationListController');
 
-    // Student Dormitory Report
-    Route::get('student-dormitory-report', ['as' => 'student_dormitory_report', 'uses' => 'SmApiController@studentDormitoryReport']);
-    Route::get('school/{school_id}/student-dormitory-report', ['as' => 'saas_student_dormitory_report', 'uses' => 'SmApiController@saas_studentDormitoryReport']);
-    Route::post('student-dormitory-report', ['as' => 'student_dormitory_report_post', 'uses' => 'SmApiController@studentDormitoryReportSearch']);
-    Route::post('school/{school_id}/student-dormitory-report', ['as' => 'saas_student_dormitory_report_post', 'uses' => 'api\ApiSmDormitoryListController@saas_studentDormitoryReportSearch']);
+    // Student Accommodation Report
+    Route::get('student-accommodation-report', ['as' => 'student_accommodation_report', 'uses' => 'SmApiController@studentAccommodationReport']);
+    Route::get('school/{school_id}/student-accommodation-report', ['as' => 'saas_student_accommodation_report', 'uses' => 'SmApiController@saas_studentAccommodationReport']);
+    Route::post('student-accommodation-report', ['as' => 'student_accommodation_report_post', 'uses' => 'SmApiController@studentAccommodationReportSearch']);
+    Route::post('school/{school_id}/student-accommodation-report', ['as' => 'saas_student_accommodation_report_post', 'uses' => 'api\ApiSmAccommodationListController@saas_studentAccommodationReportSearch']);
 
-    // ---------------End Dormitory Module-----------------
+    // ---------------End Accommodation Module-----------------
 
 
     //------------- Start Report Module---------------------
@@ -1001,8 +1001,8 @@ Route::group(['middleware' => ['XSS', 'auth:api', 'json.response'], 'as' => 'api
     Route::get('studentDocuments/{user_id}/{record_id}', 'api\ApiSmStudyMaterialController@studentsDocumentApi');
     Route::get('school/{school_id}/studentDocuments/{user_id}/{record_id}', 'api\ApiSmStudyMaterialController@saas_studentsDocumentApi');
 
-    Route::get('student-dormitory', 'SmApiController@studentDormitoryApi');
-    Route::get('school/{school_id}/student-dormitory', 'SmApiController@saas_studentDormitoryApi');
+    Route::get('student-accommodation', 'SmApiController@studentAccommodationApi');
+    Route::get('school/{school_id}/student-accommodation', 'SmApiController@saas_studentAccommodationApi');
 
     Route::get('student-exam_schedule/{id}', 'SmApiController@studentExamScheduleApi');
     Route::get('school/{school_id}/student-exam_schedule/{id}', 'SmApiController@saas_studentExamScheduleApi');
@@ -1165,14 +1165,14 @@ Route::group(['middleware' => ['XSS', 'auth:api', 'json.response'], 'as' => 'api
     Route::get('room-delete/{id}', 'SmApiController@deleteRoom');
     Route::get('school/{school_id}/room-delete/{id}', 'SmApiController@saas_deleteRoom');
 
-    Route::get('dormitory-list', 'SmApiController@dormitoryList');
-    Route::get('school/{school_id}/dormitory-list', 'SmApiController@saas_dormitoryList');
-    Route::post('add-dormitory', 'SmApiController@addDormitory');
-    Route::post('saas-add-dormitory', 'SmApiController@saas_addDormitory');
-    Route::get('edit-dormitory', 'SmApiController@editDormitory');
-    Route::get('edit-dormitory', 'SmApiController@saas_editDormitory');
-    Route::get('delete-dormitory/{id}', 'SmApiController@deleteDormitory');
-    Route::get('school/{school_id}/delete-dormitory/{id}', 'SmApiController@saas_deleteDormitory');
+    Route::get('accommodation-list', 'SmApiController@accommodationList');
+    Route::get('school/{school_id}/accommodation-list', 'SmApiController@saas_accommodationList');
+    Route::post('add-accommodation', 'SmApiController@addAccommodation');
+    Route::post('saas-add-accommodation', 'SmApiController@saas_addAccommodation');
+    Route::get('edit-accommodation', 'SmApiController@editDormitory');
+    Route::get('edit-accommodation', 'SmApiController@saas_editDormitory');
+    Route::get('delete-accommodation/{id}', 'SmApiController@deleteDormitory');
+    Route::get('school/{school_id}/delete-accommodation/{id}', 'SmApiController@saas_deleteDormitory');
 
     Route::get('driver-list', 'SmApiController@getDriverList');
     Route::get('school/{school_id}/driver-list', 'SmApiController@saas_getDriverList');

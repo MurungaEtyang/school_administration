@@ -198,9 +198,15 @@ class SmStudent extends Model
         return $this->belongsTo('App\SmVehicle', 'vechile_id', $this->vehicle_id);
     }
 
+    public function accommodation()
+    {
+        return $this->belongsTo('App\SmDormitoryList', 'accommodation_id', 'id');
+    }
+    
+    // Keep this for backward compatibility
     public function dormitory()
     {
-        return $this->belongsTo('App\SmDormitoryList', 'dormitory_id', 'id');
+        return $this->belongsTo('App\SmDormitoryList', 'accommodation_id', 'id');
     }
 
     public function sections()
@@ -210,7 +216,7 @@ class SmStudent extends Model
 
     public function rooms()
     {
-        return $this->hasMany('App\SmRoomList', 'dormitory_id', 'dormitory_id');
+        return $this->hasMany('App\SmRoomList', 'accommodation_id', 'accommodation_id');
     }
 
     public function room()

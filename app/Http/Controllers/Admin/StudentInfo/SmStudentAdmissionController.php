@@ -439,9 +439,9 @@ class SmStudentAdmissionController extends Controller
                 $this->sent_notifications('Assign_Vehicle', [$user_stu->id], $data, ['Student', 'Parent']);
             }
             if (!empty($request->dormitory_name) && !empty($request->room_number)) {
-                $data['dormitory'] = $student->dormitory->dormitory_name;
+                $data['accommodation'] = $student->accommodation->dormitory_name;
                 $data['room'] = $student->room->name;
-                $this->sent_notifications('Assign_Dormitory', [$user_stu->id], $data, ['Student', 'Parent']);
+                $this->sent_notifications('Assign_Accommodation', [$user_stu->id], $data, ['Student', 'Parent']);
             }
 
             $class_teacher = SmClassTeacher::whereHas('teacherClass', function ($q) use ($request) {
@@ -747,9 +747,9 @@ class SmStudentAdmissionController extends Controller
                 $this->sent_notifications('Assign_Vehicle', [$user_stu->id], $data, ['Student', 'Parent']);
             }
             if (!empty($request->dormitory_name) && !empty($request->room_number)) {
-                $data['dormitory'] = $student->dormitory->dormitory_name;
+                $data['accommodation'] = $student->accommodation->dormitory_name;
                 $data['room'] = $student->room->name;
-                $this->sent_notifications('Assign_Dormitory', [$user_stu->id], $data, ['Student', 'Parent']);
+                $this->sent_notifications('Assign_Accommodation', [$user_stu->id], $data, ['Student', 'Parent']);
             }
             
             $student->save();

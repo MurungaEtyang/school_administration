@@ -630,34 +630,31 @@ Route::group(['middleware' => ['XSS', 'subscriptionAccessUrl']], function  (){
         Route::post('percent-marksheet-print', 'Admin\Examination\SmExaminationController@percentMarksheetPrint')->name('percent-marksheet-print')->middleware('userRolePermission:percent-marksheet-print');
 
         // Dormitory Module
-        //Dormitory List
-        // Route::resource('dormitory-list', 'Admin\Dormitory\SmDormitoryListController')->middleware('userRolePermission:367');
-        Route::get('dormitory-list', 'Admin\Dormitory\SmDormitoryListController@index')->name('dormitory-list-index')->middleware('userRolePermission:dormitory-list-index');
-        Route::post('dormitory-list', 'Admin\Dormitory\SmDormitoryListController@store')->name('dormitory-list-store')->middleware('userRolePermission:dormitory-list-store');
+        // Dormitory List
+        Route::get('dormitory-list', 'Admin\Dormitory\SmDormitoryListController@index')->name('dormitory-list-index');
+        Route::post('dormitory-list', 'Admin\Dormitory\SmDormitoryListController@store')->name('dormitory-list-store');
         Route::get('dormitory-list/{id}', 'Admin\Dormitory\SmDormitoryListController@show')->name('dormitory-list-edit');
         Route::put('dormitory-list/{id}', 'Admin\Dormitory\SmDormitoryListController@update')->name('dormitory-list-update');
         Route::delete('dormitory-list/{id}', 'Admin\Dormitory\SmDormitoryListController@destroy')->name('dormitory-list-delete');
 
-        //Room Type
-        // Route::resource('room-type', 'Admin\Dormitory\SmRoomTypeController@')->middleware('userRolePermission:371');
-        Route::get('room-type', 'Admin\Dormitory\SmRoomTypeController@index')->name('room-type-index')->middleware('userRolePermission:room-type-index');
+        // Room Type
+        Route::get('room-type', 'Admin\Dormitory\SmRoomTypeController@index')->name('room-type-index');
         Route::post('room-type', 'Admin\Dormitory\SmRoomTypeController@store')->name('room-type-store');
         Route::get('room-type/{id}', 'Admin\Dormitory\SmRoomTypeController@show')->name('room-type-edit');
         Route::put('room-type/{id}', 'Admin\Dormitory\SmRoomTypeController@update')->name('room-type-update');
         Route::delete('room-type/{id}', 'Admin\Dormitory\SmRoomTypeController@destroy')->name('room-type-delete');
 
-        //Room Type
-        // Route::resource('room-list', 'Admin\Dormitory\SmRoomListController')->middleware('userRolePermission:363');
-        Route::get('room-list', 'Admin\Dormitory\SmRoomListController@index')->name('room-list-index')->middleware('userRolePermission:room-list-index');
-        Route::post('room-list', 'Admin\Dormitory\SmRoomListController@store')->name('room-list-store')->middleware('userRolePermission:room-list-index');
-        Route::get('room-list/{id}', 'Admin\Dormitory\SmRoomListController@show')->name('room-list-edit')->middleware('userRolePermission:room-list-index');
-        Route::put('room-list/{id}', 'Admin\Dormitory\SmRoomListController@update')->name('room-list-update')->middleware('userRolePermission:room-list-index');
-        Route::delete('room-list/{id}', 'Admin\Dormitory\SmRoomListController@destroy')->name('room-list-delete')->middleware('userRolePermission:room-list-index');
+        // Room List
+        Route::get('room-list', 'Admin\Dormitory\SmRoomListController@index')->name('room-list-index');
+        Route::post('room-list', 'Admin\Dormitory\SmRoomListController@store')->name('room-list-store');
+        Route::get('room-list/{id}', 'Admin\Dormitory\SmRoomListController@show')->name('room-list-edit');
+        Route::put('room-list/{id}', 'Admin\Dormitory\SmRoomListController@update')->name('room-list-update');
+        Route::delete('room-list/{id}', 'Admin\Dormitory\SmRoomListController@destroy')->name('room-list-delete');
 
-        // Student Dormitory Report
-        Route::get('student-dormitory-report', ['as' => 'student_dormitory_report_index', 'uses' => 'Admin\Dormitory\SmDormitoryController@studentDormitoryReport'])->middleware('userRolePermission:student_dormitory_report');
+        // Student Accommodation Report
+        Route::get('student-accommodation-report', ['as' => 'student_accommodation_report_index', 'uses' => 'Admin\Dormitory\SmDormitoryController@studentAccommodationReport'])->middleware('userRolePermission:student_accommodation_report');
 
-        Route::post('student-dormitory-report', ['as' => 'student_dormitory_report_store', 'uses' => 'Admin\Dormitory\SmDormitoryController@studentDormitoryReportSearch']);
+        Route::post('student-accommodation-report', ['as' => 'student_accommodation_report_store', 'uses' => 'Admin\Dormitory\SmDormitoryController@studentAccommodationReportSearch']);
 
 
         // Transport Module Start

@@ -2568,16 +2568,16 @@ class RouteListController extends Controller
          ),
          362 => 
          array (
-           'name' => 'Dormitory',
-           'route' => 'dormitory',
+           'name' => 'Accommodation',
+           'route' => 'accommodation',
            'parent_route' => NULL,
            'type' => 1,
          ),
          363 => 
          array (
-           'name' => 'Dormitory Rooms',
+           'name' => 'Accommodation Rooms',
            'route' => 'room-list',
-           'parent_route' => 'dormitory',
+           'parent_route' => 'accommodation',
            'type' => 2,
          ),
          364 => 
@@ -2603,37 +2603,37 @@ class RouteListController extends Controller
          ),
          367 => 
          array (
-           'name' => 'Dormitory',
-           'route' => 'dormitory-list',
-           'parent_route' => 'dormitory',
+           'name' => 'Accommodation',
+           'route' => 'accommodation-list',
+           'parent_route' => 'accommodation',
            'type' => 2,
          ),
          368 => 
          array (
            'name' => 'Add',
-           'route' => 'dormitory-list-store',
-           'parent_route' => 'dormitory-list',
+           'route' => 'accommodation-list-store',
+           'parent_route' => 'accommodation-list',
            'type' => 3,
          ),
          369 => 
          array (
            'name' => 'Edit',
-           'route' => 'dormitory-list-edit',
-           'parent_route' => 'dormitory-list',
+           'route' => 'accommodation-list-edit',
+           'parent_route' => 'accommodation-list',
            'type' => 3,
          ),
          370 => 
          array (
            'name' => 'Delete',
-           'route' => 'dormitory-list-delete',
-           'parent_route' => 'dormitory-list',
+           'route' => 'accommodation-list-delete',
+           'parent_route' => 'accommodation-list',
            'type' => 3,
          ),
          371 => 
          array (
            'name' => 'Room Type',
            'route' => 'room-type',
-           'parent_route' => 'dormitory',
+           'parent_route' => 'accommodation',
            'type' => 2,
          ),
          372 => 
@@ -2659,9 +2659,9 @@ class RouteListController extends Controller
          ),
          375 => 
          array (
-           'name' => 'Student Dormitory Report',
-           'route' => 'student_dormitory_report',
-           'parent_route' => 'dormitory',
+           'name' => 'Student Accommodation Report',
+           'route' => 'student_accommodation_report',
+           'parent_route' => 'accommodation',
            'type' => 2,
          ),
          376 => 

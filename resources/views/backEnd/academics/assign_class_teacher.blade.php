@@ -30,7 +30,7 @@
           @if(userPermission("assign-class-teacher-store")) 
         <div class="row">
             <div class="offset-lg-10 col-lg-2 text-right col-md-12 mb-20">
-                <a href="{{route('assign-class-teacher')}}" class="primary-btn small fix-gr-bg">
+                <a href="{{route('assign-class-lecturer')}}" class="primary-btn small fix-gr-bg">
                     <span class="ti-plus pr-2"></span>
                     @lang('academics.assign')
                 </a>
@@ -43,10 +43,10 @@
                 <div class="row">
                     <div class="col-lg-12">
                         @if(isset($assign_class_teacher))
-                        {{ Form::open(['class' => 'form-horizontal', 'route' => array('assign-class-teacher-update',@$assign_class_teacher->id), 'method' => 'PUT']) }}
+                        {{ Form::open(['class' => 'form-horizontal', 'route' => array('assign-class-lecturer-update',@$assign_class_teacher->id), 'method' => 'PUT']) }}
                         @else
-                         @if(userPermission("assign-class-teacher-store")) 
-                        {{ Form::open(['class' => 'form-horizontal', 'route' => 'assign-class-teacher-store', 'method' => 'POST']) }}
+                         @if(userPermission("assign-class-lecturer-store")) 
+                        {{ Form::open(['class' => 'form-horizontal', 'route' => 'assign-class-lecturer-store', 'method' => 'POST']) }}
                         @endif
                         @endif
                         <div class="white-box">
@@ -115,17 +115,17 @@
                                 </div>
                                 <div class="row mt-15">
                                     <div class="col-lg-12">
-                                        <label class="primary_input_label" for="">@lang('academics.teacher') <span class="text-danger"> *</span></label>
+                                        <label class="primary_input_label" for="">@lang('academics.teacher') <span class="text-danger"> *</span> (Lecturer)</label>
                                         @foreach($teachers as $teacher)
                                         @if(isset($assign_class_teacher))
                                         <div class="">
-                                            <input type="radio" id="tecaher{{@$teacher->id}}" class="common-checkbox" name="teacher" value="{{ @$teacher->id}}" {{in_array($teacher->id, $teacherId)? 'checked':''}}>
-                                            <label for="tecaher{{ @$teacher->id}}">{{ @$teacher->full_name}}</label>
+                                            <input type="radio" id="lecturer{{@$teacher->id}}" class="common-checkbox" name="teacher" value="{{ @$teacher->id}}" {{in_array($teacher->id, $teacherId)? 'checked':''}}>
+                                            <label for="lecturer{{ @$teacher->id}}">{{ @$teacher->full_name}}</label>
                                         </div>
                                         @else
                                         <div class="">
-                                            <input type="radio" id="tecaher{{@$teacher->id}}" class="common-checkbox" name="teacher" value="{{@$teacher->id}}">
-                                            <label for="tecaher{{@$teacher->id}}">{{@$teacher->full_name}}</label>
+                                            <input type="radio" id="lecturer{{@$teacher->id}}" class="common-checkbox" name="teacher" value="{{@$teacher->id}}">
+                                            <label for="lecturer{{@$teacher->id}}">{{@$teacher->full_name}}</label>
                                         </div>
                                         @endif
                                         @endforeach
@@ -139,7 +139,7 @@
                                 </div>
                                 @php 
                                   $tooltip = "";
-                                  if(userPermission("assign-class-teacher-store")){
+                                  if(userPermission("assign-class-lecturer-store")){
                                         $tooltip = "";
                                     }else{
                                         $tooltip = "You have no permission to add";
@@ -170,7 +170,7 @@
                     <div class="row">
                         <div class="col-lg-4 no-gutters">
                             <div class="main-title">
-                                <h3 class="mb-15">@lang('academics.class_teacher_list')</h3>
+                                <h3 class="mb-15">@lang('academics.class_teacher_list') (Lecturer List)</h3>
                             </div>
                         </div>
                     </div>
@@ -185,7 +185,7 @@
                                         <tr>
                                             <th>@lang('common.class')</th>
                                             <th>@lang('common.section')</th>
-                                            <th>@lang('common.teacher')</th>
+                                            <th>@lang('common.teacher') (Lecturer)</th>
                                             <th>@lang('common.action')</th>
                                         </tr>
                                     </thead>
@@ -213,9 +213,9 @@
                                                 
                                                 @php
                                                 $routeList = [
-                                                    userPermission('assign-class-teacher-edit') ?
-                                                    '<a class="dropdown-item" href="'.route('assign-class-teacher-edit', [$assign_class_teacher->id]).'">'.__('common.edit').'</a>':null,
-                                                    userPermission('assign-class-teacher-delete') ?
+                                                    userPermission('assign-class-lecturer-edit') ?
+                                                    '<a class="dropdown-item" href="'.route('assign-class-lecturer-edit', [$assign_class_teacher->id]).'">'.__('common.edit').'</a>':null,
+                                                    userPermission('assign-class-lecturer-delete') ?
                                                     '<a class="dropdown-item" data-toggle="modal" data-target="#deleteClassModal'.$assign_class_teacher->id.'"  href="#">'.__('common.delete').'</a>' : null,
                                                 ]
                                             @endphp
@@ -226,7 +226,7 @@
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title">@lang('academics.delete_assign_teacher')</h4>
+                                                        <h4 class="modal-title">@lang('academics.delete_assign_teacher') (Delete Assign Lecturer)</h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
         
@@ -237,7 +237,7 @@
         
                                                         <div class="mt-40 d-flex justify-content-between">
                                                             <button type="button" class="primary-btn tr-bg" data-dismiss="modal">@lang('common.cancel')</button>
-                                                            {{ Form::open(['route' => array('assign-class-teacher-delete',@$assign_class_teacher->id), 'method' => 'DELETE', 'enctype' => 'multipart/form-data']) }}
+                                                            {{ Form::open(['route' => array('assign-class-lecturer-delete',@$assign_class_teacher->id), 'method' => 'DELETE', 'enctype' => 'multipart/form-data']) }}
                                                             <button class="primary-btn fix-gr-bg" type="submit">@lang('common.delete')</button>
                                                              {{ Form::close() }}
                                                         </div>

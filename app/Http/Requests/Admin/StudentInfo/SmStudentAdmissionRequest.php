@@ -191,8 +191,8 @@ class SmStudentAdmissionRequest extends FormRequest
             'additional_notes'=>[Rule::requiredIf(function () use ($field) {
                 return in_array('additional_notes', $field);
             })],
-            'ifsc_code'=>[Rule::requiredIf(function () use ($field) {
-                return in_array('ifsc_code', $field);
+            'nemis'=>[Rule::requiredIf(function () use ($field) {
+                return in_array('nemis', $field);
             })],
             'document_file_1' => [
                 Rule::requiredIf(function () use ($field) {

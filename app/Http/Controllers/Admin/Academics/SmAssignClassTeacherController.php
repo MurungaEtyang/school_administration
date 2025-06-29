@@ -78,7 +78,7 @@ class SmAssignClassTeacherController extends Controller
                 $records = $this->studentRecordInfo($request->class, $request->section)->pluck('studentDetail.user_id');
                 $this->sent_notifications('Assign_Class_Teacher', $records, $data, ['Student', 'Parent']);
             } else {
-                Toastr::warning('Class Teacher already assigned.', 'Warning');
+                Toastr::warning('Class Lecturer already assigned.', 'Warning');
                 return redirect()->back();
             }
             Toastr::success('Operation successful', 'Success');
@@ -146,7 +146,7 @@ class SmAssignClassTeacherController extends Controller
             
             DB::commit();
             Toastr::success('Operation successful', 'Success');
-            return redirect('assign-class-teacher');
+            return redirect('assign-class-lecturer');
         } catch (\Exception $e) {
             DB::rollBack();
             Toastr::error('Operation Failed', 'Failed');

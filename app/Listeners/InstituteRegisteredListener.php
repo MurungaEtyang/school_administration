@@ -159,7 +159,7 @@ class InstituteRegisteredListener
             'bank_name',
             'previous_school_details',
             'additional_notes',
-            'ifsc_code',
+            'nemis',
             'document_file_1',
             'document_file_2',
             'document_file_3',
@@ -201,7 +201,7 @@ class InstituteRegisteredListener
 
         if (moduleStatusCheck('ParentRegistration')) {
             $request_fields = [
-                'session', 'class', 'section', 'first_name', 'last_name', 'email_address', 'gender', 'date_of_birth', 'age', 'blood_group', 'religion', 'caste', 'phone_number', 'student_category_id', 'student_group_id', 'height', 'weight', 'photo', 'fathers_name', 'fathers_occupation', 'fathers_phone', 'fathers_photo', 'mothers_name', 'mothers_occupation', 'mothers_phone', 'mothers_photo', 'guardians_name', 'relation', 'guardians_email', 'guardians_photo', 'guardians_phone', 'guardians_occupation', 'guardians_address', 'current_address', 'permanent_address', 'route', 'vehicle', 'dormitory_name', 'room_number', 'national_id_number', 'local_id_number', 'bank_account_number', 'bank_name', 'previous_school_details', 'additional_notes', 'ifsc_code', 'document_file_1', 'document_file_2', 'document_file_3', 'document_file_4', 'custom_field', 'id_number'];
+                'session', 'class', 'section', 'first_name', 'last_name', 'email_address', 'gender', 'date_of_birth', 'age', 'blood_group', 'religion', 'caste', 'phone_number', 'student_category_id', 'student_group_id', 'height', 'weight', 'photo', 'fathers_name', 'fathers_occupation', 'fathers_phone', 'fathers_photo', 'mothers_name', 'mothers_occupation', 'mothers_phone', 'mothers_photo', 'guardians_name', 'relation', 'guardians_email', 'guardians_photo', 'guardians_phone', 'guardians_occupation', 'guardians_address', 'current_address', 'permanent_address', 'route', 'vehicle', 'dormitory_name', 'room_number', 'national_id_number', 'local_id_number', 'bank_account_number', 'bank_name', 'previous_school_details', 'additional_notes', 'nemis', 'document_file_1', 'document_file_2', 'document_file_3', 'document_file_4', 'custom_field', 'id_number'];
 
             if (moduleStatusCheck('Lead')) {
                 $request_fields[] = 'lead_city';

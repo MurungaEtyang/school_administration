@@ -387,7 +387,7 @@
                                     @endif
                                     @if (userPermission(253) && menuStatus(253))
                                         <li data-position="{{ menuPosition(253) }}">
-                                            <a href="{{ route('assign-class-teacher') }}">
+                                            <a href="{{ route('assign-class-lecturer') }}">
                                                 @lang('academics.assign_class_teacher')</a>
                                         </li>
                                     @endif

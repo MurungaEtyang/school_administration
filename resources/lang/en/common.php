@@ -119,7 +119,8 @@
     "select_section" => "Select Section",
     "select_subject" => "Select Subject",
     "select_subjects" => "Select Subjects",
-    "select_teacher" => "Select Teacher",
+    "select_teacher" => "Select Lecturer", // @deprecated - use 'select_lecturer' instead
+    "select_lecturer" => "Select Lecturer",
     "select_status" => "Select Status",
     "select_role" => "Select Role",
     "select_id_card" => "Select Id Card",

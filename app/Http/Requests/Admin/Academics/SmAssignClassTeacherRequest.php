@@ -19,4 +19,11 @@ class SmAssignClassTeacherRequest extends FormRequest
             'teacher' => "required",
         ];
     }
+    
+    public function messages()
+    {
+        return [
+            'teacher.required' => 'The lecturer field is required.',
+        ];
+    }
 }

@@ -19,7 +19,7 @@
         <div class="row " id="teacher-div">
             <div class="col-lg-12">
                 <select class="primary_select  form-control selectTeacher" data-teacher_row_id="{{ $row }}" name="routine[{{ $row }}][teacher_id]" id="teacher_{{ $row }}">
-                    <option data-display="@lang('common.select_teacher')" required value="">@lang('common.select_teacher')</option>
+                    <option data-display="@lang('common.select_lecturer')" required value="">@lang('common.select_lecturer')</option>
                    
                         @foreach($teachers as $teacher)                                
                             <option value="{{ @$teacher->id}}" {{ $routine->teacher_id == $teacher->id?'selected':''}}>{{ @$teacher->full_name}}</option>

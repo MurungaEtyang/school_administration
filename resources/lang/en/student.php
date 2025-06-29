@@ -322,7 +322,7 @@ return [
     'bank_payment' => 'Bank Payment',
     'class' => 'Class',
     'birth_certificate_number' => 'Birth Certificate Number',
-    'ifsc_code' => 'IFSC Code',
+    'ifsc_code' => 'NEMIS',
     'custom_field' => 'Custom Field',
     'delete_custom_field' => 'Delete Custom Field',
     'add_student' => 'Add Student',

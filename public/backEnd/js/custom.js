@@ -2592,7 +2592,7 @@
 
         if (lecturer_name == "") {
             document.getElementById("lecturer_error").innerHTML =
-                "Teacher field is required";
+                "Lecturer field is required";
             i++;
         } else {
             document.getElementById("lecturer_error").innerHTML = "";

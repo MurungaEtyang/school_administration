@@ -92,7 +92,7 @@ class CreateSmStudentRegistrationFieldsTable extends Migration
               'bank_name',
               'previous_school_details',
               'additional_notes',
-              'ifsc_code',
+              'nemis',
               'document_file_1',
               'document_file_2',
               'document_file_3',

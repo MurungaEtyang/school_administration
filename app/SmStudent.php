@@ -57,7 +57,7 @@ class SmStudent extends Model
         'local_id_no',
         'bank_account_no',
         'bank_name',
-        'ifsc_code',
+        'nemis',
         'previous_school_details',
         'aditional_notes',
         'document_title_1',

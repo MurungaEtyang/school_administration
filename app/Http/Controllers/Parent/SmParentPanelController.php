@@ -393,8 +393,8 @@ class SmParentPanelController extends Controller
                 if ($request->filled('additional_notes')) {
                     $student->aditional_notes = $request->additional_notes;
                 }
-                if ($request->filled('ifsc_code')) {
-                    $student->ifsc_code = $request->ifsc_code;
+                if ($request->filled('nemis')) {
+                    $student->nemis = $request->nemis;
                 }
                 if ($request->filled('document_title_1')) {
                     $student->document_title_1 = $request->document_title_1;

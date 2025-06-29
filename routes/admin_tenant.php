@@ -279,12 +279,12 @@ Route::group(['middleware' => ['XSS', 'subscriptionAccessUrl']], function  (){
         Route::get('assign-subject-get-by-ajax', 'Admin\Academics\SmAssignSubjectController@assignSubjectAjax');
 
         //Assign Class Teacher
-        // Route::resource('assign-class-teacher', 'SmAssignClassTeacherControler')->middleware('userRolePermission:253');
-        Route::get('assign-class-teacher', 'Admin\Academics\SmAssignClassTeacherController@index')->name('assign-class-teacher')->middleware('userRolePermission:assign-class-teacher');
-        Route::post('assign-class-teacher', 'Admin\Academics\SmAssignClassTeacherController@store')->name('assign-class-teacher-store')->middleware('userRolePermission:assign-class-teacher-store');
-        Route::get('assign-class-teacher/{id}', 'Admin\Academics\SmAssignClassTeacherController@edit')->name('assign-class-teacher-edit')->middleware('userRolePermission:assign-class-teacher-edit');
-        Route::put('assign-class-teacher/{id}', 'Admin\Academics\SmAssignClassTeacherController@update')->name('assign-class-teacher-update')->middleware('userRolePermission:assign-class-teacher-edit');
-        Route::delete('assign-class-teacher/{id}', 'Admin\Academics\SmAssignClassTeacherController@destroy')->name('assign-class-teacher-delete')->middleware('userRolePermission:assign-class-teacher-delete');
+        // Route::resource('assign-class-lecturer', 'SmAssignClassTeacherControler')->middleware('userRolePermission:253');
+        Route::get('assign-class-lecturer', 'Admin\Academics\SmAssignClassTeacherController@index')->name('assign-class-lecturer')->middleware('userRolePermission:assign-class-lecturer');
+        Route::post('assign-class-lecturer', 'Admin\Academics\SmAssignClassTeacherController@store')->name('assign-class-lecturer-store')->middleware('userRolePermission:assign-class-lecturer-store');
+        Route::get('assign-class-lecturer/{id}', 'Admin\Academics\SmAssignClassTeacherController@edit')->name('assign-class-lecturer-edit')->middleware('userRolePermission:assign-class-lecturer-edit');
+        Route::put('assign-class-lecturer/{id}', 'Admin\Academics\SmAssignClassTeacherController@update')->name('assign-class-lecturer-update')->middleware('userRolePermission:assign-class-lecturer-edit');
+        Route::delete('assign-class-lecturer/{id}', 'Admin\Academics\SmAssignClassTeacherController@destroy')->name('assign-class-lecturer-delete')->middleware('userRolePermission:assign-class-lecturer-delete');
         // Class room
         // Route::resource('class-room', 'SmClassRoomController')->middleware('userRolePermission:269');
         Route::get('class-room', 'Admin\Academics\SmClassRoomController@index')->name('class-room')->middleware('userRolePermission:class-room');

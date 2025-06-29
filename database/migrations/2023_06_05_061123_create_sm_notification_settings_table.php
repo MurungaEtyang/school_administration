@@ -25,7 +25,7 @@ class CreateSmNotificationSettingsTable extends Migration
 
         $all_events = [
             [
-                'event' => 'Assign_Class_Teacher',
+                'event' => 'Assign_Class_Lecturer',
                 'destination' => [
                     "Email" => 1, 
                     "SMS" => 1, 
@@ -38,33 +38,33 @@ class CreateSmNotificationSettingsTable extends Migration
                     'Teacher' => 1
                 ],
                 'subject' => [
-                    "Student"=> "Assigned Classes For Teachers" ,
-                    "Parent"=> "Assigned Classes For Teachers" ,
-                    "Teacher" => "Assigned Classes For Teachers"
+                    "Student"=> "Assigned Classes For Lecturers" ,
+                    "Parent"=> "Assigned Classes For Lecturers" ,
+                    "Lecturer" => "Assigned Classes For Lecturers"
                 ],
 
                 'template' => [
                     "Student" => [
                         "Email" => "Dear [student_name],
-                        This Class: [class], Section: [section] has been assigned to the Teacher: [teacher_name]. For any query, please contact with admin." ,
+                        This Class: [class], Section: [section] has been assigned to the Lecturer: [teacher_name]. For any query, please contact with admin." ,
                         "SMS" => "Dear [student_name],
-                        This Class: [class], Section: [section] has been assigned to the Teacher: [teacher_name]. For any query, please contact with admin." ,
+                        This Class: [class], Section: [section] has been assigned to the Lecturer: [teacher_name]. For any query, please contact with admin." ,
                         "Web" => "Dear [student_name],
-                        This Class: [class], Section: [section] has been assigned to the Teacher: [teacher_name]. For any query, please contact with admin." ,
+                        This Class: [class], Section: [section] has been assigned to the Lecturer: [teacher_name]. For any query, please contact with admin." ,
                         "App" => "Dear [student_name],
-                        This Class: [class], Section: [section] has been assigned to the Teacher: [teacher_name]. For any query, please contact with admin." ,
+                        This Class: [class], Section: [section] has been assigned to the Lecturer: [teacher_name]. For any query, please contact with admin." ,
                     ],
                     "Parent"=> [
                         "Email" => "Dear [parent_name],
-                        This Class: [class], Section: [section] has been assigned to the Teacher: [teacher_name] for your child [student_name]. For any query, please contact with admin." ,
+                        This Class: [class], Section: [section] has been assigned to the Lecturer: [teacher_name] for your child [student_name]. For any query, please contact with admin." ,
                         "SMS" => "Dear [parent_name],
-                        This Class: [class], Section: [section] has been assigned to the Teacher: [teacher_name] for your child [student_name]. For any query, please contact with admin." ,
+                        This Class: [class], Section: [section] has been assigned to the Lecturer: [teacher_name] for your child [student_name]. For any query, please contact with admin." ,
                         "Web" => "Dear [parent_name],
-                        This Class: [class], Section: [section] has been assigned to the Teacher: [teacher_name] for your child [student_name]. For any query, please contact with admin." ,
+                        This Class: [class], Section: [section] has been assigned to the Lecturer: [teacher_name] for your child [student_name]. For any query, please contact with admin." ,
                         "App" => "Dear [parent_name],
-                        This Class: [class], Section: [section] has been assigned to the Teacher: [teacher_name] for your child [student_name]. For any query, please contact with admin." ,
+                        This Class: [class], Section: [section] has been assigned to the Lecturer: [teacher_name] for your child [student_name]. For any query, please contact with admin." ,
                     ],
-                    "Teacher"=> [
+                    "Lecturer"=> [
                         "Email" => "Dear [teacher_name],
                         You have been assigned to Class: [class], Section: [section]. For any query, please contact with admin." ,
                         "SMS" => "Dear [teacher_name],
@@ -79,7 +79,7 @@ class CreateSmNotificationSettingsTable extends Migration
                 'shortcode' => [
                     "Student" => "[student_name], [class], [section], [teacher_name]",
                     "Parent" => "[parent_name], [student_name], [class], [section], [teacher_name]",
-                    "Teacher" => "[teacher_name], [class], [section]"
+                    "Lecturer" => "[teacher_name], [class], [section]"
                 ]
             ],
             [
@@ -130,7 +130,7 @@ class CreateSmNotificationSettingsTable extends Migration
                 'subject' => [
                     "Student"=> "New assigned subject." ,
                     "Parent"=> "New assigned subject." ,
-                    "Teacher" => "New assigned subject."
+                    "Lecturer" => "New assigned subject."
                 ],
 
                 'template' => [
@@ -169,7 +169,7 @@ class CreateSmNotificationSettingsTable extends Migration
                 'shortcode' => [
                     "Student" => "[student_name], [subject], [teacher_name]",
                     "Parent" => "[parent_name], [student_name], [subject], [teacher_name]",
-                    "Teacher" => "[teacher_name], [subject]"
+                    "Lecturer" => "[teacher_name], [subject]"
                 ]
             ],
             [
@@ -278,7 +278,7 @@ class CreateSmNotificationSettingsTable extends Migration
                 'subject' => [
                     "Student"=> "New lesson plan." ,
                     "Parent"=> "New lesson plan." ,
-                    "Teacher" => "New lesson plan."
+                    "Lecturer" => "New lesson plan."
                 ],
 
                 'template' => [
@@ -383,7 +383,7 @@ class CreateSmNotificationSettingsTable extends Migration
                     "Student"=> "New Student Admission." ,
                     "Parent"=> "New Student Admission." ,
                     "Super admin"=> "New Student Admission.",
-                    "Teacher" => "New Student Admission."
+                    "Lecturer" => "New Student Admission."
                 ],
 
                 'template' => [
@@ -452,7 +452,7 @@ class CreateSmNotificationSettingsTable extends Migration
                 'subject' => [
                     "Student"=> "Multi class assigned." ,
                     "Parent"=> "Multi class assigned." ,
-                    "Teacher" => "Multi class assigned."
+                    "Lecturer" => "Multi class assigned."
                 ],
 
                 'template' => [
@@ -555,7 +555,7 @@ class CreateSmNotificationSettingsTable extends Migration
                 'subject' => [
                     "Student"=> "Student Promotion." ,
                     "Parent"=> "Student Promotion." ,
-                    "Teacher" => "Student Promotion."
+                    "Lecturer" => "Student Promotion."
                 ],
 
                 'template' => [
@@ -615,7 +615,7 @@ class CreateSmNotificationSettingsTable extends Migration
                     "Student"=> "Enable/Disable Student." ,
                     "Parent"=> "Enable/Disable Student." ,
                     "Super admin"=> "Enable/Disable Student.",
-                    "Teacher" => "Enable/Disable Student."
+                    "Lecturer" => "Enable/Disable Student."
                 ],
 
                 'template' => [
@@ -665,7 +665,7 @@ class CreateSmNotificationSettingsTable extends Migration
                     "Student" => "[student_name]",
                     "Parent" => "[parent_name], [student_name]",
                     "Super admin" => "[admin_name], [student_name]",
-                    "Teacher" => "[teacher_name], [student_name]"
+                    "Lecturer" => "[teacher_name], [student_name]"
                 ]
             ],
             [
@@ -1409,7 +1409,7 @@ class CreateSmNotificationSettingsTable extends Migration
                 ],
                 'subject' => [
                     "Super admin"=> "Staff Attendance.",
-                    "Teacher" => "Staff Attendance."
+                    "Lecturer" => "Staff Attendance."
                 ],
 
                 'template' => [
@@ -1454,7 +1454,7 @@ class CreateSmNotificationSettingsTable extends Migration
                 ],
                 'subject' => [
                     "Super admin"=> "Staff Payroll.",
-                    "Teacher" => "Staff Payroll."
+                    "Lecturer" => "Staff Payroll."
                 ],
 
                 'template' => [
@@ -1503,7 +1503,7 @@ class CreateSmNotificationSettingsTable extends Migration
                     "Student"=> "Leave Apply." ,
                     "Parent"=> "Leave Apply." ,
                     "Super admin"=> "Leave Apply.",
-                    "Teacher" => "Leave Apply."
+                    "Lecturer" => "Leave Apply."
                 ],
 
                 'template' => [
@@ -1574,7 +1574,7 @@ class CreateSmNotificationSettingsTable extends Migration
                     "Student"=> "Leave Approved." ,
                     "Parent"=> "Leave Approved." ,
                     "Super admin"=> "Leave Approved.",
-                    "Teacher" => "Leave Approved."
+                    "Lecturer" => "Leave Approved."
                 ],
 
                 'template' => [
